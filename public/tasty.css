@@ -14,7 +14,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --current-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --amber-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --amber-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --amber-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --amber-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -46,7 +48,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --amber-text-soft-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --blue-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --blue-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --blue-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --blue-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -80,7 +84,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --border-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --coral-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --coral-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --coral-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --coral-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -112,7 +118,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --coral-text-soft-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --lime-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --lime-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --lime-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --lime-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -144,7 +152,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --lime-text-soft-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --primary-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --primary-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --primary-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --primary-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -176,7 +186,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --primary-text-soft-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --rose-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --rose-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --rose-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --rose-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -208,7 +220,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --rose-text-soft-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --teal-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --teal-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --teal-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --teal-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -240,7 +254,9 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 @property --teal-text-soft-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
-@property --violet-accent-fill-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --violet-accent-surface-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+@property --violet-accent-surface-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
 @property --violet-accent-text-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
 
@@ -634,29 +650,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --primary-border-color: oklch(0.8987 0.0179 272); }
 
-:root[data-schema="dark"] body { --primary-accent-text-color: oklch(0.9571 0.0158 272); }
+:root[data-schema="dark"] body { --primary-accent-surface-text-color: oklch(0.9571 0.0158 272); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --primary-accent-text-color: oklch(0.9571 0.0158 272); }
+  :root:not([data-schema]) body { --primary-accent-surface-text-color: oklch(0.9571 0.0158 272); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --primary-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --primary-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --primary-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --primary-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --primary-accent-fill-color: oklch(0.5427 0.1462 272); }
+:root[data-schema="dark"] body { --primary-accent-surface-color: oklch(0.5427 0.1462 272); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --primary-accent-fill-color: oklch(0.5427 0.1462 272); }
+  :root:not([data-schema]) body { --primary-accent-surface-color: oklch(0.5427 0.1462 272); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --primary-accent-fill-color: oklch(0.577 0.1626 272); }
+  :root:not([data-schema="dark"]) body { --primary-accent-surface-color: oklch(0.577 0.1626 272); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --primary-accent-fill-color: oklch(0.577 0.1626 272); }
+:root:not([data-schema="dark"])[data-schema] body { --primary-accent-surface-color: oklch(0.577 0.1626 272); }
+
+:root[data-schema="dark"] body { --primary-accent-text-color: oklch(0.6469 0.1176 272); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --primary-accent-text-color: oklch(0.6469 0.1176 272); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --primary-accent-text-color: oklch(0.5252 0.146 272); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --primary-accent-text-color: oklch(0.5252 0.146 272); }
 
 :root[data-schema="dark"] body { --primary-code-text-color: oklch(0.9571 0.0158 272); }
 
@@ -826,29 +854,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --violet-border-color: oklch(0.8987 0.0179 272); }
 
-:root[data-schema="dark"] body { --violet-accent-text-color: oklch(0.9571 0.0158 272); }
+:root[data-schema="dark"] body { --violet-accent-surface-text-color: oklch(0.9571 0.0158 272); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --violet-accent-text-color: oklch(0.9571 0.0158 272); }
+  :root:not([data-schema]) body { --violet-accent-surface-text-color: oklch(0.9571 0.0158 272); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --violet-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --violet-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --violet-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --violet-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --violet-accent-fill-color: oklch(0.5427 0.1462 272); }
+:root[data-schema="dark"] body { --violet-accent-surface-color: oklch(0.5427 0.1462 272); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --violet-accent-fill-color: oklch(0.5427 0.1462 272); }
+  :root:not([data-schema]) body { --violet-accent-surface-color: oklch(0.5427 0.1462 272); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --violet-accent-fill-color: oklch(0.577 0.1626 272); }
+  :root:not([data-schema="dark"]) body { --violet-accent-surface-color: oklch(0.577 0.1626 272); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --violet-accent-fill-color: oklch(0.577 0.1626 272); }
+:root:not([data-schema="dark"])[data-schema] body { --violet-accent-surface-color: oklch(0.577 0.1626 272); }
+
+:root[data-schema="dark"] body { --violet-accent-text-color: oklch(0.6469 0.1176 272); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --violet-accent-text-color: oklch(0.6469 0.1176 272); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --violet-accent-text-color: oklch(0.5252 0.146 272); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --violet-accent-text-color: oklch(0.5252 0.146 272); }
 
 :root[data-schema="dark"] body { --violet-code-text-color: oklch(0.9571 0.0158 272); }
 
@@ -1018,29 +1058,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --coral-border-color: oklch(0.8987 0.0187 15); }
 
-:root[data-schema="dark"] body { --coral-accent-text-color: oklch(0.9571 0.017 15); }
+:root[data-schema="dark"] body { --coral-accent-surface-text-color: oklch(0.9571 0.017 15); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --coral-accent-text-color: oklch(0.9571 0.017 15); }
+  :root:not([data-schema]) body { --coral-accent-surface-text-color: oklch(0.9571 0.017 15); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --coral-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --coral-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --coral-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --coral-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --coral-accent-fill-color: oklch(0.5427 0.1429 15); }
+:root[data-schema="dark"] body { --coral-accent-surface-color: oklch(0.5427 0.1429 15); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --coral-accent-fill-color: oklch(0.5427 0.1429 15); }
+  :root:not([data-schema]) body { --coral-accent-surface-color: oklch(0.5427 0.1429 15); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --coral-accent-fill-color: oklch(0.5862 0.1682 15); }
+  :root:not([data-schema="dark"]) body { --coral-accent-surface-color: oklch(0.5862 0.1682 15); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --coral-accent-fill-color: oklch(0.5862 0.1682 15); }
+:root:not([data-schema="dark"])[data-schema] body { --coral-accent-surface-color: oklch(0.5862 0.1682 15); }
+
+:root[data-schema="dark"] body { --coral-accent-text-color: oklch(0.6551 0.1297 15); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --coral-accent-text-color: oklch(0.6551 0.1297 15); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --coral-accent-text-color: oklch(0.5252 0.1397 15); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --coral-accent-text-color: oklch(0.5252 0.1397 15); }
 
 :root[data-schema="dark"] body { --coral-code-text-color: oklch(0.9571 0.017 15); }
 
@@ -1210,29 +1262,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --teal-border-color: oklch(0.8987 0.025 155); }
 
-:root[data-schema="dark"] body { --teal-accent-text-color: oklch(0.9571 0.0407 155); }
+:root[data-schema="dark"] body { --teal-accent-surface-text-color: oklch(0.9571 0.0407 155); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --teal-accent-text-color: oklch(0.9571 0.0407 155); }
+  :root:not([data-schema]) body { --teal-accent-surface-text-color: oklch(0.9571 0.0407 155); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --teal-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --teal-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --teal-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --teal-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --teal-accent-fill-color: oklch(0.531 0.0914 155); }
+:root[data-schema="dark"] body { --teal-accent-surface-color: oklch(0.531 0.0914 155); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --teal-accent-fill-color: oklch(0.531 0.0914 155); }
+  :root:not([data-schema]) body { --teal-accent-surface-color: oklch(0.531 0.0914 155); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --teal-accent-fill-color: oklch(0.5561 0.1031 155); }
+  :root:not([data-schema="dark"]) body { --teal-accent-surface-color: oklch(0.5561 0.1031 155); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --teal-accent-fill-color: oklch(0.5561 0.1031 155); }
+:root:not([data-schema="dark"])[data-schema] body { --teal-accent-surface-color: oklch(0.5561 0.1031 155); }
+
+:root[data-schema="dark"] body { --teal-accent-text-color: oklch(0.6469 0.0996 155); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --teal-accent-text-color: oklch(0.6469 0.0996 155); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --teal-accent-text-color: oklch(0.5252 0.0904 155); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --teal-accent-text-color: oklch(0.5252 0.0904 155); }
 
 :root[data-schema="dark"] body { --teal-code-text-color: oklch(0.9571 0.0407 155); }
 
@@ -1402,29 +1466,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --amber-border-color: oklch(0.8987 0.0213 70); }
 
-:root[data-schema="dark"] body { --amber-accent-text-color: oklch(0.9571 0.0237 70); }
+:root[data-schema="dark"] body { --amber-accent-surface-text-color: oklch(0.9571 0.0237 70); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --amber-accent-text-color: oklch(0.9571 0.0237 70); }
+  :root:not([data-schema]) body { --amber-accent-surface-text-color: oklch(0.9571 0.0237 70); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --amber-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --amber-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --amber-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --amber-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --amber-accent-fill-color: oklch(0.5422 0.093 70); }
+:root[data-schema="dark"] body { --amber-accent-surface-color: oklch(0.5422 0.093 70); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --amber-accent-fill-color: oklch(0.5422 0.093 70); }
+  :root:not([data-schema]) body { --amber-accent-surface-color: oklch(0.5422 0.093 70); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --amber-accent-fill-color: oklch(0.5734 0.1059 70); }
+  :root:not([data-schema="dark"]) body { --amber-accent-surface-color: oklch(0.5734 0.1059 70); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --amber-accent-fill-color: oklch(0.5734 0.1059 70); }
+:root:not([data-schema="dark"])[data-schema] body { --amber-accent-surface-color: oklch(0.5734 0.1059 70); }
+
+:root[data-schema="dark"] body { --amber-accent-text-color: oklch(0.6469 0.0987 70); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --amber-accent-text-color: oklch(0.6469 0.0987 70); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --amber-accent-text-color: oklch(0.5252 0.0903 70); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --amber-accent-text-color: oklch(0.5252 0.0903 70); }
 
 :root[data-schema="dark"] body { --amber-code-text-color: oklch(0.9571 0.0237 70); }
 
@@ -1594,29 +1670,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --blue-border-color: oklch(0.8987 0.0219 210); }
 
-:root[data-schema="dark"] body { --blue-accent-text-color: oklch(0.9571 0.0264 210); }
+:root[data-schema="dark"] body { --blue-accent-surface-text-color: oklch(0.9571 0.0264 210); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --blue-accent-text-color: oklch(0.9571 0.0264 210); }
+  :root:not([data-schema]) body { --blue-accent-surface-text-color: oklch(0.9571 0.0264 210); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --blue-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --blue-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --blue-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --blue-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --blue-accent-fill-color: oklch(0.5328 0.0751 210); }
+:root[data-schema="dark"] body { --blue-accent-surface-color: oklch(0.5328 0.0751 210); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --blue-accent-fill-color: oklch(0.5328 0.0751 210); }
+  :root:not([data-schema]) body { --blue-accent-surface-color: oklch(0.5328 0.0751 210); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --blue-accent-fill-color: oklch(0.5599 0.0838 210); }
+  :root:not([data-schema="dark"]) body { --blue-accent-surface-color: oklch(0.5599 0.0838 210); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --blue-accent-fill-color: oklch(0.5599 0.0838 210); }
+:root:not([data-schema="dark"])[data-schema] body { --blue-accent-surface-color: oklch(0.5599 0.0838 210); }
+
+:root[data-schema="dark"] body { --blue-accent-text-color: oklch(0.6469 0.0829 210); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --blue-accent-text-color: oklch(0.6469 0.0829 210); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --blue-accent-text-color: oklch(0.5252 0.074 210); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --blue-accent-text-color: oklch(0.5252 0.074 210); }
 
 :root[data-schema="dark"] body { --blue-code-text-color: oklch(0.9571 0.0264 210); }
 
@@ -1786,29 +1874,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --rose-border-color: oklch(0.8987 0.0197 340); }
 
-:root[data-schema="dark"] body { --rose-accent-text-color: oklch(0.9571 0.0191 340); }
+:root[data-schema="dark"] body { --rose-accent-surface-text-color: oklch(0.9571 0.0191 340); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --rose-accent-text-color: oklch(0.9571 0.0191 340); }
+  :root:not([data-schema]) body { --rose-accent-surface-text-color: oklch(0.9571 0.0191 340); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --rose-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --rose-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --rose-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --rose-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --rose-accent-fill-color: oklch(0.5427 0.1615 340); }
+:root[data-schema="dark"] body { --rose-accent-surface-color: oklch(0.5427 0.1615 340); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --rose-accent-fill-color: oklch(0.5427 0.1615 340); }
+  :root:not([data-schema]) body { --rose-accent-surface-color: oklch(0.5427 0.1615 340); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --rose-accent-fill-color: oklch(0.5862 0.192 340); }
+  :root:not([data-schema="dark"]) body { --rose-accent-surface-color: oklch(0.5862 0.192 340); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --rose-accent-fill-color: oklch(0.5862 0.192 340); }
+:root:not([data-schema="dark"])[data-schema] body { --rose-accent-surface-color: oklch(0.5862 0.192 340); }
+
+:root[data-schema="dark"] body { --rose-accent-text-color: oklch(0.6576 0.1441 340); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --rose-accent-text-color: oklch(0.6576 0.1441 340); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --rose-accent-text-color: oklch(0.5252 0.1582 340); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --rose-accent-text-color: oklch(0.5252 0.1582 340); }
 
 :root[data-schema="dark"] body { --rose-code-text-color: oklch(0.9571 0.0191 340); }
 
@@ -1978,29 +2078,41 @@ html { scroll-padding-top: var(--header-height, 64px); }
 
 :root:not([data-schema="dark"])[data-schema] body { --lime-border-color: oklch(0.8987 0.0258 125); }
 
-:root[data-schema="dark"] body { --lime-accent-text-color: oklch(0.9571 0.0459 125); }
+:root[data-schema="dark"] body { --lime-accent-surface-text-color: oklch(0.9571 0.0459 125); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --lime-accent-text-color: oklch(0.9571 0.0459 125); }
+  :root:not([data-schema]) body { --lime-accent-surface-text-color: oklch(0.9571 0.0459 125); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --lime-accent-text-color: oklch(1 0 0); }
+  :root:not([data-schema="dark"]) body { --lime-accent-surface-text-color: oklch(1 0 0); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --lime-accent-text-color: oklch(1 0 0); }
+:root:not([data-schema="dark"])[data-schema] body { --lime-accent-surface-text-color: oklch(1 0 0); }
 
-:root[data-schema="dark"] body { --lime-accent-fill-color: oklch(0.5339 0.0989 125); }
+:root[data-schema="dark"] body { --lime-accent-surface-color: oklch(0.5339 0.0989 125); }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) body { --lime-accent-fill-color: oklch(0.5339 0.0989 125); }
+  :root:not([data-schema]) body { --lime-accent-surface-color: oklch(0.5339 0.0989 125); }
 }
 
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) body { --lime-accent-fill-color: oklch(0.5603 0.1125 125); }
+  :root:not([data-schema="dark"]) body { --lime-accent-surface-color: oklch(0.5603 0.1125 125); }
 }
 
-:root:not([data-schema="dark"])[data-schema] body { --lime-accent-fill-color: oklch(0.5603 0.1125 125); }
+:root:not([data-schema="dark"])[data-schema] body { --lime-accent-surface-color: oklch(0.5603 0.1125 125); }
+
+:root[data-schema="dark"] body { --lime-accent-text-color: oklch(0.6469 0.1064 125); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-schema]) body { --lime-accent-text-color: oklch(0.6469 0.1064 125); }
+}
+
+@media (not (prefers-color-scheme: dark)) {
+  :root:not([data-schema="dark"]) body { --lime-accent-text-color: oklch(0.5252 0.0974 125); }
+}
+
+:root:not([data-schema="dark"])[data-schema] body { --lime-accent-text-color: oklch(0.5252 0.0974 125); }
 
 :root[data-schema="dark"] body { --lime-code-text-color: oklch(0.9571 0.0459 125); }
 

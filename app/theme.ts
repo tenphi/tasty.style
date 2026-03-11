@@ -22,9 +22,9 @@ violet.colors({
   },
   'accent-text': {
     base: 'surface',
-    lightness: 40,
+    lightness: 45,
     contrast: 'AA',
-    saturation: 0.9,
+    saturation: .9,
   },
   'code-text': { lightness: 100, mode: 'fixed' },
   'code-bg': {
