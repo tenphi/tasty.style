@@ -6,7 +6,7 @@ const Link = tasty({
   as: 'a',
   styles: {
     color: {
-      '': '#primary-accent-fill',
+      '': '#primary-accent-text',
       ':hover': '#primary-icon',
     },
     textDecoration: {

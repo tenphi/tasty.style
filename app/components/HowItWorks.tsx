@@ -11,7 +11,7 @@ import Badge from '@/app/ui/Badge';
 const Highlight = tasty({
   as: 'span',
   styles: {
-    color: '#primary-accent-fill',
+    color: '#primary-accent-text',
     fontWeight: 600,
   },
 });
@@ -33,7 +33,7 @@ const ArrowIcon = tasty({
       '@mobile': 'none',
     },
     preset: 'h2',
-    color: '#primary-accent-fill',
+    color: '#primary-accent-text',
     placeItems: 'center',
     margin: 'auto 0',
   },
@@ -98,7 +98,7 @@ export default function HowItWorks() {
             <ColumnHeader>
               <Badge
                 fill="#teal-surface-3"
-                color="#teal-accent-fill"
+                color="#teal-accent-text"
               >
                 Input
               </Badge>
@@ -113,7 +113,7 @@ export default function HowItWorks() {
             <ColumnHeader>
               <Badge
                 fill="#coral-surface-3"
-                color="#coral-accent-fill"
+                color="#coral-accent-text"
               >
                 Output
               </Badge>

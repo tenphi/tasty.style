@@ -40,7 +40,7 @@ const EXAMPLES = [
   as: 'button',
   styles: {
     fill: {
-      '': '#primary-accent-fill',
+      '': '#primary-accent-surface',
       ':hover': '#primary-icon',
       ':active': '#primary-text',
       '[disabled]': '#primary-disabled',
@@ -92,7 +92,7 @@ const EXAMPLES = [
     Title: {
       $: '>',
       preset: 'h3',
-      color: '#primary-accent-fill',
+      color: '#primary-accent-text',
     },
     Content: {
       $: '>',
@@ -126,7 +126,7 @@ violet.colors({
     lightness: '-62',
     contrast: 'AAA',
   },
-  'accent-fill': {
+  'accent-surface': {
     lightness: 52,
     mode: 'fixed',
   },

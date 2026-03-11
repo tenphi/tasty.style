@@ -13,12 +13,18 @@ violet.colors({
     lightness: ['-10', '-20'],
     saturation: 0.35,
   },
-  'accent-text': { lightness: 100, mode: 'fixed' },
-  'accent-fill': {
-    base: 'accent-text',
+  'accent-surface-text': { lightness: 100, mode: 'fixed' },
+  'accent-surface': {
+    base: 'accent-surface-text',
     lightness: '-48',
     contrast: 'AA',
     mode: 'fixed',
+  },
+  'accent-text': {
+    base: 'surface',
+    lightness: 40,
+    contrast: 'AA',
+    saturation: 0.9,
   },
   'code-text': { lightness: 100, mode: 'fixed' },
   'code-bg': {

@@ -65,7 +65,7 @@ export default function CallToAction() {
   return (
     <CTAWrapper>
       <GlowOrb
-        fill="#violet-accent-fill"
+        fill="#violet-accent-surface"
         inset="auto auto -200px 50%"
         translate="-50% 0"
       />

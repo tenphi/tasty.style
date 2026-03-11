@@ -114,12 +114,12 @@ interface TintStyle {
 }
 
 const TINT_STYLES: Record<TintName, TintStyle> = {
-  coral: { cardFill: '#coral-surface', cardBorder: '1bw solid #coral-border', iconFill: '#coral-surface-3', iconColor: '#coral-accent-fill', badgeFill: '#coral-surface-3', badgeColor: '#coral-accent-fill', titleColor: '#coral-accent-fill' },
-  teal: { cardFill: '#teal-surface', cardBorder: '1bw solid #teal-border', iconFill: '#teal-surface-3', iconColor: '#teal-accent-fill', badgeFill: '#teal-surface-3', badgeColor: '#teal-accent-fill', titleColor: '#teal-accent-fill' },
-  amber: { cardFill: '#amber-surface', cardBorder: '1bw solid #amber-border', iconFill: '#amber-surface-3', iconColor: '#amber-accent-fill', badgeFill: '#amber-surface-3', badgeColor: '#amber-accent-fill', titleColor: '#amber-accent-fill' },
-  blue: { cardFill: '#blue-surface', cardBorder: '1bw solid #blue-border', iconFill: '#blue-surface-3', iconColor: '#blue-accent-fill', badgeFill: '#blue-surface-3', badgeColor: '#blue-accent-fill', titleColor: '#blue-accent-fill' },
-  rose: { cardFill: '#rose-surface', cardBorder: '1bw solid #rose-border', iconFill: '#rose-surface-3', iconColor: '#rose-accent-fill', badgeFill: '#rose-surface-3', badgeColor: '#rose-accent-fill', titleColor: '#rose-accent-fill' },
-  lime: { cardFill: '#lime-surface', cardBorder: '1bw solid #lime-border', iconFill: '#lime-surface-3', iconColor: '#lime-accent-fill', badgeFill: '#lime-surface-3', badgeColor: '#lime-accent-fill', titleColor: '#lime-accent-fill' },
+  coral: { cardFill: '#coral-surface', cardBorder: '1bw solid #coral-border', iconFill: '#coral-surface-3', iconColor: '#coral-accent-text', badgeFill: '#coral-surface-3', badgeColor: '#coral-accent-text', titleColor: '#coral-accent-text' },
+  teal: { cardFill: '#teal-surface', cardBorder: '1bw solid #teal-border', iconFill: '#teal-surface-3', iconColor: '#teal-accent-text', badgeFill: '#teal-surface-3', badgeColor: '#teal-accent-text', titleColor: '#teal-accent-text' },
+  amber: { cardFill: '#amber-surface', cardBorder: '1bw solid #amber-border', iconFill: '#amber-surface-3', iconColor: '#amber-accent-text', badgeFill: '#amber-surface-3', badgeColor: '#amber-accent-text', titleColor: '#amber-accent-text' },
+  blue: { cardFill: '#blue-surface', cardBorder: '1bw solid #blue-border', iconFill: '#blue-surface-3', iconColor: '#blue-accent-text', badgeFill: '#blue-surface-3', badgeColor: '#blue-accent-text', titleColor: '#blue-accent-text' },
+  rose: { cardFill: '#rose-surface', cardBorder: '1bw solid #rose-border', iconFill: '#rose-surface-3', iconColor: '#rose-accent-text', badgeFill: '#rose-surface-3', badgeColor: '#rose-accent-text', titleColor: '#rose-accent-text' },
+  lime: { cardFill: '#lime-surface', cardBorder: '1bw solid #lime-border', iconFill: '#lime-surface-3', iconColor: '#lime-accent-text', badgeFill: '#lime-surface-3', badgeColor: '#lime-accent-text', titleColor: '#lime-accent-text' },
 };
 
 export default function Ecosystem() {

@@ -13,8 +13,8 @@ const TokenLabel = tasty({
     padding: '0.75x 2x',
     preset: 't3 strong',
     radius: '1r 1r 0 0',
-    fill: '#primary-accent-fill',
-    color: '#primary-accent-text',
+    fill: '#primary-accent-surface',
+    color: '#primary-accent-surface-text',
     placeSelf: 'start',
   },
 });
@@ -48,7 +48,7 @@ violet.colors({
     base: 'surface', lightness: '-62',
     contrast: 'AAA', saturation: 0.08,
   },
-  'accent-fill': {
+  'accent-surface': {
     lightness: 52, mode: 'fixed',
   },
   'shadow-md': {

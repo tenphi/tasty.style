@@ -16,7 +16,7 @@ const Badge = tasty({
     preset: 't4 strong',
     radius: 'round',
     fill: '#primary-surface-3',
-    color: '#primary-accent-fill',
+    color: '#primary-accent-text',
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
   },

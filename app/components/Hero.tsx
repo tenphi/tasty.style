@@ -64,7 +64,7 @@ const HeroTitle = tasty({
 const HeroAccent = tasty({
   as: 'span',
   styles: {
-    color: '#primary-accent-fill',
+    color: '#primary-accent-text',
   },
 });
 
@@ -96,11 +96,11 @@ export default function Hero() {
   return (
     <HeroOuter>
       <GlowOrb
-        fill="#violet-accent-fill"
+        fill="#violet-accent-surface"
         inset="10% auto auto 15%"
       />
       <GlowOrb
-        fill="#coral-accent-fill"
+        fill="#coral-accent-surface"
         inset="20% 10% auto auto"
         width="300px"
         height="300px"

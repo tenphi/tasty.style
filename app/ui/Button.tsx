@@ -20,11 +20,11 @@ const Button = tasty({
   variants: {
     default: {
       fill: {
-        '': '#primary-accent-fill',
+        '': '#primary-accent-surface',
         ':hover': '#primary-icon',
         ':active': '#primary-text',
       },
-      color: '#primary-accent-text',
+      color: '#primary-accent-surface-text',
     },
     secondary: {
       fill: {
