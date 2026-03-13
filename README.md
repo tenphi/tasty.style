@@ -60,8 +60,9 @@ app/
   layout.tsx              # Root layout — imports SSR registry and global styles
   page.tsx                # Home page — composes all sections
   theme.ts                # Glaze color palette definition
-  tasty-config.ts         # Runtime Tasty config (custom states)
-  tasty-zero.config.ts    # Zero-runtime config (states, recipes, tokens)
+  states.ts               # Shared custom state aliases (used by both configs)
+  tasty-config.ts         # Runtime Tasty config (imports shared states)
+  tasty-zero.config.ts    # Zero-runtime config (shared states, recipes, tokens)
   tasty-registry.tsx      # SSR style registry (TastyRegistry wrapper)
   global-styles.ts        # Global reset and base styles via tastyStatic
   components/             # Page sections
