@@ -21,8 +21,8 @@ const Button = tasty({
     default: {
       fill: {
         '': '#primary-accent-surface',
-        ':hover': '#primary-icon',
-        ':active': '#primary-text',
+        ':hover': '#primary-accent-surface-2',
+        ':active': '#primary-accent-surface-3',
       },
       color: '#primary-accent-surface-text',
     },
@@ -30,7 +30,7 @@ const Button = tasty({
       fill: {
         '': '#primary-surface-2',
         ':hover': '#primary-surface-3',
-        ':active': '#primary-border',
+        ':active': '#primary-surface-2',
       },
       color: '#primary-text',
       border: true,

@@ -13,14 +13,18 @@ const Badge = tasty({
   styles: {
     display: 'inline-flex',
     padding: '0.5x 1.5x',
-    preset: 't4 strong',
+    preset: 't3 strong',
     radius: 'round',
     fill: '#primary-surface-3',
-    color: '#primary-accent-text',
-    textTransform: 'uppercase',
+    color: '#primary-accent-text-3',
     letterSpacing: '0.05em',
   },
-  styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES, ...COLOR_STYLES],
+  styleProps: [
+    ...BASE_STYLES,
+    ...OUTER_STYLES,
+    ...BLOCK_STYLES,
+    ...COLOR_STYLES,
+  ],
 });
 
 export default Badge;

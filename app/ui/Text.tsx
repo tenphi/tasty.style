@@ -9,7 +9,13 @@ const Text = tasty({
     color: '#primary-text',
     margin: 0,
   },
-  styleProps: [...BASE_STYLES, ...OUTER_STYLES, 'color', 'textAlign'],
+  styleProps: [
+    ...BASE_STYLES,
+    ...OUTER_STYLES,
+    'color',
+    'textAlign',
+    'textWrap',
+  ],
 });
 
 export default Text;

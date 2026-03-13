@@ -6,6 +6,7 @@ import Space from '@/app/ui/Space';
 import Text from '@/app/ui/Text';
 import CodeBlock from '@/app/ui/CodeBlock';
 import Tabs from '@/app/ui/Tabs';
+import SectionWrap from '@/app/ui/SectionWrap';
 
 const ShowcaseWrapper = tasty({
   styles: {
@@ -58,8 +59,15 @@ const EXAMPLES = [
     label: 'Responsive Design',
     title: 'Responsive Design',
     description:
-      'Use predefined states like @mobile and @tablet directly in style values.',
-    code: `const Layout = tasty({
+      'Define breakpoints once, use @mobile and @tablet as states anywhere.',
+    code: `configure({
+  states: {
+    '@tablet': '@media(640px <= w < 1024px)',
+    '@mobile': '@media(w < 640px)',
+  },
+});
+
+const Layout = tasty({
   styles: {
     display: 'grid',
     gridColumns: {
@@ -110,68 +118,75 @@ const EXAMPLES = [
 // </Card>`,
   },
   {
-    id: 'glaze',
-    label: 'Glaze Colors',
-    title: 'Glaze Color Tokens',
+    id: 'configuration',
+    label: 'Configuration',
+    title: 'Configuration',
     description:
-      'Generate WCAG‑compliant palettes with automatic dark mode from a single hue.',
-    code: `import { glaze } from '@tenphi/glaze';
+      'Set up global states, custom units, functions, and reusable style recipes — all in one place.',
+    code: `import { configure } from '@tenphi/tasty';
 
-const violet = glaze(272, 75);
-
-violet.colors({
-  surface: { lightness: 98, saturation: 0.5 },
-  text: {
-    base: 'surface',
-    lightness: '-62',
-    contrast: 'AAA',
+configure({
+  states: {
+    '@dark': '@root(theme=dark) | @media(prefers-color-scheme: dark)',
+    '@mobile': '@media(w < 640px)',
   },
-  'accent-surface': {
-    lightness: 52,
-    mode: 'fixed',
+  units: {
+    col: (n) => \`\${(n / 12) * 100}%\`,
+    gap: '4px',
   },
-});
-
-const coral = violet.extend({ hue: 15 });
-const teal  = violet.extend({ hue: 155 });
-
-const palette = glaze.palette({ violet, coral, teal });
-const tokens = palette.tasty({ prefix: true });`,
+  funcs: {
+    fluid: ([min, max]) =>
+      \`clamp(\${min.output}, 2.5vw + 1rem, \${max.output})\`,
+  },
+  recipes: {
+    card: {
+      padding: '3x',
+      fill: '#surface',
+      radius: '1cr',
+      border: true,
+      shadow: '0 1x 3x #shadow-sm',
+    },
+  },
+});`,
   },
 ];
 
 export default function CodeShowcase() {
   return (
-    <Section id="code-showcase">
-      <Section.Title>See It In Action</Section.Title>
-      <Section.Subtitle>
-        Real patterns from production codebases
-      </Section.Subtitle>
-      <Section.Content>
-        <Tabs
-          width="max 720px"
-          margin="auto left right"
-          tabs={EXAMPLES.map((example) => ({
-            id: example.id,
-            label: example.label,
-            content: (
-              <ShowcaseWrapper>
-                <ShowcaseDescription>
-                  <Text preset="h3" color="#primary-text">
-                    {example.title}
-                  </Text>
-                  <Text preset="t2" color="#primary-text-soft">
-                    {example.description}
-                  </Text>
-                </ShowcaseDescription>
-                <Space padding="0 3x 3x">
-                  <CodeBlock radius="1r">{example.code}</CodeBlock>
-                </Space>
-              </ShowcaseWrapper>
-            ),
-          }))}
-        />
-      </Section.Content>
-    </Section>
+    <SectionWrap fill="#primary-surface-2">
+      <Section id="code-showcase">
+        <Section.Title>See It In Action</Section.Title>
+        <Section.Subtitle>
+          Real patterns from production codebases
+        </Section.Subtitle>
+        <Section.Content>
+          <Tabs
+            width="max 720px"
+            margin="auto left right"
+            tabs={EXAMPLES.map((example) => ({
+              id: example.id,
+              label: example.label,
+              content: (
+                <ShowcaseWrapper>
+                  <ShowcaseDescription>
+                    <Text preset="h3" color="#primary-text">
+                      {example.title}
+                    </Text>
+                    <Text preset="t2" color="#primary-text-soft">
+                      {example.description}
+                    </Text>
+                  </ShowcaseDescription>
+                  <Space padding="0 3x 3x">
+                    <CodeBlock radius="1r" lang="tsx">
+                      {example.code}
+                    </CodeBlock>
+                  </Space>
+                </ShowcaseWrapper>
+              ),
+            }))}
+          />
+        </Section.Content>
+      </Section>
+    </SectionWrap>
   );
 }

@@ -27,15 +27,15 @@ const SwitcherOption = tasty({
     transition: 'theme',
     fill: {
       '': 'transparent',
-      'active': '#primary-surface',
+      active: '#primary-surface',
     },
     color: {
       '': '#primary-text-soft',
-      'active': '#primary-text',
+      active: '#primary-text',
     },
     shadow: {
       '': 'none',
-      'active': '0 1x 2x #primary-shadow-sm',
+      active: '0 1x 2x #primary-shadow-sm',
     },
     border: 'none',
   },
@@ -52,7 +52,12 @@ interface SwitcherProps {
   onChange: (value: string) => void;
 }
 
-export default function Switcher({ options, value, onChange, ...props }: SwitcherProps) {
+export default function Switcher({
+  options,
+  value,
+  onChange,
+  ...props
+}: SwitcherProps) {
   return (
     <SwitcherElement {...props}>
       {options.map((opt) => (

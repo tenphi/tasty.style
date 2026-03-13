@@ -73,7 +73,9 @@ export default function CallToAction() {
       <CTASubtitle>
         One install. Zero config. Ship beautiful, accessible UIs today.
       </CTASubtitle>
-      <CodeBlock>pnpm add @tenphi/tasty</CodeBlock>
+      <CodeBlock width="max-content" placeSelf="center" lang="shellscript">
+        $ pnpm add @tenphi/tasty
+      </CodeBlock>
       <Space
         flow={{ '': 'row', '@mobile': 'column' }}
         gap="2x"

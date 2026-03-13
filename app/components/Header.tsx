@@ -3,7 +3,9 @@
 import { tasty } from '@tenphi/tasty';
 import { IconBrandGithub } from '@tabler/icons-react';
 import Button from '@/app/ui/Button';
+import SpecialButton from '@/app/ui/SpecialButton';
 import ThemeSwitcher from './ThemeSwitcher';
+import ContrastSwitcher from './ContrastSwitcher';
 
 const HeaderElement = tasty({
   as: 'header',
@@ -19,7 +21,7 @@ const HeaderElement = tasty({
       '@mobile': '0 2x',
     },
     height: '($header-height, 64px)',
-    fill: '#primary-surface.90',
+    fill: '#primary-surface.6',
     backdropFilter: 'blur(12px)',
     border: 'bottom',
     width: '100%',
@@ -121,6 +123,7 @@ export default function Header() {
       </HeaderElement.Nav>
       <HeaderElement.Actions>
         <ThemeSwitcher />
+        <ContrastSwitcher />
         <Button
           as="a"
           href="https://github.com/tenphi/tasty"
@@ -131,12 +134,13 @@ export default function Header() {
         >
           <IconBrandGithub size={20} />
         </Button>
-        <Button
+        <SpecialButton
           as="a"
           href="https://github.com/tenphi/tasty/blob/main/docs/usage.md"
+          size="small"
         >
           Get Started
-        </Button>
+        </SpecialButton>
       </HeaderElement.Actions>
     </HeaderElement>
   );

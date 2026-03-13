@@ -7,7 +7,6 @@ import CodeShowcase from './components/CodeShowcase';
 import Ecosystem from './components/Ecosystem';
 import CallToAction from './components/CallToAction';
 import Footer from './components/Footer';
-import SectionWrap from './ui/SectionWrap';
 
 export default function Home() {
   return (
@@ -15,15 +14,11 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <SectionWrap fill="#primary-surface-2">
-          <Features />
-        </SectionWrap>
+        <Features />
         <HowItWorks />
         <TokenShowcase />
         <CodeShowcase />
-        <SectionWrap fill="#primary-surface-2">
-          <Ecosystem />
-        </SectionWrap>
+        <Ecosystem />
         <CallToAction />
       </main>
       <Footer />

@@ -1,8 +1,10 @@
 'use client';
 
 import { tasty } from '@tenphi/tasty';
+import { IconArrowRight, IconBrandGithub } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
+import SpecialButton from '@/app/ui/SpecialButton';
 import Badge from '@/app/ui/Badge';
 
 const HeroOuter = tasty({
@@ -25,8 +27,8 @@ const HeroInner = tasty({
     align: 'center',
     textAlign: 'center',
     padding: {
-      '': '18x 4x 16x',
-      '@mobile': '12x 2x 10x',
+      '': '14x 4x',
+      '@mobile': '8x 2x',
     },
     gap: '3x',
     width: 'max ($content-width, 1200px)',
@@ -38,11 +40,11 @@ const HeroLogo = tasty({
   as: 'img',
   styles: {
     width: {
-      '': '88px',
-      '@mobile': '64px',
+      '': '120px',
+      '@mobile': '72px',
     },
     height: 'auto',
-    filter: 'drop-shadow(0 4px 12px #primary-shadow-md)',
+    filter: 'drop-shadow(0 4px 12px #primary-shadow-logo)',
   },
 });
 
@@ -64,7 +66,10 @@ const HeroTitle = tasty({
 const HeroAccent = tasty({
   as: 'span',
   styles: {
-    color: '#primary-accent-text',
+    image:
+      'linear-gradient(to right, #violet-accent-text, #coral-accent-text, #teal-accent-text, #amber-accent-text, #blue-accent-text, #rose-accent-text, #lime-accent-text)',
+    backgroundClip: 'text',
+    color: 'transparent',
   },
 });
 
@@ -87,18 +92,16 @@ const GlowOrb = tasty({
     height: '400px',
     radius: 'ellipse',
     filter: 'blur(120px)',
-    opacity: 0.15,
+    opacity: 0.1,
     pointerEvents: 'none',
   },
+  styleProps: ['fill'],
 });
 
 export default function Hero() {
   return (
     <HeroOuter>
-      <GlowOrb
-        fill="#violet-accent-surface"
-        inset="10% auto auto 15%"
-      />
+      <GlowOrb fill="#violet-accent-surface" inset="10% auto auto 15%" />
       <GlowOrb
         fill="#coral-accent-surface"
         inset="20% 10% auto auto"
@@ -107,10 +110,9 @@ export default function Hero() {
       />
       <HeroInner>
         <HeroLogo src="/tasty.svg" alt="Tasty logo" />
-        <Badge>v0.x  --  Now with SSR Support</Badge>
+        <Badge>v1.0</Badge>
         <HeroTitle>
-          The styling engine{' '}
-          <HeroAccent>built for design systems</HeroAccent>.
+          The styling engine <HeroAccent>built for design systems</HeroAccent>
         </HeroTitle>
         <HeroSubtitle>
           Deterministic CSS generation. State‑aware DSL. Zero specificity
@@ -123,18 +125,18 @@ export default function Hero() {
           width={{ '': 'auto', '@mobile': '100%' }}
           align={{ '@mobile': 'center' }}
         >
-          <Button
+          <SpecialButton
             as="a"
             href="https://github.com/tenphi/tasty/blob/main/docs/usage.md"
           >
-            Get Started
-          </Button>
+            Get Started <IconArrowRight size={20} />
+          </SpecialButton>
           <Button
             as="a"
             variant="secondary"
             href="https://github.com/tenphi/tasty"
           >
-            View on GitHub
+            <IconBrandGithub size={20} /> View on GitHub
           </Button>
         </Space>
       </HeroInner>

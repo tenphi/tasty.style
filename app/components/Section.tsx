@@ -9,8 +9,8 @@ const Section = tasty({
     flow: 'column',
     align: 'center',
     padding: {
-      '': '12x 4x',
-      '@mobile': '8x 2x',
+      '': '10x 4x',
+      '@mobile': '6x 2x',
     },
     gap: '4x',
     width: 'max ($content-width, 1200px)',

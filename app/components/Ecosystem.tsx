@@ -1,68 +1,13 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import {
-  tasty,
-  BASE_STYLES,
-  OUTER_STYLES,
-  BLOCK_STYLES,
-  COLOR_STYLES,
-} from '@tenphi/tasty';
-import {
-  IconPalette,
-  IconShieldCheck,
-  IconCode,
-} from '@tabler/icons-react';
+import { IconPalette, IconShieldCheck, IconCode } from '@tabler/icons-react';
 import type { TintName } from '@/app/theme';
 import Section from '@/app/components/Section';
 import Grid from '@/app/ui/Grid';
 import Text from '@/app/ui/Text';
 import Badge from '@/app/ui/Badge';
-
-const EcoCard = tasty({
-  as: 'a',
-  styles: {
-    display: 'flex',
-    flow: 'column',
-    gap: '2x',
-    padding: '4x',
-    radius: '1cr',
-    textDecoration: 'none',
-    transition: 'shadow, translate',
-    shadow: {
-      '': 'none',
-      ':hover': '0 4x 20x #primary-shadow-md',
-    },
-    translate: {
-      '': '0 0',
-      ':hover': '0 -3px',
-    },
-    cursor: 'pointer',
-  },
-  styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES, ...COLOR_STYLES],
-});
-
-const EcoCardHeader = tasty({
-  styles: {
-    display: 'flex',
-    flow: 'row',
-    placeContent: 'space-between',
-    placeItems: 'start',
-  },
-});
-
-const EcoIconWrap = tasty({
-  as: 'span',
-  styles: {
-    display: 'inline-flex',
-    placeItems: 'center',
-    placeContent: 'center',
-    width: '44px',
-    height: '44px',
-    radius: '12px',
-  },
-  styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES, ...COLOR_STYLES],
-});
+import Card, { TINT_STYLES } from '@/app/ui/Card';
 
 interface EcoItem {
   name: string;
@@ -99,67 +44,52 @@ const ECOSYSTEM: EcoItem[] = [
       'Syntax highlighting for Tasty styles in TypeScript and TSX. Highlights tokens, units, states, and presets.',
     href: 'https://github.com/tenphi/tasty-vscode-extension',
     icon: <IconCode size={22} stroke={1.5} />,
-    tint: 'blue',
+    tint: 'rose',
   },
 ];
-
-interface TintStyle {
-  cardFill: string;
-  cardBorder: string;
-  iconFill: string;
-  iconColor: string;
-  badgeFill: string;
-  badgeColor: string;
-  titleColor: string;
-}
-
-const TINT_STYLES: Record<TintName, TintStyle> = {
-  coral: { cardFill: '#coral-surface', cardBorder: '1bw solid #coral-border', iconFill: '#coral-surface-3', iconColor: '#coral-accent-text', badgeFill: '#coral-surface-3', badgeColor: '#coral-accent-text', titleColor: '#coral-accent-text' },
-  teal: { cardFill: '#teal-surface', cardBorder: '1bw solid #teal-border', iconFill: '#teal-surface-3', iconColor: '#teal-accent-text', badgeFill: '#teal-surface-3', badgeColor: '#teal-accent-text', titleColor: '#teal-accent-text' },
-  amber: { cardFill: '#amber-surface', cardBorder: '1bw solid #amber-border', iconFill: '#amber-surface-3', iconColor: '#amber-accent-text', badgeFill: '#amber-surface-3', badgeColor: '#amber-accent-text', titleColor: '#amber-accent-text' },
-  blue: { cardFill: '#blue-surface', cardBorder: '1bw solid #blue-border', iconFill: '#blue-surface-3', iconColor: '#blue-accent-text', badgeFill: '#blue-surface-3', badgeColor: '#blue-accent-text', titleColor: '#blue-accent-text' },
-  rose: { cardFill: '#rose-surface', cardBorder: '1bw solid #rose-border', iconFill: '#rose-surface-3', iconColor: '#rose-accent-text', badgeFill: '#rose-surface-3', badgeColor: '#rose-accent-text', titleColor: '#rose-accent-text' },
-  lime: { cardFill: '#lime-surface', cardBorder: '1bw solid #lime-border', iconFill: '#lime-surface-3', iconColor: '#lime-accent-text', badgeFill: '#lime-surface-3', badgeColor: '#lime-accent-text', titleColor: '#lime-accent-text' },
-};
 
 export default function Ecosystem() {
   return (
     <Section id="ecosystem">
       <Section.Title>Complete Ecosystem</Section.Title>
-      <Section.Subtitle>
-        Tools that complete the picture
-      </Section.Subtitle>
+      <Section.Subtitle>Tools that complete the picture</Section.Subtitle>
       <Section.Content>
-        <Grid
-          gridColumns={{ '': '1sf 1sf 1sf', '@mobile': '1sf' }}
-          gap="3x"
-        >
+        <Grid gridColumns={{ '': '1sf 1sf 1sf', '@mobile': '1sf' }} gap="3x">
           {ECOSYSTEM.map((item) => {
             const t = TINT_STYLES[item.tint];
             return (
-              <EcoCard
+              <Card
+                as="a"
                 key={item.name}
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 fill={t.cardFill}
                 border={t.cardBorder}
+                tokens={{
+                  '#tint-fill': t.tintFill,
+                  '#tint-accent': t.tintAccent,
+                  '#tint-accent-3': t.tintAccent3,
+                }}
               >
-                <EcoCardHeader>
-                  <EcoIconWrap fill={t.iconFill} color={t.iconColor}>
-                    {item.icon}
-                  </EcoIconWrap>
-                  <Badge fill={t.badgeFill} color={t.badgeColor}>
-                    {item.tag}
-                  </Badge>
-                </EcoCardHeader>
-                <Text as="h3" preset="h3" color={t.titleColor}>
-                  {item.name}
-                </Text>
+                <Card.Header>
+                  <Text as="h3" preset="h4" color="#tint-accent" margin="0">
+                    {item.name}
+                  </Text>
+                  <Card.Icon>{item.icon}</Card.Icon>
+                </Card.Header>
                 <Text preset="t2" color="#primary-text-soft">
                   {item.description}
                 </Text>
-              </EcoCard>
+                <Badge
+                  fill="#tint-fill"
+                  color="#tint-accent-3"
+                  placeSelf="start"
+                  margin="top auto"
+                >
+                  {item.tag}
+                </Badge>
+              </Card>
             );
           })}
         </Grid>

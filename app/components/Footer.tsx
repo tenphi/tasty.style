@@ -16,7 +16,6 @@ const FooterWrapper = tasty({
       '': '8x 4x',
       '@mobile': '6x 2x',
     },
-    border: 'top',
     width: 'max ($content-width, 1200px)',
     margin: 'auto left right',
   },
@@ -62,10 +61,10 @@ const FooterBottom = tasty({
 
 const COLUMNS = [
   {
-    title: 'Product',
+    title: 'Documentation',
     links: [
       {
-        label: 'Documentation',
+        label: 'Usage Guide',
         href: 'https://github.com/tenphi/tasty/blob/main/docs/usage.md',
       },
       {
@@ -76,11 +75,6 @@ const COLUMNS = [
         label: 'Style Properties',
         href: 'https://github.com/tenphi/tasty/blob/main/docs/styles.md',
       },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
       {
         label: 'SSR Guide',
         href: 'https://github.com/tenphi/tasty/blob/main/docs/ssr.md',
@@ -89,9 +83,22 @@ const COLUMNS = [
         label: 'Zero Runtime',
         href: 'https://github.com/tenphi/tasty/blob/main/docs/tasty-static.md',
       },
+    ],
+  },
+  {
+    title: 'Ecosystem',
+    links: [
       {
-        label: 'Changelog',
-        href: 'https://github.com/tenphi/tasty/releases',
+        label: 'Glaze',
+        href: 'https://github.com/tenphi/glaze',
+      },
+      {
+        label: 'ESLint Plugin',
+        href: 'https://github.com/tenphi/eslint-plugin-tasty',
+      },
+      {
+        label: 'VS Code Extension',
+        href: 'https://github.com/tenphi/tasty-vscode-extension',
       },
     ],
   },
@@ -142,7 +149,7 @@ export default function Footer() {
           </Text>
         </FooterBrand>
         <Text preset="t4" color="#primary-text-soft">
-          MIT License &copy; {new Date().getFullYear()} Andrey Yamanov
+          MIT License &copy; {new Date().getFullYear()} Tenphi
         </Text>
       </FooterBottom>
     </FooterWrapper>

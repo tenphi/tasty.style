@@ -2,13 +2,6 @@
 
 import type { ReactNode } from 'react';
 import {
-  tasty,
-  BASE_STYLES,
-  OUTER_STYLES,
-  BLOCK_STYLES,
-  COLOR_STYLES,
-} from '@tenphi/tasty';
-import {
   IconTargetArrow,
   IconSparkles,
   IconPalette,
@@ -20,40 +13,7 @@ import type { TintName } from '@/app/theme';
 import Section from './Section';
 import Grid from '@/app/ui/Grid';
 import Text from '@/app/ui/Text';
-
-const FeatureCard = tasty({
-  styles: {
-    display: 'flex',
-    flow: 'column',
-    gap: '2x',
-    padding: '4x',
-    radius: '1cr',
-    transition: 'shadow, translate',
-    shadow: {
-      '': 'none',
-      ':hover': '0 4x 20x #primary-shadow-md',
-    },
-    translate: {
-      '': '0 0',
-      ':hover': '0 -3px',
-    },
-  },
-  styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES, ...COLOR_STYLES],
-});
-
-const IconWrap = tasty({
-  as: 'span',
-  styles: {
-    display: 'inline-flex',
-    placeItems: 'center',
-    placeContent: 'center',
-    width: '48px',
-    height: '48px',
-    radius: '14px',
-    margin: '0 0 1x 0',
-  },
-  styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES, ...COLOR_STYLES],
-});
+import Card, { TINT_STYLES } from '@/app/ui/Card';
 
 interface FeatureItem {
   icon: ReactNode;
@@ -96,7 +56,7 @@ const FEATURES: FeatureItem[] = [
     title: 'Sub‑Element Styling',
     description:
       'Style inner elements from the parent definition. No extra components, no CSS leakage.',
-    tint: 'blue',
+    tint: 'violet',
   },
   {
     icon: <IconBolt size={24} stroke={1.5} />,
@@ -106,59 +66,6 @@ const FEATURES: FeatureItem[] = [
     tint: 'rose',
   },
 ];
-
-interface TintStyle {
-  cardFill: string;
-  cardBorder: string;
-  iconFill: string;
-  iconColor: string;
-  titleColor: string;
-}
-
-const TINT_STYLES: Record<TintName, TintStyle> = {
-  coral: {
-    cardFill: '#coral-surface',
-    cardBorder: `1bw solid #coral-border`,
-    iconFill: '#coral-surface-3',
-    iconColor: '#coral-accent-text',
-    titleColor: '#coral-accent-text',
-  },
-  teal: {
-    cardFill: '#teal-surface',
-    cardBorder: `1bw solid #teal-border`,
-    iconFill: '#teal-surface-3',
-    iconColor: '#teal-accent-text',
-    titleColor: '#teal-accent-text',
-  },
-  amber: {
-    cardFill: '#amber-surface',
-    cardBorder: `1bw solid #amber-border`,
-    iconFill: '#amber-surface-3',
-    iconColor: '#amber-accent-text',
-    titleColor: '#amber-accent-text',
-  },
-  blue: {
-    cardFill: '#blue-surface',
-    cardBorder: `1bw solid #blue-border`,
-    iconFill: '#blue-surface-3',
-    iconColor: '#blue-accent-text',
-    titleColor: '#blue-accent-text',
-  },
-  rose: {
-    cardFill: '#rose-surface',
-    cardBorder: `1bw solid #rose-border`,
-    iconFill: '#rose-surface-3',
-    iconColor: '#rose-accent-text',
-    titleColor: '#rose-accent-text',
-  },
-  lime: {
-    cardFill: '#lime-surface',
-    cardBorder: `1bw solid #lime-border`,
-    iconFill: '#lime-surface-3',
-    iconColor: '#lime-accent-text',
-    titleColor: '#lime-accent-text',
-  },
-};
 
 export default function Features() {
   return (
@@ -179,21 +86,26 @@ export default function Features() {
           {FEATURES.map((feature) => {
             const t = TINT_STYLES[feature.tint];
             return (
-              <FeatureCard
+              <Card
                 key={feature.title}
                 fill={t.cardFill}
                 border={t.cardBorder}
+                tokens={{
+                  '#tint-fill': t.tintFill,
+                  '#tint-accent': t.tintAccent,
+                  '#tint-accent-3': t.tintAccent3,
+                }}
               >
-                <IconWrap fill={t.iconFill} color={t.iconColor}>
-                  {feature.icon}
-                </IconWrap>
-                <Text as="h3" preset="h3" color={t.titleColor} margin="0">
-                  {feature.title}
-                </Text>
+                <Card.Header>
+                  <Text as="h3" preset="h4" color="#tint-accent" margin="0">
+                    {feature.title}
+                  </Text>
+                  <Card.Icon>{feature.icon}</Card.Icon>
+                </Card.Header>
                 <Text preset="t2" color="#primary-text-soft" margin="0">
                   {feature.description}
                 </Text>
-              </FeatureCard>
+              </Card>
             );
           })}
         </Grid>

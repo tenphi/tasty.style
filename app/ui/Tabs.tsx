@@ -3,34 +3,14 @@
 import { useState } from 'react';
 import { tasty, BASE_STYLES, OUTER_STYLES, BLOCK_STYLES } from '@tenphi/tasty';
 
-const TabsElement = tasty({
-  styles: {
-    display: 'flex',
-    flow: 'column',
-    gap: '2x',
-    width: '100%',
-  },
-  styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES],
-});
-
-const TabBar = tasty({
-  styles: {
-    display: 'flex',
-    flow: 'row',
-    gap: '1x',
-    placeContent: 'center',
-    overflow: 'auto hidden',
-    scrollbar: 'none',
-  },
-});
-
 const TabButton = tasty({
   as: 'button',
   styles: {
     display: 'inline-flex',
     placeItems: 'center',
+    placeContent: 'center',
     padding: '1x 2.5x',
-    preset: 't3 strong',
+    preset: 't3',
     cursor: 'pointer',
     border: true,
     radius: 'round',
@@ -52,13 +32,54 @@ const TabButton = tasty({
   },
 });
 
-const TabPanel = tasty({
+const TabsElement = tasty({
   styles: {
     display: 'flex',
     flow: 'column',
+    gap: '2x',
     width: '100%',
-    minWidth: 0,
+    Bar: {
+      $: '>',
+      display: {
+        '': 'flex',
+        '@mobile': 'grid',
+      },
+      gridColumns: { '@mobile': '1sf 1sf' },
+      flow: 'row',
+      gap: '1x',
+      placeContent: 'center',
+      overflow: {
+        '': 'auto hidden',
+        '@mobile': 'hidden',
+      },
+      scrollbar: 'none',
+    },
+    PanelContainer: {
+      $: '>',
+      display: 'grid',
+      width: '100%',
+      minWidth: 0,
+    },
+    Panel: {
+      $: '>PanelContainer>',
+      gridColumn: 1,
+      gridRow: 1,
+      display: 'flex',
+      flow: 'column',
+      width: '100%',
+      minWidth: 0,
+      visibility: {
+        '': 'hidden',
+        '@own(active)': 'visible',
+      },
+    },
   },
+  elements: {
+    Bar: 'div',
+    PanelContainer: 'div',
+    Panel: 'div',
+  },
+  styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES],
 });
 
 interface TabItem {
@@ -72,13 +93,16 @@ interface TabsProps {
   defaultTab?: string;
 }
 
-export default function Tabs({ tabs, defaultTab, ...props }: TabsProps & Record<string, unknown>) {
+export default function Tabs({
+  tabs,
+  defaultTab,
+  ...props
+}: TabsProps & Record<string, unknown>) {
   const [activeTab, setActiveTab] = useState(defaultTab ?? tabs[0]?.id);
-  const activeContent = tabs.find((t) => t.id === activeTab)?.content;
 
   return (
     <TabsElement {...props}>
-      <TabBar>
+      <TabsElement.Bar>
         {tabs.map((tab) => (
           <TabButton
             key={tab.id}
@@ -88,8 +112,17 @@ export default function Tabs({ tabs, defaultTab, ...props }: TabsProps & Record<
             {tab.label}
           </TabButton>
         ))}
-      </TabBar>
-      <TabPanel>{activeContent}</TabPanel>
+      </TabsElement.Bar>
+      <TabsElement.PanelContainer>
+        {tabs.map((tab) => (
+          <TabsElement.Panel
+            key={tab.id}
+            mods={{ active: tab.id === activeTab }}
+          >
+            {tab.content}
+          </TabsElement.Panel>
+        ))}
+      </TabsElement.PanelContainer>
     </TabsElement>
   );
 }
