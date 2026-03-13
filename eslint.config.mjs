@@ -5,6 +5,7 @@ import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 import reactHooks from 'eslint-plugin-react-hooks';
 import nextPlugin from '@next/eslint-plugin-next';
+import tasty from '@tenphi/eslint-plugin-tasty';
 
 export default defineConfig(
   {
@@ -14,6 +15,7 @@ export default defineConfig(
   tseslint.configs.recommended,
   tseslint.configs.stylistic,
   prettier,
+  tasty.configs.recommended,
   {
     plugins: {
       'react-hooks': reactHooks,

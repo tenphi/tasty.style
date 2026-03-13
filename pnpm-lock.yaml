@@ -42,6 +42,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^16.1.6
         version: 16.1.6
+      '@tenphi/eslint-plugin-tasty':
+        specifier: 0.4.2
+        version: 0.4.2(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3)
       '@types/node':
         specifier: ^22.15.2
         version: 22.19.15
@@ -489,6 +492,12 @@ packages:
 
   '@tabler/icons@3.40.0':
     resolution: {integrity: sha512-V/Q4VgNPKubRTiLdmWjV/zscYcj5IIk+euicUtaVVqF6luSC9rDngYWgST5/yh3Mrg/mYUwRv1YVTk71Jp0twQ==}
+
+  '@tenphi/eslint-plugin-tasty@0.4.2':
+    resolution: {integrity: sha512-Io+RWQyPSD0Sr14Nr0Zf22YcjvAcrogIEpUUUgQgcMB0UTGdYaP4SZZ/86JKHS1uhps/AjsmnLoLma8Uy0ELaw==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      eslint: '>=8.0.0'
 
   '@tenphi/glaze@0.5.4':
     resolution: {integrity: sha512-MpyAgU2bt6CVPPYMx6KapE8fI3rl0DKv+GgXswxyJ3TchR78uIzt2eBMaqadE08TBqmo2qivPLXGBLbP5UuQwg==}
@@ -1923,6 +1932,14 @@ snapshots:
       react: 19.2.4
 
   '@tabler/icons@3.40.0': {}
+
+  '@tenphi/eslint-plugin-tasty@0.4.2(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/utils': 8.57.0(eslint@10.0.3(jiti@2.6.1))(typescript@5.9.3)
+      eslint: 10.0.3(jiti@2.6.1)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   '@tenphi/glaze@0.5.4': {}
 
