@@ -6,4 +6,5 @@ export default withTastyZero({
   configDeps: ['./app/theme.ts'],
 })({
   reactStrictMode: true,
+  output: 'export',
 });

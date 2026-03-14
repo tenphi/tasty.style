@@ -44,7 +44,7 @@ const TabsElement = tasty({
         '': 'flex',
         '@mobile': 'grid',
       },
-      gridColumns: { '@mobile': '1sf 1sf' },
+      gridColumns: { '': 'initial', '@mobile': '1sf 1sf' },
       flow: 'row',
       gap: '1x',
       placeContent: 'center',

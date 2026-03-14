@@ -15,8 +15,8 @@ importers:
         specifier: ^3.40.0
         version: 3.40.0(react@19.2.4)
       '@tenphi/glaze':
-        specifier: ^0.5.4
-        version: 0.5.4
+        specifier: ^0.5.5
+        version: 0.5.5
       '@tenphi/tasty':
         specifier: 0.10.1
         version: 0.10.1(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.28.6)(@babel/types@7.29.0)(react@19.2.4)
@@ -499,8 +499,8 @@ packages:
     peerDependencies:
       eslint: '>=8.0.0'
 
-  '@tenphi/glaze@0.5.4':
-    resolution: {integrity: sha512-MpyAgU2bt6CVPPYMx6KapE8fI3rl0DKv+GgXswxyJ3TchR78uIzt2eBMaqadE08TBqmo2qivPLXGBLbP5UuQwg==}
+  '@tenphi/glaze@0.5.5':
+    resolution: {integrity: sha512-mXT9AN5euncnRopMpNrXXy6zTYnhayLlaspfM9OgdYPsCDnT3m1zdy8QYnWts4/oTBz2f+35X1gclIBZVM1M6A==}
     engines: {node: '>=20'}
 
   '@tenphi/tasty@0.10.1':
@@ -1941,7 +1941,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tenphi/glaze@0.5.4': {}
+  '@tenphi/glaze@0.5.5': {}
 
   '@tenphi/tasty@0.10.1(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.28.6)(@babel/types@7.29.0)(react@19.2.4)':
     dependencies:

@@ -1,6 +1,6 @@
 'use client';
 
-import { tasty } from '@tenphi/tasty';
+import { tasty, OUTER_STYLES } from '@tenphi/tasty';
 import { IconArrowRight, IconBrandGithub } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
@@ -95,7 +95,7 @@ const GlowOrb = tasty({
     opacity: 0.1,
     pointerEvents: 'none',
   },
-  styleProps: ['fill'],
+  styleProps: ['fill', ...OUTER_STYLES],
 });
 
 export default function Hero() {

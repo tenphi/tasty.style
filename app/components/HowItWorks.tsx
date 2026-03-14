@@ -142,8 +142,8 @@ function ExampleGrid({
 }) {
   return (
     <Grid
-      gridColumns={{ '': '5sf 1sf 6sf', '@mobile': '1sf' }}
-      gap={{ '': '3x', '@mobile': '4x' }}
+      gridColumns={{ '': '1sf max-content 1sf', '@mobile': '1sf' }}
+      gap={{ '': '2x', '@mobile': '2x' }}
       placeItems="start stretch"
     >
       <Space gap="2x">
