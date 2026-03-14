@@ -28,7 +28,7 @@ tastyStatic('body', {
   '$card-radius': '20px',
   '$border-width': '1px',
   '$outline-width': '2px',
-  '$bold-font-weight': '600',
+  '$bold-font-weight': 600,
   $transition: '0.2s',
   '$content-width': '1200px',
   '$header-height': '64px',

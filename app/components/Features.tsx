@@ -12,8 +12,7 @@ import {
 import type { TintName } from '@/app/theme';
 import Section from './Section';
 import Grid from '@/app/ui/Grid';
-import Text from '@/app/ui/Text';
-import Card, { TINT_STYLES } from '@/app/ui/Card';
+import Card from '@/app/ui/Card';
 
 interface FeatureItem {
   icon: ReactNode;
@@ -83,31 +82,15 @@ export default function Features() {
           }}
           gap="3x"
         >
-          {FEATURES.map((feature) => {
-            const t = TINT_STYLES[feature.tint];
-            return (
-              <Card
-                key={feature.title}
-                fill={t.cardFill}
-                border={t.cardBorder}
-                tokens={{
-                  '#tint-fill': t.tintFill,
-                  '#tint-accent': t.tintAccent,
-                  '#tint-accent-3': t.tintAccent3,
-                }}
-              >
-                <Card.Header>
-                  <Text as="h3" preset="h4" color="#tint-accent" margin="0">
-                    {feature.title}
-                  </Text>
-                  <Card.Icon>{feature.icon}</Card.Icon>
-                </Card.Header>
-                <Text preset="t2" color="#primary-text-soft" margin="0">
-                  {feature.description}
-                </Text>
-              </Card>
-            );
-          })}
+          {FEATURES.map((feature) => (
+            <Card key={feature.title} variant={feature.tint}>
+              <Card.Header>
+                <Card.Title>{feature.title}</Card.Title>
+                <Card.Icon>{feature.icon}</Card.Icon>
+              </Card.Header>
+              <Card.Description>{feature.description}</Card.Description>
+            </Card>
+          ))}
         </Grid>
       </Section.Content>
     </Section>

@@ -5,10 +5,8 @@ export default {
     // -- Base palette --
     '#base-black',
     '#base-white',
-    '#base-code-comment',
-    '#base-code-punctuation',
 
-    // -- Primary palette (violet colors + blue extras) --
+    // -- Primary palette --
     '#primary-surface',
     '#primary-surface-2',
     '#primary-surface-3',
@@ -24,9 +22,6 @@ export default {
     '#primary-accent-text',
     '#primary-accent-text-2',
     '#primary-accent-text-3',
-    '#primary-code-text',
-    '#primary-code-bg',
-    '#primary-code-keyword',
     '#primary-icon',
     '#primary-disabled',
     '#primary-shadow-border',
@@ -35,8 +30,6 @@ export default {
     '#primary-shadow-md',
     '#primary-shadow-lg',
     '#primary-overlay',
-    '#primary-code-function',
-    '#primary-code-value',
     '#primary-accent-surface-2',
     '#primary-accent-surface-3',
 
@@ -56,9 +49,6 @@ export default {
     '#violet-accent-text',
     '#violet-accent-text-2',
     '#violet-accent-text-3',
-    '#violet-code-text',
-    '#violet-code-bg',
-    '#violet-code-keyword',
     '#violet-icon',
     '#violet-disabled',
     '#violet-shadow-border',
@@ -68,7 +58,7 @@ export default {
     '#violet-shadow-lg',
     '#violet-overlay',
 
-    // -- Coral palette (violet colors + code-string) --
+    // -- Coral palette --
     '#coral-surface',
     '#coral-surface-2',
     '#coral-surface-3',
@@ -84,9 +74,6 @@ export default {
     '#coral-accent-text',
     '#coral-accent-text-2',
     '#coral-accent-text-3',
-    '#coral-code-text',
-    '#coral-code-bg',
-    '#coral-code-keyword',
     '#coral-icon',
     '#coral-disabled',
     '#coral-shadow-border',
@@ -95,9 +82,8 @@ export default {
     '#coral-shadow-md',
     '#coral-shadow-lg',
     '#coral-overlay',
-    '#coral-code-string',
 
-    // -- Teal palette (violet colors + code-property) --
+    // -- Teal palette --
     '#teal-surface',
     '#teal-surface-2',
     '#teal-surface-3',
@@ -113,9 +99,6 @@ export default {
     '#teal-accent-text',
     '#teal-accent-text-2',
     '#teal-accent-text-3',
-    '#teal-code-text',
-    '#teal-code-bg',
-    '#teal-code-keyword',
     '#teal-icon',
     '#teal-disabled',
     '#teal-shadow-border',
@@ -124,9 +107,8 @@ export default {
     '#teal-shadow-md',
     '#teal-shadow-lg',
     '#teal-overlay',
-    '#teal-code-property',
 
-    // -- Amber palette (violet colors + code-number) --
+    // -- Amber palette --
     '#amber-surface',
     '#amber-surface-2',
     '#amber-surface-3',
@@ -142,9 +124,6 @@ export default {
     '#amber-accent-text',
     '#amber-accent-text-2',
     '#amber-accent-text-3',
-    '#amber-code-text',
-    '#amber-code-bg',
-    '#amber-code-keyword',
     '#amber-icon',
     '#amber-disabled',
     '#amber-shadow-border',
@@ -153,9 +132,8 @@ export default {
     '#amber-shadow-md',
     '#amber-shadow-lg',
     '#amber-overlay',
-    '#amber-code-number',
 
-    // -- Blue palette (violet colors + code-function, code-value) --
+    // -- Blue palette --
     '#blue-surface',
     '#blue-surface-2',
     '#blue-surface-3',
@@ -171,9 +149,6 @@ export default {
     '#blue-accent-text',
     '#blue-accent-text-2',
     '#blue-accent-text-3',
-    '#blue-code-text',
-    '#blue-code-bg',
-    '#blue-code-keyword',
     '#blue-icon',
     '#blue-disabled',
     '#blue-shadow-border',
@@ -182,10 +157,8 @@ export default {
     '#blue-shadow-md',
     '#blue-shadow-lg',
     '#blue-overlay',
-    '#blue-code-function',
-    '#blue-code-value',
 
-    // -- Rose palette (violet colors + code-operator) --
+    // -- Rose palette --
     '#rose-surface',
     '#rose-surface-2',
     '#rose-surface-3',
@@ -201,9 +174,6 @@ export default {
     '#rose-accent-text',
     '#rose-accent-text-2',
     '#rose-accent-text-3',
-    '#rose-code-text',
-    '#rose-code-bg',
-    '#rose-code-keyword',
     '#rose-icon',
     '#rose-disabled',
     '#rose-shadow-border',
@@ -212,9 +182,8 @@ export default {
     '#rose-shadow-md',
     '#rose-shadow-lg',
     '#rose-overlay',
-    '#rose-code-operator',
 
-    // -- Lime palette (violet colors + code-token) --
+    // -- Lime palette --
     '#lime-surface',
     '#lime-surface-2',
     '#lime-surface-3',
@@ -230,9 +199,6 @@ export default {
     '#lime-accent-text',
     '#lime-accent-text-2',
     '#lime-accent-text-3',
-    '#lime-code-text',
-    '#lime-code-bg',
-    '#lime-code-keyword',
     '#lime-icon',
     '#lime-disabled',
     '#lime-shadow-border',
@@ -241,7 +207,20 @@ export default {
     '#lime-shadow-md',
     '#lime-shadow-lg',
     '#lime-overlay',
-    '#lime-code-token',
+
+    // -- Syntax palette (contrast-aware code highlighting) --
+    '#syntax-text',
+    '#syntax-bg',
+    '#syntax-comment',
+    '#syntax-punctuation',
+    '#syntax-keyword',
+    '#syntax-string',
+    '#syntax-token',
+    '#syntax-property',
+    '#syntax-number',
+    '#syntax-function',
+    '#syntax-value',
+    '#syntax-operator',
 
     // -- Locally-defined color tokens --
     '#border',
@@ -270,7 +249,7 @@ export default {
     '@reduce-motion',
   ],
 
-  presets: ['d1', 'h1', 'h2', 'h3', 'h4', 't1', 't2', 't3', 't4', 'strong'],
+  presets: ['d1', 'h1', 'h2', 'h3', 'h4', 'h5', 't1', 't2', 't3', 't4', 'strong'],
 
   recipes: ['palette', 'typography'],
 

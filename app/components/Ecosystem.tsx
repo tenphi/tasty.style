@@ -5,9 +5,8 @@ import { IconPalette, IconShieldCheck, IconCode } from '@tabler/icons-react';
 import type { TintName } from '@/app/theme';
 import Section from '@/app/components/Section';
 import Grid from '@/app/ui/Grid';
-import Text from '@/app/ui/Text';
 import Badge from '@/app/ui/Badge';
-import Card, { TINT_STYLES } from '@/app/ui/Card';
+import Card from '@/app/ui/Card';
 
 interface EcoItem {
   name: string;
@@ -55,43 +54,30 @@ export default function Ecosystem() {
       <Section.Subtitle>Tools that complete the picture</Section.Subtitle>
       <Section.Content>
         <Grid gridColumns={{ '': '1sf 1sf 1sf', '@mobile': '1sf' }} gap="3x">
-          {ECOSYSTEM.map((item) => {
-            const t = TINT_STYLES[item.tint];
-            return (
-              <Card
-                as="a"
-                key={item.name}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                fill={t.cardFill}
-                border={t.cardBorder}
-                tokens={{
-                  '#tint-fill': t.tintFill,
-                  '#tint-accent': t.tintAccent,
-                  '#tint-accent-3': t.tintAccent3,
-                }}
+          {ECOSYSTEM.map((item) => (
+            <Card
+              as="a"
+              key={item.name}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant={item.tint}
+            >
+              <Card.Header>
+                <Card.Title>{item.name}</Card.Title>
+                <Card.Icon>{item.icon}</Card.Icon>
+              </Card.Header>
+              <Card.Description>{item.description}</Card.Description>
+              <Badge
+                fill="#tint-surface-strong"
+                color="#tint-accent-strong"
+                placeSelf="start"
+                margin="top auto"
               >
-                <Card.Header>
-                  <Text as="h3" preset="h4" color="#tint-accent" margin="0">
-                    {item.name}
-                  </Text>
-                  <Card.Icon>{item.icon}</Card.Icon>
-                </Card.Header>
-                <Text preset="t2" color="#primary-text-soft">
-                  {item.description}
-                </Text>
-                <Badge
-                  fill="#tint-fill"
-                  color="#tint-accent-3"
-                  placeSelf="start"
-                  margin="top auto"
-                >
-                  {item.tag}
-                </Badge>
-              </Card>
-            );
-          })}
+                {item.tag}
+              </Badge>
+            </Card>
+          ))}
         </Grid>
       </Section.Content>
     </Section>

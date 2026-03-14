@@ -7,7 +7,6 @@ import {
   BLOCK_STYLES,
   COLOR_STYLES,
 } from '@tenphi/tasty';
-import type { TintName } from '@/app/theme';
 
 const Card = tasty({
   styles: {
@@ -19,6 +18,8 @@ const Card = tasty({
       '@mobile': '2x',
     },
     radius: '1cr',
+    fill: '#tint-surface',
+    border: '1bw solid #tint-border',
     textDecoration: 'none',
     transition: 'shadow, translate',
     shadow: {
@@ -44,11 +45,74 @@ const Card = tasty({
       width: '48px',
       height: '48px',
       radius: '14px',
-      fill: '#tint-fill',
-      color: '#tint-accent-3',
+      fill: '#tint-surface-strong',
+      color: '#tint-accent-strong',
+    },
+    Title: {
+      $: '>Header>',
+      preset: 'h4',
+      color: '#tint-accent',
+      margin: '0',
+    },
+    Description: {
+      $: '>',
+      preset: 't2',
+      color: '#primary-text-soft',
+      margin: '0',
     },
   },
-  elements: { Header: 'div', Icon: 'span' },
+  variants: {
+    lime: {
+      '#tint-surface': '#lime-surface-2',
+      '#tint-surface-strong': '#lime-surface-3',
+      '#tint-border': '#lime-border',
+      '#tint-accent': '#lime-accent-text-2',
+      '#tint-accent-strong': '#lime-accent-text-3',
+    },
+    coral: {
+      '#tint-surface': '#coral-surface-2',
+      '#tint-surface-strong': '#coral-surface-3',
+      '#tint-border': '#coral-border',
+      '#tint-accent': '#coral-accent-text-2',
+      '#tint-accent-strong': '#coral-accent-text-3',
+    },
+    teal: {
+      '#tint-surface': '#teal-surface-2',
+      '#tint-surface-strong': '#teal-surface-3',
+      '#tint-border': '#teal-border',
+      '#tint-accent': '#teal-accent-text-2',
+      '#tint-accent-strong': '#teal-accent-text-3',
+    },
+    amber: {
+      '#tint-surface': '#amber-surface-2',
+      '#tint-surface-strong': '#amber-surface-3',
+      '#tint-border': '#amber-border',
+      '#tint-accent': '#amber-accent-text-2',
+      '#tint-accent-strong': '#amber-accent-text-3',
+    },
+    violet: {
+      '#tint-surface': '#violet-surface-2',
+      '#tint-surface-strong': '#violet-surface-3',
+      '#tint-border': '#violet-border',
+      '#tint-accent': '#violet-accent-text-2',
+      '#tint-accent-strong': '#violet-accent-text-3',
+    },
+    rose: {
+      '#tint-surface': '#rose-surface-2',
+      '#tint-surface-strong': '#rose-surface-3',
+      '#tint-border': '#rose-border',
+      '#tint-accent': '#rose-accent-text-2',
+      '#tint-accent-strong': '#rose-accent-text-3',
+    },
+    blue: {
+      '#tint-surface': '#blue-surface-2',
+      '#tint-surface-strong': '#blue-surface-3',
+      '#tint-border': '#blue-border',
+      '#tint-accent': '#blue-accent-text-2',
+      '#tint-accent-strong': '#blue-accent-text-3',
+    },
+  },
+  elements: { Header: 'div', Icon: 'span', Title: 'h3', Description: 'p' },
   styleProps: [
     ...BASE_STYLES,
     ...OUTER_STYLES,
@@ -58,63 +122,3 @@ const Card = tasty({
 });
 
 export default Card;
-
-interface TintStyle {
-  cardFill: string;
-  cardBorder: string;
-  tintFill: string;
-  tintAccent: string;
-  tintAccent3: string;
-}
-
-export const TINT_STYLES: Record<TintName, TintStyle> = {
-  coral: {
-    cardFill: '#coral-surface-2',
-    cardBorder: '1bw solid #coral-border',
-    tintFill: '#coral-surface-3',
-    tintAccent: '#coral-accent-text',
-    tintAccent3: '#coral-accent-text-3',
-  },
-  teal: {
-    cardFill: '#teal-surface-2',
-    cardBorder: '1bw solid #teal-border',
-    tintFill: '#teal-surface-3',
-    tintAccent: '#teal-accent-text',
-    tintAccent3: '#teal-accent-text-3',
-  },
-  amber: {
-    cardFill: '#amber-surface-2',
-    cardBorder: '1bw solid #amber-border',
-    tintFill: '#amber-surface-3',
-    tintAccent: '#amber-accent-text',
-    tintAccent3: '#amber-accent-text-3',
-  },
-  blue: {
-    cardFill: '#blue-surface-2',
-    cardBorder: '1bw solid #blue-border',
-    tintFill: '#blue-surface-3',
-    tintAccent: '#blue-accent-text',
-    tintAccent3: '#blue-accent-text-3',
-  },
-  rose: {
-    cardFill: '#rose-surface-2',
-    cardBorder: '1bw solid #rose-border',
-    tintFill: '#rose-surface-3',
-    tintAccent: '#rose-accent-text',
-    tintAccent3: '#rose-accent-text-3',
-  },
-  lime: {
-    cardFill: '#lime-surface-2',
-    cardBorder: '1bw solid #lime-border',
-    tintFill: '#lime-surface-3',
-    tintAccent: '#lime-accent-text',
-    tintAccent3: '#lime-accent-text-3',
-  },
-  violet: {
-    cardFill: '#violet-surface-2',
-    cardBorder: '1bw solid #violet-border',
-    tintFill: '#violet-surface-3',
-    tintAccent: '#violet-accent-text',
-    tintAccent3: '#violet-accent-text-3',
-  },
-};

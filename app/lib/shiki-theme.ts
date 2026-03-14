@@ -1,17 +1,17 @@
 import type { ThemeRegistration } from 'shiki';
 
-const comment = 'var(--base-code-comment-color)';
-const punctuation = 'var(--base-code-punctuation-color)';
-const keyword = 'var(--primary-code-keyword-color)';
-const string = 'var(--coral-code-string-color)';
-const token = 'var(--lime-code-token-color)';
-const property = 'var(--teal-code-property-color)';
-const number = 'var(--amber-code-number-color)';
-const func = 'var(--blue-code-function-color)';
-const value = 'var(--blue-code-value-color)';
-const operator = 'var(--rose-code-operator-color)';
-const fg = 'var(--primary-code-text-color)';
-const bg = 'var(--primary-code-bg-color)';
+const comment = 'var(--syntax-comment-color)';
+const punctuation = 'var(--syntax-punctuation-color)';
+const keyword = 'var(--syntax-keyword-color)';
+const string = 'var(--syntax-string-color)';
+const token = 'var(--syntax-token-color)';
+const property = 'var(--syntax-property-color)';
+const number = 'var(--syntax-number-color)';
+const func = 'var(--syntax-function-color)';
+const value = 'var(--syntax-value-color)';
+const operator = 'var(--syntax-operator-color)';
+const fg = 'var(--syntax-text-color)';
+const bg = 'var(--syntax-bg-color)';
 
 export const tastyCodeTheme: ThemeRegistration = {
   name: 'tasty-code',

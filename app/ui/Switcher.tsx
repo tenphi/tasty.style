@@ -44,6 +44,7 @@ const SwitcherOption = tasty({
 interface SwitcherOptionItem {
   value: string;
   label: React.ReactNode;
+  'aria-label'?: string;
 }
 
 interface SwitcherProps {
@@ -63,6 +64,7 @@ export default function Switcher({
       {options.map((opt) => (
         <SwitcherOption
           key={opt.value}
+          aria-label={opt['aria-label']}
           mods={{ active: opt.value === value }}
           onClick={() => onChange(opt.value)}
         >

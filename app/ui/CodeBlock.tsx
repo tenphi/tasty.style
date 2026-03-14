@@ -8,8 +8,8 @@ const CodeBlockElement = tasty({
   as: 'pre',
   styles: {
     padding: '3x',
-    fill: '#primary-code-bg',
-    color: '#primary-code-text',
+    fill: '#syntax-bg',
+    color: '#syntax-text',
     radius: '1cr',
     overflow: 'auto',
     preset: 't3',

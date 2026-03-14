@@ -34,6 +34,12 @@ const typographyTokens = generateTypographyTokens({
     letterSpacing: '0',
     fontWeight: '600',
   },
+  h5: {
+    fontSize: '16px',
+    lineHeight: '1.4',
+    letterSpacing: '0',
+    fontWeight: '600',
+  },
   t1: {
     fontSize: '20px',
     lineHeight: '1.5',

@@ -131,6 +131,7 @@ export default function Header() {
           padding="1x"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="GitHub repository"
         >
           <IconBrandGithub size={20} />
         </Button>

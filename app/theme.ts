@@ -5,8 +5,6 @@ const base = glaze(210, 10);
 base.colors({
   black: { lightness: 0, saturation: 0, mode: 'static' },
   white: { lightness: 100, saturation: 0, mode: 'static' },
-  'code-comment': { lightness: 48, saturation: 0.08, mode: 'fixed' },
-  'code-punctuation': { lightness: 58, saturation: 0.05, mode: 'fixed' },
 });
 
 const violet = glaze(272, 75);
@@ -76,15 +74,6 @@ violet.colors({
     contrast: ['AA', 'AAA'],
     saturation: 0.9,
   },
-  'code-text': { lightness: 100, mode: 'fixed' },
-  'code-bg': {
-    base: 'code-text',
-    lightness: '-78',
-    contrast: 'AAA',
-    mode: 'fixed',
-    saturation: 0.1,
-  },
-  'code-keyword': { lightness: 75, saturation: 0.65, mode: 'fixed' },
   icon: { lightness: 55, saturation: 0.9 },
   disabled: { lightness: 80, saturation: 0.15 },
   'shadow-border': { lightness: 20, mode: 'static' },
@@ -101,34 +90,106 @@ violet.colors({
 });
 
 const coral = violet.extend({ hue: 15 });
-coral.colors({
-  'code-string': { lightness: 74, saturation: 0.55, mode: 'fixed' },
-});
 
 const teal = violet.extend({ hue: 155 });
-teal.colors({
-  'code-property': { lightness: 70, saturation: 0.55, mode: 'fixed' },
-});
 
 const amber = violet.extend({ hue: 70 });
-amber.colors({
-  'code-number': { lightness: 74, saturation: 0.6, mode: 'fixed' },
-});
 
 const blue = violet.extend({ hue: 210 });
-blue.colors({
-  'code-function': { lightness: 72, saturation: 0.55, mode: 'fixed' },
-  'code-value': { lightness: 68, saturation: 0.5, mode: 'fixed' },
-});
 
 const rose = violet.extend({ hue: 340 });
-rose.colors({
-  'code-operator': { lightness: 72, saturation: 0.5, mode: 'fixed' },
-});
 
 const lime = violet.extend({ hue: 125 });
-lime.colors({
-  'code-token': { lightness: 72, saturation: 0.55, mode: 'fixed' },
+
+const syntax = glaze(210, 75);
+syntax.colors({
+  text: { lightness: 100, mode: 'fixed' },
+  bg: {
+    base: 'text',
+    lightness: '-78',
+    contrast: 'AAA',
+    mode: 'fixed',
+    saturation: 0.1,
+  },
+  comment: {
+    base: 'bg',
+    lightness: 48,
+    contrast: 'AA',
+    saturation: 0.01,
+    mode: 'fixed',
+    hue: 210,
+  },
+  punctuation: {
+    base: 'bg',
+    lightness: 58,
+    contrast: 'AA',
+    saturation: 0.01,
+    mode: 'fixed',
+    hue: 210,
+  },
+  keyword: {
+    base: 'bg',
+    lightness: 75,
+    contrast: 'AA',
+    saturation: 0.65,
+    mode: 'fixed',
+  },
+  string: {
+    base: 'bg',
+    lightness: 74,
+    contrast: 'AA',
+    saturation: 0.55,
+    mode: 'fixed',
+    hue: 15,
+  },
+  token: {
+    base: 'bg',
+    lightness: 72,
+    contrast: 'AA',
+    saturation: 0.55,
+    mode: 'fixed',
+    hue: 125,
+  },
+  property: {
+    base: 'bg',
+    lightness: 70,
+    contrast: 'AA',
+    saturation: 0.55,
+    mode: 'fixed',
+    hue: 155,
+  },
+  number: {
+    base: 'bg',
+    lightness: 74,
+    contrast: 'AA',
+    saturation: 0.6,
+    mode: 'fixed',
+    hue: 70,
+  },
+  function: {
+    base: 'bg',
+    lightness: 72,
+    contrast: 'AA',
+    saturation: 0.55,
+    mode: 'fixed',
+    hue: 210,
+  },
+  value: {
+    base: 'bg',
+    lightness: 68,
+    contrast: 'AA',
+    saturation: 0.5,
+    mode: 'fixed',
+    hue: 210,
+  },
+  operator: {
+    base: 'bg',
+    lightness: 72,
+    contrast: 'AA',
+    saturation: 0.5,
+    mode: 'fixed',
+    hue: 340,
+  },
 });
 
 const palette = glaze.palette({
@@ -141,11 +202,12 @@ const palette = glaze.palette({
   blue,
   rose,
   lime,
+  syntax,
 });
 
 export const colorTokens = palette.tasty({
   prefix: true,
-  format: 'okhsl',
+  format: 'rgb',
   modes: { highContrast: true },
 });
 
