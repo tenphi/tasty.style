@@ -56,6 +56,18 @@ violet.colors({
     contrast: ['AA', 'AAA'],
     mode: 'fixed',
   },
+  'accent-surface-2': {
+    base: 'accent-surface-text',
+    lightness: '-42',
+    contrast: ['AA', 'AAA'],
+    mode: 'fixed',
+  },
+  'accent-surface-3': {
+    base: 'accent-surface-text',
+    lightness: '-54',
+    contrast: ['AA', 'AAA'],
+    mode: 'fixed',
+  },
   'accent-text': {
     base: 'surface',
     lightness: 50,

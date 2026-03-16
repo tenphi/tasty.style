@@ -18,7 +18,7 @@
     "@babel/helper-plugin-utils": "^7.28.6",
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/glaze": "0.5.8",
-    "@tenphi/tasty": "0.10.1",
+    "@tenphi/tasty": "0.11.0",
     "babel-loader": "^10.1.1",
     "next": "^15.3.1",
     "react": "^19.1.0",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
-    "@tenphi/eslint-plugin-tasty": "0.4.2",
+    "@tenphi/eslint-plugin-tasty": "0.4.3",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
