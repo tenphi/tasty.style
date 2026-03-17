@@ -33,7 +33,19 @@ export default {
     '@reduce-motion',
   ],
 
-  presets: ['d1', 'h1', 'h2', 'h3', 'h4', 'h5', 't1', 't2', 't3', 't4', 'strong'],
+  presets: [
+    'd1',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    't1',
+    't2',
+    't3',
+    't4',
+    'strong',
+  ],
 
   recipes: ['palette', 'typography'],
 

@@ -9,7 +9,13 @@ import tasty from '@tenphi/eslint-plugin-tasty';
 
 export default defineConfig(
   {
-    ignores: ['.next/**', 'node_modules/**', 'public/**', 'out/**', 'next-env.d.ts'],
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'public/**',
+      'out/**',
+      'next-env.d.ts',
+    ],
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,

@@ -41,17 +41,17 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start Next.js dev server |
-| `pnpm build` | Production build |
-| `pnpm start` | Start production server |
-| `pnpm lint` | Run ESLint |
-| `pnpm lint:fix` | Run ESLint with auto-fix |
-| `pnpm format` | Format with Prettier |
-| `pnpm format:check` | Check formatting |
-| `pnpm hygiene` | Lint + format check |
-| `pnpm hygiene:fix` | Auto-fix lint + format |
+| Command             | Description              |
+| ------------------- | ------------------------ |
+| `pnpm dev`          | Start Next.js dev server |
+| `pnpm build`        | Production build         |
+| `pnpm start`        | Start production server  |
+| `pnpm lint`         | Run ESLint               |
+| `pnpm lint:fix`     | Run ESLint with auto-fix |
+| `pnpm format`       | Format with Prettier     |
+| `pnpm format:check` | Check formatting         |
+| `pnpm hygiene`      | Lint + format check      |
+| `pnpm hygiene:fix`  | Auto-fix lint + format   |
 
 ## Project Structure
 
