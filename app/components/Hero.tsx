@@ -127,7 +127,7 @@ export default function Hero() {
         >
           <SpecialButton
             as="a"
-            href="https://github.com/tenphi/tasty/blob/main/docs/usage.md"
+            href="https://github.com/tenphi/tasty/blob/main/docs/getting-started.md"
           >
             Get Started <IconArrowRight size={20} />
           </SpecialButton>

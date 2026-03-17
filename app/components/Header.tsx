@@ -137,7 +137,7 @@ export default function Header() {
         </Button>
         <SpecialButton
           as="a"
-          href="https://github.com/tenphi/tasty/blob/main/docs/usage.md"
+          href="https://github.com/tenphi/tasty/blob/main/docs/getting-started.md"
           size="small"
         >
           Get Started

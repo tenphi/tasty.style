@@ -84,7 +84,7 @@ export default function CallToAction() {
       >
         <Button
           as="a"
-          href="https://github.com/tenphi/tasty/blob/main/docs/usage.md"
+          href="https://github.com/tenphi/tasty/blob/main/docs/getting-started.md"
         >
           Read the Docs
         </Button>
