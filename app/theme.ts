@@ -114,9 +114,24 @@ violet.colors({
     fg: 'shadow-border',
     intensity: 30,
   },
-  'shadow-sm': { type: 'shadow', bg: 'surface', fg: 'text', intensity: 5 },
-  'shadow-md': { type: 'shadow', bg: 'surface', fg: 'text', intensity: 12 },
-  'shadow-lg': { type: 'shadow', bg: 'surface', fg: 'text', intensity: 22 },
+  'shadow-sm': {
+    type: 'shadow',
+    bg: 'surface',
+    fg: 'text',
+    intensity: 5,
+  },
+  'shadow-md': {
+    type: 'shadow',
+    bg: 'surface',
+    fg: 'text',
+    intensity: 12,
+  },
+  'shadow-lg': {
+    type: 'shadow',
+    bg: 'surface',
+    fg: 'text',
+    intensity: 22,
+  },
   overlay: { lightness: 10, opacity: 0.5 },
 });
 

@@ -24,7 +24,7 @@ const Card = tasty({
     transition: 'shadow, translate',
     shadow: {
       '': 'none',
-      ':hover': '0 1x 2x #primary-shadow-sm',
+      ':hover': '0 1x 2x #tint-shadow',
     },
     translate: {
       '': '0 0',
@@ -68,6 +68,7 @@ const Card = tasty({
       '#tint-border': '#lime-border',
       '#tint-accent': '#lime-accent-text-2',
       '#tint-accent-strong': '#lime-accent-text-3',
+      '#tint-shadow': '#lime-shadow-sm',
     },
     coral: {
       '#tint-surface': '#coral-surface-2',
@@ -75,6 +76,7 @@ const Card = tasty({
       '#tint-border': '#coral-border',
       '#tint-accent': '#coral-accent-text-2',
       '#tint-accent-strong': '#coral-accent-text-3',
+      '#tint-shadow': '#coral-shadow-sm',
     },
     teal: {
       '#tint-surface': '#teal-surface-2',
@@ -82,6 +84,7 @@ const Card = tasty({
       '#tint-border': '#teal-border',
       '#tint-accent': '#teal-accent-text-2',
       '#tint-accent-strong': '#teal-accent-text-3',
+      '#tint-shadow': '#teal-shadow-sm',
     },
     amber: {
       '#tint-surface': '#amber-surface-2',
@@ -89,6 +92,7 @@ const Card = tasty({
       '#tint-border': '#amber-border',
       '#tint-accent': '#amber-accent-text-2',
       '#tint-accent-strong': '#amber-accent-text-3',
+      '#tint-shadow': '#amber-shadow-sm',
     },
     violet: {
       '#tint-surface': '#violet-surface-2',
@@ -96,6 +100,7 @@ const Card = tasty({
       '#tint-border': '#violet-border',
       '#tint-accent': '#violet-accent-text-2',
       '#tint-accent-strong': '#violet-accent-text-3',
+      '#tint-shadow': '#violet-shadow-sm',
     },
     rose: {
       '#tint-surface': '#rose-surface-2',
@@ -103,6 +108,7 @@ const Card = tasty({
       '#tint-border': '#rose-border',
       '#tint-accent': '#rose-accent-text-2',
       '#tint-accent-strong': '#rose-accent-text-3',
+      '#tint-shadow': '#rose-shadow-sm',
     },
     blue: {
       '#tint-surface': '#blue-surface-2',
@@ -110,6 +116,7 @@ const Card = tasty({
       '#tint-border': '#blue-border',
       '#tint-accent': '#blue-accent-text-2',
       '#tint-accent-strong': '#blue-accent-text-3',
+      '#tint-shadow': '#blue-shadow-sm',
     },
   },
   elements: { Header: 'div', Icon: 'span', Title: 'h3', Description: 'p' },
