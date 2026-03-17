@@ -211,8 +211,7 @@ export default function HowItWorks() {
               arithmetic. No source‑order dependence.
             </Text>
             <Text preset="t1" color="#primary-text-soft-2" textAlign="center">
-              Components{' '}
-              <Highlight>compose and extend without collisions</Highlight>.
+              Components <strong>compose and extend without collisions</strong>.
             </Text>
           </Space>
           <SpecialButton
