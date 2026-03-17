@@ -29,7 +29,7 @@ const Outer = tasty(Button, {
     border: 'none',
     fill: '#white',
     image:
-      'conic-gradient(from $angle, #violet-accent-surface.$fill-opacity, #coral-accent-surface.$fill-opacity, #teal-accent-surface.$fill-opacity, #amber-accent-surface.$fill-opacity, #blue-accent-surface.$fill-opacity, #rose-accent-surface.$fill-opacity, #lime-accent-surface.$fill-opacity, #violet-accent-surface.$fill-opacity)',
+      'conic-gradient(from $angle, #violet-pop-surface.$fill-opacity, #coral-pop-surface.$fill-opacity, #amber-pop-surface.$fill-opacity, #blue-pop-surface.$fill-opacity, #rose-pop-surface.$fill-opacity, #lime-pop-surface.$fill-opacity, #violet-pop-surface.$fill-opacity)',
 
     Gradient: {
       $: '::before',
@@ -37,9 +37,9 @@ const Outer = tasty(Button, {
       position: 'absolute',
       inset: 0,
       radius: 'round',
-      filter: 'blur(1x)',
+      filter: 'blur(.5x)',
       image:
-        'conic-gradient(from $angle, #violet-accent-surface, #coral-accent-surface, #teal-accent-surface, #amber-accent-surface, #blue-accent-surface, #rose-accent-surface, #lime-accent-surface, #violet-accent-surface)',
+        'conic-gradient(from $angle, #violet-pop-surface, #coral-pop-surface, #amber-pop-surface, #blue-pop-surface, #rose-pop-surface, #lime-pop-surface, #violet-pop-surface)',
     },
 
     Glass: {

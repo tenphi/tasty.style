@@ -67,7 +67,7 @@ const HeroAccent = tasty({
   as: 'span',
   styles: {
     image:
-      'linear-gradient(to right, #violet-accent-text, #coral-accent-text, #teal-accent-text, #amber-accent-text, #blue-accent-text, #rose-accent-text, #lime-accent-text)',
+      'linear-gradient(to right, #violet-pop-text, #coral-pop-text, #amber-pop-text, #blue-pop-text, #rose-pop-text, #lime-pop-text)',
     backgroundClip: 'text',
     color: 'transparent',
   },
