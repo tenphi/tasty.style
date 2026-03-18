@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-import '@/public/tasty.css';
 import './global-styles';
 import TastyStyleRegistry from './tasty-registry';
 
