@@ -225,12 +225,12 @@ export default function HowItWorks() {
           </Space>
           <SpecialButton
             as="a"
-            href="https://github.com/tenphi/tasty/blob/main/docs/PIPELINE.md"
+            href="https://cube-ui-kit.vercel.app/?path=/story/getting-started-tasty-playground--playground"
             target="_blank"
             rel="noopener noreferrer"
             margin="0 auto"
           >
-            Read the pipeline docs
+            Try in Playground
             <IconExternalLink size={18} />
           </SpecialButton>
         </Section.Content>
