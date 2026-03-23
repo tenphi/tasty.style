@@ -24,44 +24,44 @@ interface FeatureItem {
 const FEATURES: FeatureItem[] = [
   {
     icon: <IconTargetArrow size={24} stroke={1.5} />,
-    title: 'Deterministic at Any Scale',
+    title: 'Deterministic State Resolution',
     description:
-      'Exclusive selector generation eliminates the entire class of cascade and specificity bugs. Refactor freely.',
+      'State maps compile into mutually exclusive selectors, so one branch wins by construction instead of through source order or specificity.',
     tint: 'lime',
   },
   {
     icon: <IconSparkles size={24} stroke={1.5} />,
-    title: 'DSL That Feels Like CSS',
+    title: 'A Governed Styling Model',
     description:
-      'Property names you already know with syntax sugar that removes boilerplate. Learn in minutes, not days.',
+      'Design-system teams define the language product teams consume: tokens, state aliases, recipes, and override rules on top of familiar CSS-shaped styles.',
     tint: 'coral',
   },
   {
     icon: <IconPalette size={24} stroke={1.5} />,
-    title: 'Design‑System Native',
+    title: 'Recommended Methodology',
     description:
-      'Color tokens, spacing units, typography presets, and recipes are first‑class primitives, not afterthoughts.',
+      'The docs define a clear component model for design systems: root + sub-elements, governed public APIs, typed style props where they help, and wrapper-based extension.',
     tint: 'teal',
   },
   {
     icon: <IconDevices size={24} stroke={1.5} />,
-    title: 'State‑Aware Styling',
+    title: 'Define Your Styling Language',
     description:
-      'Media queries, container queries, @supports, :has() — all compose in one declarative state map.',
+      'Shape a reusable design-system vocabulary with shared tokens, state aliases, recipes, custom units, and the conventions your components build on.',
     tint: 'amber',
   },
   {
     icon: <IconComponents size={24} stroke={1.5} />,
-    title: 'Sub‑Element Styling',
+    title: 'Broad State Coverage',
     description:
-      'Style inner elements from the parent definition. No extra components, no CSS leakage.',
+      'Pseudo-classes, attributes, media queries, container queries, root states, parent states, `:has()`, and `@supports` all fit into the same state-map model.',
     tint: 'violet',
   },
   {
     icon: <IconBolt size={24} stroke={1.5} />,
-    title: 'SSR & Zero‑Runtime',
+    title: 'Flexible Rendering Paths',
     description:
-      'Runtime, zero‑runtime, or SSR with zero‑cost hydration. Same DSL, same tokens, same output.',
+      'Use the same styling model in runtime React, add SSR when the app renders on the server, or choose build-time extraction when zero-runtime delivery is the goal.',
     tint: 'rose',
   },
 ];
@@ -71,7 +71,7 @@ export default function Features() {
     <Section id="features">
       <Section.Title>Why Tasty</Section.Title>
       <Section.Subtitle>
-        Everything you need for styling at scale
+        Built for reusable, stateful components that need predictable styling
       </Section.Subtitle>
       <Section.Content>
         <Grid

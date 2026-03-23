@@ -60,24 +60,32 @@ const COLUMNS = [
     title: 'Documentation',
     links: [
       {
+        label: 'Docs Hub',
+        href: 'https://github.com/tenphi/tasty/blob/main/docs/README.md',
+      },
+      {
         label: 'Getting Started',
         href: 'https://github.com/tenphi/tasty/blob/main/docs/getting-started.md',
       },
       {
-        label: 'Style DSL',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/dsl.md',
+        label: 'Comparison',
+        href: 'https://github.com/tenphi/tasty/blob/main/docs/comparison.md',
+      },
+      {
+        label: 'Adoption Guide',
+        href: 'https://github.com/tenphi/tasty/blob/main/docs/adoption.md',
       },
       {
         label: 'Runtime API',
         href: 'https://github.com/tenphi/tasty/blob/main/docs/runtime.md',
       },
       {
-        label: 'Configuration',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/configuration.md',
+        label: 'Server-Side Rendering',
+        href: 'https://github.com/tenphi/tasty/blob/main/docs/ssr.md',
       },
       {
-        label: 'Style Properties',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/styles.md',
+        label: 'Zero Runtime',
+        href: 'https://github.com/tenphi/tasty/blob/main/docs/tasty-static.md',
       },
       {
         label: 'Methodology',

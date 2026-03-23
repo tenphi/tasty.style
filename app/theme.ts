@@ -152,7 +152,7 @@ syntax.colors({
   text: { lightness: 100, mode: 'fixed' },
   bg: {
     base: 'text',
-    lightness: '-78',
+    lightness: ['-78', '-85'],
     contrast: 'AAA',
     mode: 'fixed',
     saturation: 0.1,
@@ -160,7 +160,7 @@ syntax.colors({
   comment: {
     base: 'bg',
     lightness: 48,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.01,
     mode: 'fixed',
     hue: 210,
@@ -168,7 +168,7 @@ syntax.colors({
   punctuation: {
     base: 'bg',
     lightness: 58,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.01,
     mode: 'fixed',
     hue: 210,
@@ -176,14 +176,14 @@ syntax.colors({
   keyword: {
     base: 'bg',
     lightness: 75,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.65,
     mode: 'fixed',
   },
   string: {
     base: 'bg',
     lightness: 74,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.55,
     mode: 'fixed',
     hue: 15,
@@ -191,7 +191,7 @@ syntax.colors({
   token: {
     base: 'bg',
     lightness: 72,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.55,
     mode: 'fixed',
     hue: 125,
@@ -199,7 +199,7 @@ syntax.colors({
   property: {
     base: 'bg',
     lightness: 70,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.55,
     mode: 'fixed',
     hue: 155,
@@ -207,7 +207,7 @@ syntax.colors({
   number: {
     base: 'bg',
     lightness: 74,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.6,
     mode: 'fixed',
     hue: 70,
@@ -215,7 +215,7 @@ syntax.colors({
   function: {
     base: 'bg',
     lightness: 72,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.55,
     mode: 'fixed',
     hue: 210,
@@ -223,7 +223,7 @@ syntax.colors({
   value: {
     base: 'bg',
     lightness: 68,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.5,
     mode: 'fixed',
     hue: 210,
@@ -231,7 +231,7 @@ syntax.colors({
   operator: {
     base: 'bg',
     lightness: 72,
-    contrast: 'AA',
+    contrast: ['AA', 'AAA'],
     saturation: 0.5,
     mode: 'fixed',
     hue: 340,

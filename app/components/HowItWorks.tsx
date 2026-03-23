@@ -12,14 +12,6 @@ import SectionWrap from '@/app/ui/SectionWrap';
 import Tabs from '@/app/ui/Tabs';
 import SpecialButton from '@/app/ui/SpecialButton';
 
-const Highlight = tasty({
-  as: 'span',
-  styles: {
-    color: '#primary-accent-text-2',
-    fontWeight: 600,
-  },
-});
-
 const ColumnHeader = tasty({
   styles: {
     display: 'flex',
@@ -48,41 +40,55 @@ const SIMPLE_INPUT_CODE = `const Button = tasty({
   as: 'button',
   styles: {
     fill: {
-      '': '#purple',
-      ':hover': '#purple-04',
-      ':active': '#purple-05',
+      '': '#primary',
+      ':hover': '#primary-hover',
+      '[disabled]': '#surface',
     },
-    color: '#white',
+    color: {
+      '': '#on-primary',
+      '[disabled]': '#text.40',
+    },
+    cursor: {
+      '': 'pointer',
+      '[disabled]': 'not-allowed',
+    },
     padding: '1.5x 3x',
     radius: 'round',
     border: 'none',
-    cursor: 'pointer',
     transition: 'theme',
   },
 });`;
 
-const SIMPLE_OUTPUT_CSS = `/* Default: not hovered and not active */
-.t0.t0:not(:hover):not(:active) {
-  background: var(--purple-color);
+const SIMPLE_OUTPUT_CSS = `/* Default: not hovered and not disabled */
+.t0.t0:not(:hover):not([disabled]) {
+  background: var(--primary-color);
 }
 
-/* Hovered but not active */
-.t0.t0:hover:not(:active) {
-  background: var(--purple-04-color);
+/* Hovered but not disabled */
+.t0.t0:hover:not([disabled]) {
+  background: var(--primary-hover-color);
 }
 
-/* Active */
-.t0.t0:active {
-  background: var(--purple-05-color);
+/* Disabled wins by construction */
+.t0.t0[disabled] {
+  background: var(--surface-color);
+}
+
+.t0.t0:not([disabled]) {
+  color: var(--on-primary-color);
+  cursor: pointer;
+}
+
+.t0.t0[disabled] {
+  color: var(--text-color-40);
+  cursor: not-allowed;
 }
 
 /* Base styles (always applied) */
 .t0.t0 {
-  color: white;
   padding: 12px 24px;
   border-radius: 9999px;
   border: none;
-  cursor: pointer;
   transition: all var(--transition-duration)
     var(--transition-timing-function);
 }`;
@@ -201,27 +207,30 @@ export default function HowItWorks() {
       <Section id="how-it-works">
         <Section.Title>How It Actually Works</Section.Title>
         <Section.Subtitle>
-          Every state mapping compiles into mutually exclusive selectors
+          Every state map compiles into mutually exclusive selectors per
+          property
         </Section.Subtitle>
         <Section.Content>
           <Tabs tabs={TABS} defaultTab="interactive-states" />
           <Space gap="2x">
             <Text preset="t1" color="#primary-text-soft-2" textAlign="center">
-              No two rules can match at the same time. No specificity
-              arithmetic. No source‑order dependence.
+              Each branch is guarded so one rule wins by construction. No
+              specificity arithmetic. No source-order accidents.
             </Text>
             <Text preset="t1" color="#primary-text-soft-2" textAlign="center">
-              Components <strong>compose and extend without collisions</strong>.
+              That is what lets components{' '}
+              <strong>compose, extend, and stay predictable</strong> as states
+              intersect.
             </Text>
           </Space>
           <SpecialButton
             as="a"
-            href="https://cube-ui-kit.vercel.app/?path=/story/getting-started-tasty-playground--playground"
+            href="https://github.com/tenphi/tasty/blob/main/docs/PIPELINE.md"
             target="_blank"
             rel="noopener noreferrer"
             margin="0 auto"
           >
-            Try in Playground
+            Read the pipeline docs
             <IconExternalLink size={18} />
           </SpecialButton>
         </Section.Content>

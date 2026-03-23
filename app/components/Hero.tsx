@@ -1,7 +1,7 @@
 'use client';
 
 import { tasty, OUTER_STYLES } from '@tenphi/tasty';
-import { IconArrowRight, IconBrandGithub } from '@tabler/icons-react';
+import { IconArrowRight } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
@@ -59,7 +59,7 @@ const HeroTitle = tasty({
     margin: 0,
     textAlign: 'center',
     textWrap: 'balance',
-    width: 'max 800px',
+    width: 'max 840px',
   },
 });
 
@@ -112,11 +112,13 @@ export default function Hero() {
         <HeroLogo src="/tasty.svg" alt="Tasty logo" />
         <Badge>v1.0</Badge>
         <HeroTitle>
-          The styling engine <HeroAccent>built for design systems</HeroAccent>
+          Deterministic styling for{' '}
+          <HeroAccent>stateful component systems</HeroAccent>
         </HeroTitle>
         <HeroSubtitle>
-          Deterministic CSS generation. State‑aware DSL. Zero specificity
-          conflicts. Ever.
+          Tasty compiles state maps into mutually exclusive selectors, so
+          component styles resolve from declared logic instead of cascade or
+          source-order accidents.
         </HeroSubtitle>
         <Space
           flow={{ '': 'row', '@mobile': 'column' }}
@@ -134,9 +136,9 @@ export default function Hero() {
           <Button
             as="a"
             variant="secondary"
-            href="https://github.com/tenphi/tasty"
+            href="https://github.com/tenphi/tasty/blob/main/docs/comparison.md"
           >
-            <IconBrandGithub size={20} /> View on GitHub
+            Read Comparison
           </Button>
         </Space>
       </HeroInner>

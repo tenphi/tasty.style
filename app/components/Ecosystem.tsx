@@ -22,7 +22,7 @@ const ECOSYSTEM: EcoItem[] = [
     name: 'Glaze',
     tag: 'Colors',
     description:
-      'OKHSL‑based color theme generator with WCAG contrast solving. Generate light, dark, and high‑contrast palettes from a single hue.',
+      'Generate OKHSL-based light, dark, and high-contrast palettes with WCAG-aware contrast solving, then export them as Tasty-ready color tokens.',
     href: 'https://github.com/tenphi/glaze',
     icon: <IconPalette size={22} stroke={1.5} />,
     tint: 'teal',
@@ -31,7 +31,7 @@ const ECOSYSTEM: EcoItem[] = [
     name: 'ESLint Plugin',
     tag: 'Linting',
     description:
-      '27 lint rules that validate style properties, value syntax, token existence, and enforce best practices.',
+      'Catch invalid style properties, malformed state keys, missing tokens, and other DSL mistakes before they reach the browser.',
     href: 'https://github.com/tenphi/eslint-plugin-tasty',
     icon: <IconShieldCheck size={22} stroke={1.5} />,
     tint: 'amber',
@@ -40,7 +40,7 @@ const ECOSYSTEM: EcoItem[] = [
     name: 'VS Code Extension',
     tag: 'DX',
     description:
-      'Syntax highlighting for Tasty styles in TypeScript and TSX. Highlights tokens, units, states, and presets.',
+      'Add syntax highlighting for tokens, units, states, presets, and the rest of the Tasty authoring model inside TS and TSX files.',
     href: 'https://github.com/tenphi/tasty-vscode-extension',
     icon: <IconCode size={22} stroke={1.5} />,
     tint: 'rose',
@@ -50,8 +50,10 @@ const ECOSYSTEM: EcoItem[] = [
 export default function Ecosystem() {
   return (
     <Section id="ecosystem">
-      <Section.Title>Complete Ecosystem</Section.Title>
-      <Section.Subtitle>Tools that complete the picture</Section.Subtitle>
+      <Section.Title>Companion Tooling</Section.Title>
+      <Section.Subtitle>
+        Linting, editor support, and palette generation around the core engine
+      </Section.Subtitle>
       <Section.Content>
         <Grid gridColumns={{ '': '1sf 1sf 1sf', '@mobile': '1sf' }} gap="3x">
           {ECOSYSTEM.map((item) => (

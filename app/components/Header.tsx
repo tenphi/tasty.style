@@ -103,8 +103,16 @@ const HeaderElement = tasty({
 const NAV_LINKS = [
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Code', href: '#code-showcase' },
-  { label: 'Ecosystem', href: '#ecosystem' },
+  {
+    label: 'Docs',
+    href: 'https://github.com/tenphi/tasty/blob/main/docs/README.md',
+    external: true,
+  },
+  {
+    label: 'Comparison',
+    href: 'https://github.com/tenphi/tasty/blob/main/docs/comparison.md',
+    external: true,
+  },
 ];
 
 export default function Header() {
@@ -116,7 +124,12 @@ export default function Header() {
       </HeaderElement.Logo>
       <HeaderElement.Nav>
         {NAV_LINKS.map((link) => (
-          <HeaderElement.NavLink key={link.href} href={link.href}>
+          <HeaderElement.NavLink
+            key={link.href}
+            href={link.href}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+          >
             {link.label}
           </HeaderElement.NavLink>
         ))}

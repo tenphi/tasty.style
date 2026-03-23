@@ -47,22 +47,21 @@ const TokenPanel = tasty({
 
 const CORE_TOKENS_CODE = `configure({
   tokens: {
-    // Base tokens
     '$gap': '8px',
     '$radius': '10px',
-    '$card-radius': '20px',
     '$border-width': '1px',
-    '$outline-width': '2px',
-    '$bold-font-weight': 600,
-    '$transition': '0.2s',
-    '$content-width': '1200px',
-
-    // Color tokens (OKHSL)
-    '#success': 'okhsl(145 75% 55%)',
-    '#warning': 'okhsl(70 80% 60%)',
-    '#danger': 'okhsl(25 85% 55%)',
-    '#info': 'okhsl(215 70% 55%)',
-    '#neutral': 'okhsl(210 10% 50%)',
+    '#surface': {
+      '': '#fff',
+      '@dark': 'okhsl(255 18% 12%)',
+    },
+    '#text': {
+      '': 'okhsl(255 12% 16%)',
+      '@dark': 'okhsl(255 15% 96%)',
+    },
+    '#primary': {
+      '': 'okhsl(272 75% 55%)',
+      '@dark': 'okhsl(272 70% 72%)',
+    },
   },
 });`;
 
@@ -89,10 +88,10 @@ export default function TokenShowcase() {
   return (
     <SectionWrap>
       <Section id="tokens">
-        <Section.Title>Design Token Support</Section.Title>
+        <Section.Title>Tokens, Units, and Color Systems</Section.Title>
         <Section.Subtitle>
-          Specify spacing, typography, and WCAG‑compliant color palettes with a
-          unified token system
+          Define a shared styling language with global tokens, state-aware
+          values, and OKHSL-friendly color authoring
         </Section.Subtitle>
         <Section.Content>
           <Grid
@@ -101,13 +100,13 @@ export default function TokenShowcase() {
             placeItems="stretch"
           >
             <TokenPanel>
-              <TokenLabel>Global Configuration</TokenLabel>
+              <TokenLabel>Shared Tokens via configure()</TokenLabel>
               <CodeBlock radius="0 1cr 1cr 1cr" lang="tsx">
                 {CORE_TOKENS_CODE}
               </CodeBlock>
             </TokenPanel>
             <TokenPanel>
-              <TokenLabel>Palette Color Tokens (Glaze)</TokenLabel>
+              <TokenLabel>Glaze Palette Generation</TokenLabel>
               <CodeBlock radius="0 1cr 1cr 1cr" lang="tsx">
                 {SEMANTIC_TOKENS_CODE}
               </CodeBlock>
@@ -120,10 +119,10 @@ export default function TokenShowcase() {
               textAlign="center"
               textWrap="balance"
             >
-              Tasty natively supports <b>OKHSL</b> — a perceptually uniform
-              color space where equal steps in lightness produce equal changes
-              in perceived contrast, making palette generation predictable by
-              design.
+              Use <b>configure()</b> to define the tokens your design system
+              owns. Those values become shared CSS custom properties, and they
+              can use state maps too, so themes and breakpoints reuse the same
+              vocabulary everywhere.
             </Text>
             <Text
               preset="t1"
@@ -131,9 +130,9 @@ export default function TokenShowcase() {
               textAlign="center"
               textWrap="balance"
             >
-              Need full color palettes with automatic <b>dark mode</b>,{' '}
-              <b>high‑contrast schemes</b>, and <b>WCAG‑compliant</b> contrast
-              ratios? Use{' '}
+              Tasty also supports <b>OKHSL</b> natively. When you want full
+              light, dark, and high-contrast palettes with automatic{' '}
+              <b>WCAG-aware</b> contrast solving, use{' '}
               <GlazeLink
                 href="https://github.com/tenphi/glaze"
                 target="_blank"
@@ -141,8 +140,7 @@ export default function TokenShowcase() {
               >
                 Glaze
               </GlazeLink>{' '}
-              — a zero‑dependency companion library that generates
-              production‑ready color palettes.
+              as the companion palette generator.
             </Text>
           </Space>
         </Section.Content>

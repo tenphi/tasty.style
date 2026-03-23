@@ -36,115 +36,116 @@ const EXAMPLES = [
     label: 'State Maps',
     title: 'State Maps',
     description:
-      'Style any property based on pseudo‑classes, data attributes, media queries, and more.',
+      'Declare intersecting states once and let Tasty generate the exclusive selectors that keep the outcome deterministic.',
     code: `const Button = tasty({
   as: 'button',
   styles: {
     fill: {
-      '': '#primary-accent-surface',
-      ':hover': '#primary-icon',
-      ':active': '#primary-text',
-      '[disabled]': '#primary-disabled',
+      '': '#primary',
+      ':hover': '#primary-hover',
+      ':active': '#primary-pressed',
+      '[disabled]': '#surface',
     },
-    cursor: {
-      '': 'pointer',
-      '[disabled]': 'not-allowed',
+    color: {
+      '': '#on-primary',
+      '[disabled]': '#text.40',
     },
     transition: 'theme',
   },
 });`,
   },
   {
-    id: 'responsive',
-    label: 'Responsive Design',
-    title: 'Responsive Design',
+    id: 'style-props',
+    label: 'styleProps',
+    title: 'styleProps as the Public API',
     description:
-      'Define breakpoints once, use @mobile and @tablet as states anywhere.',
-    code: `configure({
-  states: {
-    '@tablet': '@media(640px <= w < 1024px)',
-    '@mobile': '@media(w < 640px)',
+      'Expose the CSS controls a component should allow as typed props, including state maps for responsive values.',
+    code: `import { tasty, FLOW_STYLES, POSITION_STYLES } from '@tenphi/tasty';
+
+const Space = tasty({
+  as: 'div',
+  styles: {
+    display: 'flex',
+    flow: 'column',
+    gap: '1x',
   },
+  styleProps: FLOW_STYLES,
 });
 
-const Layout = tasty({
+const Button = tasty({
+  as: 'button',
   styles: {
-    display: 'grid',
-    gridColumns: {
-      '': '1sf 1sf 1sf',
-      '@tablet': '1sf 1sf',
-      '@mobile': '1sf',
-    },
-    gap: {
-      '': '4x',
-      '@mobile': '2x',
-    },
-    padding: {
-      '': '8x 4x',
-      '@mobile': '4x 2x',
-    },
+    padding: '1.5x 3x',
+    fill: '#primary',
+    color: '#on-primary',
+    radius: true,
   },
-});`,
+  styleProps: POSITION_STYLES,
+});
+
+<Space flow={{ '': 'column', '@tablet': 'row' }} gap="2x">
+  <Button placeSelf="end">Add Item</Button>
+</Space>`,
   },
   {
     id: 'sub-elements',
-    label: 'Sub‑Elements',
-    title: 'Sub‑Elements',
+    label: 'Sub-Elements',
+    title: 'Root + Sub-Elements',
     description:
-      'Style inner elements from the parent. Typed sub‑components via the elements prop.',
-    code: `const Card = tasty({
+      'Model compound components around a root state context so inner parts react together without duplicated modifier wiring.',
+    code: `const Alert = tasty({
   styles: {
-    padding: '4x',
-    radius: '1cr',
-    border: true,
-    Title: {
-      $: '>',
-      preset: 'h3',
-      color: '#primary-accent-text',
+    padding: '3x',
+    fill: {
+      '': '#surface',
+      'type=danger': '#danger.10',
     },
-    Content: {
-      $: '>',
-      preset: 't2',
-      color: '#primary-text',
+    border: {
+      '': '1bw solid #border',
+      'type=danger': '1bw solid #danger',
+    },
+    Icon: {
+      color: {
+        '': '#text-secondary',
+        'type=danger': '#danger',
+      },
+    },
+    Message: {
+      color: '#text',
     },
   },
-  elements: { Title: 'h3', Content: 'div' },
+  elements: { Icon: 'span', Message: 'div' },
 });
 
-// Usage:
-// <Card>
-//   <Card.Title>Hello</Card.Title>
-//   <Card.Content>World</Card.Content>
-// </Card>`,
+<Alert mods={{ type: 'danger' }}>
+  <Alert.Icon>!</Alert.Icon>
+  <Alert.Message>Something went wrong</Alert.Message>
+</Alert>`,
   },
   {
     id: 'configuration',
     label: 'Configuration',
     title: 'Configuration',
     description:
-      'Set up global states, custom units, functions, and reusable style recipes — all in one place.',
+      'Define the styling language once, then build components and product APIs on top of it.',
     code: `import { configure } from '@tenphi/tasty';
 
 configure({
+  tokens: {
+    '#primary': 'oklch(55% 0.25 265)',
+    '#surface': '#fff',
+    '#text': '#111',
+  },
   states: {
-    '@dark': '@root(theme=dark) | @media(prefers-color-scheme: dark)',
-    '@mobile': '@media(w < 640px)',
-  },
-  units: {
-    col: (n) => \`\${(n / 12) * 100}%\`,
-    gap: '4px',
-  },
-  funcs: {
-    fluid: ([min, max]) =>
-      \`clamp(\${min.output}, 2.5vw + 1rem, \${max.output})\`,
+    '@mobile': '@media(w < 768px)',
+    '@dark': '@root(schema=dark)',
   },
   recipes: {
     card: {
-      padding: '3x',
+      padding: '4x',
       fill: '#surface',
-      radius: '1cr',
+      radius: '1r',
       border: true,
-      shadow: '0 1x 3x #shadow-sm',
     },
   },
 });`,
@@ -157,7 +158,7 @@ export default function CodeShowcase() {
       <Section id="code-showcase">
         <Section.Title>See It In Action</Section.Title>
         <Section.Subtitle>
-          Real patterns from production codebases
+          Patterns from the recommended design-system model
         </Section.Subtitle>
         <Section.Content>
           <Tabs

@@ -69,9 +69,11 @@ export default function CallToAction() {
         inset="auto auto -200px 50%"
         translate="-50% 0"
       />
-      <CTATitle>Start building with Tasty</CTATitle>
+      <CTATitle>Start with runtime, add structure as needed</CTATitle>
       <CTASubtitle>
-        One install. Zero config. Ship beautiful, accessible UIs today.
+        Install the runtime, build a first component, then layer in shared
+        configuration, methodology, SSR, or zero-runtime only where your system
+        needs them.
       </CTASubtitle>
       <CodeBlock width="max-content" placeSelf="center" lang="shellscript">
         $ pnpm add @tenphi/tasty
@@ -86,14 +88,14 @@ export default function CallToAction() {
           as="a"
           href="https://github.com/tenphi/tasty/blob/main/docs/getting-started.md"
         >
-          Read the Docs
+          Read Getting Started
         </Button>
         <Button
           as="a"
           variant="secondary"
-          href="https://github.com/tenphi/tasty"
+          href="https://github.com/tenphi/tasty/blob/main/docs/README.md"
         >
-          View on GitHub
+          Browse Docs Hub
         </Button>
       </Space>
     </CTAWrapper>
