@@ -45,23 +45,25 @@ const TokenPanel = tasty({
   },
 });
 
-const CORE_TOKENS_CODE = `useGlobalStyles('body', {
-  // Base tokens
-  '$gap': '8px',
-  '$radius': '10px',
-  '$card-radius': '20px',
-  '$border-width': '1px',
-  '$outline-width': '2px',
-  '$bold-font-weight': 600,
-  '$transition': '0.2s',
-  '$content-width': '1200px',
+const CORE_TOKENS_CODE = `configure({
+  tokens: {
+    // Base tokens
+    '$gap': '8px',
+    '$radius': '10px',
+    '$card-radius': '20px',
+    '$border-width': '1px',
+    '$outline-width': '2px',
+    '$bold-font-weight': 600,
+    '$transition': '0.2s',
+    '$content-width': '1200px',
 
-  // Color tokens (OKHSL)
-  '#success': 'okhsl(145 75% 55%)',
-  '#warning': 'okhsl(70 80% 60%)',
-  '#danger': 'okhsl(25 85% 55%)',
-  '#info': 'okhsl(215 70% 55%)',
-  '#neutral': 'okhsl(210 10% 50%)',
+    // Color tokens (OKHSL)
+    '#success': 'okhsl(145 75% 55%)',
+    '#warning': 'okhsl(70 80% 60%)',
+    '#danger': 'okhsl(25 85% 55%)',
+    '#info': 'okhsl(215 70% 55%)',
+    '#neutral': 'okhsl(210 10% 50%)',
+  },
 });`;
 
 const SEMANTIC_TOKENS_CODE = `const violet = glaze(272, 75);
@@ -99,7 +101,7 @@ export default function TokenShowcase() {
             placeItems="stretch"
           >
             <TokenPanel>
-              <TokenLabel>Core Tokens</TokenLabel>
+              <TokenLabel>Global Configuration</TokenLabel>
               <CodeBlock radius="0 1cr 1cr 1cr" lang="tsx">
                 {CORE_TOKENS_CODE}
               </CodeBlock>
