@@ -1,0 +1,38 @@
+name: Bump @tenphi/tasty
+
+on:
+  repository_dispatch:
+    types: [tasty-release]
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install
+
+      - name: Bump @tenphi/tasty
+        run: pnpm add @tenphi/tasty@${{ github.event.client_payload.version }}
+
+      - name: Verify build
+        run: pnpm build
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json pnpm-lock.yaml
+          git commit -m "chore: bump @tenphi/tasty to ${{ github.event.client_payload.version }}"
+          git push

@@ -2,6 +2,10 @@
   "name": "tasty-nextjs-example",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tenphi/tasty.style.git"
+  },
   "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "next dev",
