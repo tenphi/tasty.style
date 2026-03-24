@@ -6,6 +6,7 @@ import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
 import Badge from '@/app/ui/Badge';
+import pkg from '../../package.json';
 
 const HeroOuter = tasty({
   as: 'section',
@@ -110,7 +111,7 @@ export default function Hero() {
       />
       <HeroInner>
         <HeroLogo src="/tasty.svg" alt="Tasty logo" />
-        <Badge>v1.0</Badge>
+        <Badge>v{pkg.dependencies['@tenphi/tasty']}</Badge>
         <HeroTitle>
           Deterministic styling for{' '}
           <HeroAccent>stateful component systems</HeroAccent>
