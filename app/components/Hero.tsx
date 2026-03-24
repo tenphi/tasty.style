@@ -136,9 +136,9 @@ export default function Hero() {
           <Button
             as="a"
             variant="secondary"
-            href="https://github.com/tenphi/tasty/blob/main/docs/comparison.md"
+            href="#how-it-works"
           >
-            Read Comparison
+            See How It Works
           </Button>
         </Space>
       </HeroInner>

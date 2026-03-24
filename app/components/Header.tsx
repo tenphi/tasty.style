@@ -48,6 +48,10 @@ const HeaderElement = tasty({
       preset: 'h4',
       color: '#primary-text',
       fontWeight: 700,
+      hide: {
+        '': false,
+        '@mobile': true,
+      },
     },
     Nav: {
       $: '>',
