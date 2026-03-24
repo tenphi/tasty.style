@@ -33,14 +33,14 @@ const FEATURES: FeatureItem[] = [
     icon: <IconSparkles size={24} stroke={1.5} />,
     title: 'A Governed Styling Model',
     description:
-      'Design-system teams define the language product teams consume: tokens, state aliases, recipes, and override rules on top of familiar CSS-shaped styles.',
+      'Design-system teams define the contracts product teams consume: shared tokens, approved patterns, override boundaries, and a consistent way to style reusable components.',
     tint: 'coral',
   },
   {
     icon: <IconDevices size={24} stroke={1.5} />,
-    title: 'Define Your Styling Language',
+    title: 'Extensible Style Semantics',
     description:
-      'Shape a reusable design-system vocabulary with shared tokens, state aliases, recipes, custom units, and the conventions your components build on.',
+      'Define custom props, tokens, units, aliases, and parser rules for your design system, then compile them down to standard CSS output.',
     tint: 'amber',
   },
   {
