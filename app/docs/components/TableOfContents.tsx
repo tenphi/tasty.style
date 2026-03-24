@@ -1,5 +1,6 @@
 'use client';
 
+import NextLink from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { tasty } from '@tenphi/tasty';
 import type { Heading } from '../lib/docs';
@@ -16,7 +17,6 @@ const Aside = tasty({
     height: 'calc(100dvh - ($header-height, 64px))',
     overflow: 'hidden auto',
     padding: '3x 2x',
-    borderLeft: '1bw solid #primary-border',
     fill: '#primary-surface',
     scrollbar: 'thin',
     position: 'sticky',
@@ -28,7 +28,6 @@ const TocTitle = tasty({
   as: 'span',
   styles: {
     preset: 't4 strong',
-    fontSize: '13px',
     color: '#primary-text-soft',
     padding: '0 0 1x',
     textTransform: 'uppercase',
@@ -37,7 +36,7 @@ const TocTitle = tasty({
 });
 
 const TocLink = tasty({
-  as: 'a',
+  as: NextLink,
   styles: {
     display: 'block',
     preset: 't4',

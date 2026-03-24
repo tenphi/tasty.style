@@ -65,7 +65,7 @@ const typographyTokens = generateTypographyTokens({
     fontSize: '12px',
     lineHeight: '1.5',
     letterSpacing: '0',
-    fontWeight: '500',
+    fontWeight: '400',
     boldFontWeight: '700',
   },
   strong: {

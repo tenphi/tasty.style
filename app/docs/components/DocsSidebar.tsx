@@ -1,5 +1,6 @@
 'use client';
 
+import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { tasty } from '@tenphi/tasty';
 import { IconX } from '@tabler/icons-react';
@@ -46,14 +47,6 @@ const Aside = tasty({
     overflow: 'hidden auto',
     overscrollBehavior: 'none',
     padding: '3x 0',
-    borderRight: {
-      '': 'none',
-      '@desktop': '1bw solid #primary-border',
-    },
-    borderLeft: {
-      '': '1bw solid #primary-border',
-      '@desktop': 'none',
-    },
     fill: '#primary-surface',
     scrollbar: 'thin',
     position: {
@@ -130,7 +123,7 @@ const NavList = tasty({
 });
 
 const NavLink = tasty({
-  as: 'a',
+  as: NextLink,
   styles: {
     display: 'block',
     padding: '0.75x 1.5x',

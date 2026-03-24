@@ -1,5 +1,6 @@
 'use client';
 
+import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { tasty } from '@tenphi/tasty';
 import { IconBrandGithub, IconMenu2 } from '@tabler/icons-react';
@@ -36,19 +37,6 @@ const HeaderElement = tasty({
       },
       margin: '0 auto',
     },
-    Logo: {
-      $: '>Inner>',
-      display: 'inline-flex',
-      placeItems: 'center',
-      gap: '1x',
-      textDecoration: 'none',
-      color: '#primary-text',
-      transition: 'opacity',
-      opacity: {
-        '': 1,
-        '@own(:hover)': 0.8,
-      },
-    },
     LogoImg: {
       $: '>Inner>Logo>',
       height: '28px',
@@ -76,23 +64,6 @@ const HeaderElement = tasty({
       margin: 'auto left',
       padding: '0 3x',
     },
-    NavLink: {
-      $: '>Inner>Nav>',
-      preset: 't3',
-      color: {
-        '': '#primary-text-soft',
-        '@own(:hover)': '#primary-text',
-      },
-      textDecoration: 'none',
-      padding: '1x 1.5x',
-      radius: true,
-      fill: {
-        '': 'transparent',
-        '@own(:hover)': '#primary-surface-2',
-      },
-      transition: 'theme',
-      cursor: 'pointer',
-    },
     Actions: {
       $: '>Inner>',
       display: 'flex',
@@ -104,12 +75,48 @@ const HeaderElement = tasty({
   },
   elements: {
     Inner: 'div',
-    Logo: 'a',
     LogoImg: { as: 'img' },
     LogoText: 'span',
     Nav: 'nav',
-    NavLink: 'a',
     Actions: 'div',
+  },
+});
+
+const LogoLink = tasty({
+  as: NextLink,
+  element: 'Logo',
+  styles: {
+    display: 'inline-flex',
+    placeItems: 'center',
+    gap: '1x',
+    textDecoration: 'none',
+    color: '#primary-text',
+    transition: 'opacity',
+    opacity: {
+      '': 1,
+      ':hover': 0.8,
+    },
+  },
+});
+
+const HeaderNavLink = tasty({
+  as: NextLink,
+  element: 'NavLink',
+  styles: {
+    preset: 't3',
+    color: {
+      '': '#primary-text-soft',
+      ':hover': '#primary-text',
+    },
+    textDecoration: 'none',
+    padding: '1x 1.5x',
+    radius: true,
+    fill: {
+      '': 'transparent',
+      ':hover': '#primary-surface-2',
+    },
+    transition: 'theme',
+    cursor: 'pointer',
   },
 });
 
@@ -137,16 +144,16 @@ export default function Header() {
   return (
     <HeaderElement mods={{ docs: isDocs }}>
       <HeaderElement.Inner>
-        <HeaderElement.Logo href="/">
+        <LogoLink href="/">
           <HeaderElement.LogoImg src="/tasty.svg" alt="Tasty logo" />
           <HeaderElement.LogoText>Tasty</HeaderElement.LogoText>
-        </HeaderElement.Logo>
+        </LogoLink>
         {!isDocs ? (
           <HeaderElement.Nav>
             {NAV_LINKS.map((link) => (
-              <HeaderElement.NavLink key={link.href} href={link.href}>
+              <HeaderNavLink key={link.href} href={link.href}>
                 {link.label}
-              </HeaderElement.NavLink>
+              </HeaderNavLink>
             ))}
           </HeaderElement.Nav>
         ) : null}
@@ -180,7 +187,7 @@ export default function Header() {
               <IconMenu2 size={20} />
             </Button>
           ) : (
-            <SpecialButton as="a" href="/docs/getting-started" size="small">
+            <SpecialButton as={NextLink} href="/docs/getting-started" size="small">
               Get Started
             </SpecialButton>
           )}
