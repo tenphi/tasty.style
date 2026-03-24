@@ -23,6 +23,8 @@ tastyStatic('body', {
   '#border': '#primary-border',
   font: true,
   preset: 't2',
+  $font: 'var(--font-sans), sans-serif',
+  '$monospace-font': 'var(--font-mono), monospace',
   $gap: '8px',
   $radius: '10px',
   '$card-radius': '20px',
@@ -38,6 +40,10 @@ tastyStatic('body', {
   '$default-font-weight': '400',
   '$default-font-style': 'normal',
   '$t2-line-height': '1.5',
+});
+
+tastyStatic('code, pre, kbd', {
+  fontFamily: 'var(--monospace-font)',
 });
 
 tastyStatic('b', {

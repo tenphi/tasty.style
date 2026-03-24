@@ -59,38 +59,14 @@ const COLUMNS = [
   {
     title: 'Documentation',
     links: [
-      {
-        label: 'Docs Hub',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/README.md',
-      },
-      {
-        label: 'Getting Started',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/getting-started.md',
-      },
-      {
-        label: 'Comparison',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/comparison.md',
-      },
-      {
-        label: 'Adoption Guide',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/adoption.md',
-      },
-      {
-        label: 'Runtime API',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/runtime.md',
-      },
-      {
-        label: 'Server-Side Rendering',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/ssr.md',
-      },
-      {
-        label: 'Zero Runtime',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/tasty-static.md',
-      },
-      {
-        label: 'Methodology',
-        href: 'https://github.com/tenphi/tasty/blob/main/docs/methodology.md',
-      },
+      { label: 'Introduction', href: '/docs' },
+      { label: 'Getting Started', href: '/docs/getting-started' },
+      { label: 'Comparison', href: '/docs/comparison' },
+      { label: 'Adoption Guide', href: '/docs/adoption' },
+      { label: 'Runtime API', href: '/docs/runtime' },
+      { label: 'Server-Side Rendering', href: '/docs/ssr' },
+      { label: 'Zero Runtime', href: '/docs/tasty-static' },
+      { label: 'Methodology', href: '/docs/methodology' },
     ],
   },
   {
@@ -135,16 +111,20 @@ export default function Footer() {
             <Title as="h3" preset="h5">
               {col.title}
             </Title>
-            {col.links.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {col.links.map((link) => {
+              const isExternal = link.href.startsWith('http');
+
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </Space>
         ))}
       </FooterEl.Nav>

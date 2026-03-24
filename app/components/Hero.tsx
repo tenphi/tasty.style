@@ -60,7 +60,7 @@ const HeroTitle = tasty({
     margin: 0,
     textAlign: 'center',
     textWrap: 'balance',
-    width: 'max 840px',
+    width: 'max 860px',
   },
 });
 
@@ -128,17 +128,10 @@ export default function Hero() {
           width={{ '': 'auto', '@mobile': '100%' }}
           align={{ '@mobile': 'center' }}
         >
-          <SpecialButton
-            as="a"
-            href="https://github.com/tenphi/tasty/blob/main/docs/getting-started.md"
-          >
+          <SpecialButton as="a" href="/docs/getting-started">
             Get Started <IconArrowRight size={20} />
           </SpecialButton>
-          <Button
-            as="a"
-            variant="secondary"
-            href="#how-it-works"
-          >
+          <Button as="a" variant="secondary" href="#how-it-works">
             See How It Works
           </Button>
         </Space>

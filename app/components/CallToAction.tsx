@@ -84,18 +84,11 @@ export default function CallToAction() {
         width={{ '': 'auto', '@mobile': '100%' }}
         align={{ '@mobile': 'center' }}
       >
-        <Button
-          as="a"
-          href="https://github.com/tenphi/tasty/blob/main/docs/getting-started.md"
-        >
+        <Button as="a" href="/docs/getting-started">
           Read Getting Started
         </Button>
-        <Button
-          as="a"
-          variant="secondary"
-          href="https://github.com/tenphi/tasty/blob/main/docs/README.md"
-        >
-          Browse Docs Hub
+        <Button as="a" variant="secondary" href="/docs">
+          Browse Docs
         </Button>
       </Space>
     </CTAWrapper>

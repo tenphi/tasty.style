@@ -28,7 +28,7 @@ violet.colors({
   },
   'text-soft': {
     base: 'surface',
-    lightness: 25,
+    lightness: 20,
     contrast: ['AA', 'AAA'],
     saturation: 0.05,
   },
@@ -147,7 +147,7 @@ const rose = violet.extend({ hue: 340 });
 
 const lime = violet.extend({ hue: 125 });
 
-const syntax = glaze(210, 75);
+const syntax = glaze(210, 90);
 syntax.colors({
   text: { lightness: 100, mode: 'fixed' },
   bg: {

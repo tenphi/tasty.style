@@ -20,7 +20,7 @@ const SwitcherOption = tasty({
   styles: {
     display: 'inline-flex',
     placeItems: 'center',
-    padding: '1x',
+    padding: '.675x',
     preset: 't4',
     radius: 'round',
     cursor: 'pointer',

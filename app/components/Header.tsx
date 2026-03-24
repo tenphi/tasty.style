@@ -1,9 +1,12 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { tasty } from '@tenphi/tasty';
-import { IconBrandGithub } from '@tabler/icons-react';
+import { IconBrandGithub, IconMenu2 } from '@tabler/icons-react';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
+import { useDocsSidebar } from '@/app/docs/components/DocsSidebarContext';
+import SearchDialog from '@/app/docs/components/SearchDialog';
 import ThemeSwitcher from './ThemeSwitcher';
 import ContrastSwitcher from './ContrastSwitcher';
 
@@ -13,20 +16,28 @@ const HeaderElement = tasty({
     position: 'sticky',
     inset: '0 top',
     zIndex: 100,
-    display: 'flex',
-    flow: 'row',
-    placeItems: 'center',
-    padding: {
-      '': '0 4x',
-      '@mobile': '0 2x',
-    },
-    height: '($header-height, 64px)',
     fill: '#primary-surface.6',
     backdropFilter: 'blur(12px)',
     border: 'bottom',
     width: '100%',
-    Logo: {
+    Inner: {
       $: '>',
+      display: 'flex',
+      flow: 'row',
+      placeItems: 'center',
+      padding: {
+        '': '0 4x',
+        '@mobile | docs': '0 2x',
+      },
+      height: '($header-height, 64px)',
+      width: {
+        '': '100%',
+        docs: 'initial 100% 1400px',
+      },
+      margin: '0 auto',
+    },
+    Logo: {
+      $: '>Inner>',
       display: 'inline-flex',
       placeItems: 'center',
       gap: '1x',
@@ -39,12 +50,12 @@ const HeaderElement = tasty({
       },
     },
     LogoImg: {
-      $: '>Logo>',
+      $: '>Inner>Logo>',
       height: '28px',
       width: 'auto',
     },
     LogoText: {
-      $: '>Logo>',
+      $: '>Inner>Logo>',
       preset: 'h4',
       color: '#primary-text',
       fontWeight: 700,
@@ -54,11 +65,11 @@ const HeaderElement = tasty({
       },
     },
     Nav: {
-      $: '>',
+      $: '>Inner>',
       display: 'flex',
       hide: {
-        '': false,
-        '@tablet': true,
+        '': true,
+        '@desktop': false,
       },
       flow: 'row',
       gap: '0.5x',
@@ -66,7 +77,7 @@ const HeaderElement = tasty({
       padding: '0 3x',
     },
     NavLink: {
-      $: '>Nav>',
+      $: '>Inner>Nav>',
       preset: 't3',
       color: {
         '': '#primary-text-soft',
@@ -83,18 +94,16 @@ const HeaderElement = tasty({
       cursor: 'pointer',
     },
     Actions: {
-      $: '>',
+      $: '>Inner>',
       display: 'flex',
       flow: 'row',
       gap: '1x',
       placeItems: 'center',
-      margin: {
-        '': 'auto left',
-        '@mobile': 'auto left',
-      },
+      margin: 'auto left',
     },
   },
   elements: {
+    Inner: 'div',
     Logo: 'a',
     LogoImg: { as: 'img' },
     LogoText: 'span',
@@ -104,62 +113,79 @@ const HeaderElement = tasty({
   },
 });
 
+const SearchWrap = tasty({
+  styles: {
+    display: 'flex',
+    placeItems: 'center',
+    flexGrow: { '': 0, '@desktop': 1 },
+    padding: { '': '0', '@desktop': '0 2x' },
+  },
+});
+
 const NAV_LINKS = [
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
-  {
-    label: 'Docs',
-    href: 'https://github.com/tenphi/tasty/blob/main/docs/README.md',
-    external: true,
-  },
-  {
-    label: 'Comparison',
-    href: 'https://github.com/tenphi/tasty/blob/main/docs/comparison.md',
-    external: true,
-  },
+  { label: 'Docs', href: '/docs' },
+  { label: 'Comparison', href: '/docs/comparison' },
 ];
 
 export default function Header() {
+  const pathname = usePathname();
+  const sidebar = useDocsSidebar();
+  const isDocs = pathname.startsWith('/docs');
+
   return (
-    <HeaderElement>
-      <HeaderElement.Logo href="#">
-        <HeaderElement.LogoImg src="/tasty.svg" alt="Tasty logo" />
-        <HeaderElement.LogoText>Tasty</HeaderElement.LogoText>
-      </HeaderElement.Logo>
-      <HeaderElement.Nav>
-        {NAV_LINKS.map((link) => (
-          <HeaderElement.NavLink
-            key={link.href}
-            href={link.href}
-            target={link.external ? '_blank' : undefined}
-            rel={link.external ? 'noopener noreferrer' : undefined}
+    <HeaderElement mods={{ docs: isDocs }}>
+      <HeaderElement.Inner>
+        <HeaderElement.Logo href="/">
+          <HeaderElement.LogoImg src="/tasty.svg" alt="Tasty logo" />
+          <HeaderElement.LogoText>Tasty</HeaderElement.LogoText>
+        </HeaderElement.Logo>
+        {!isDocs ? (
+          <HeaderElement.Nav>
+            {NAV_LINKS.map((link) => (
+              <HeaderElement.NavLink key={link.href} href={link.href}>
+                {link.label}
+              </HeaderElement.NavLink>
+            ))}
+          </HeaderElement.Nav>
+        ) : null}
+        <HeaderElement.Actions>
+          {isDocs ? (
+            <SearchWrap>
+              <SearchDialog />
+            </SearchWrap>
+          ) : null}
+          <ThemeSwitcher />
+          <ContrastSwitcher />
+          <Button
+            as="a"
+            href="https://github.com/tenphi/tasty"
+            variant="ghost"
+            padding="1x"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub repository"
           >
-            {link.label}
-          </HeaderElement.NavLink>
-        ))}
-      </HeaderElement.Nav>
-      <HeaderElement.Actions>
-        <ThemeSwitcher />
-        <ContrastSwitcher />
-        <Button
-          as="a"
-          href="https://github.com/tenphi/tasty"
-          variant="ghost"
-          padding="1x"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub repository"
-        >
-          <IconBrandGithub size={20} />
-        </Button>
-        <SpecialButton
-          as="a"
-          href="https://github.com/tenphi/tasty/blob/main/docs/getting-started.md"
-          size="small"
-        >
-          Get Started
-        </SpecialButton>
-      </HeaderElement.Actions>
+            <IconBrandGithub size={20} />
+          </Button>
+          {isDocs && sidebar ? (
+            <Button
+              variant="ghost"
+              padding="1x"
+              aria-label="Open menu"
+              onClick={sidebar.toggle}
+              hide={{ '': false, '@desktop': true }}
+            >
+              <IconMenu2 size={20} />
+            </Button>
+          ) : (
+            <SpecialButton as="a" href="/docs/getting-started" size="small">
+              Get Started
+            </SpecialButton>
+          )}
+        </HeaderElement.Actions>
+      </HeaderElement.Inner>
     </HeaderElement>
   );
 }
