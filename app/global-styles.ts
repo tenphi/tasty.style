@@ -5,10 +5,6 @@ tastyStatic('*, *::before, *::after', {
 });
 
 tastyStatic('html', {
-  scrollBehavior: {
-    '': 'smooth',
-    '@reduce-motion': 'auto',
-  },
   scrollPaddingTop: '($header-height, 64px)',
 });
 

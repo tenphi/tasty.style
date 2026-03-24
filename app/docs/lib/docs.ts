@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import GithubSlugger from 'github-slugger';
 
 export interface Heading {
   depth: number;
@@ -9,14 +10,6 @@ export interface Heading {
 
 const TASTY_ROOT = path.resolve(process.cwd(), '..', 'tasty');
 const DOCS_DIR = path.join(TASTY_ROOT, 'docs');
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .trim();
-}
 
 function resolveFilePath(slug: string): string {
   if (slug === 'introduction') {
@@ -50,6 +43,7 @@ export function getDocContent(slug: string): string {
 
 export function extractHeadings(markdown: string): Heading[] {
   const headings: Heading[] = [];
+  const slugger = new GithubSlugger();
   let inCodeBlock = false;
 
   for (const line of markdown.split('\n')) {
@@ -73,7 +67,7 @@ export function extractHeadings(markdown: string): Heading[] {
       headings.push({
         depth,
         text: rawText,
-        id: slugify(rawText),
+        id: slugger.slug(rawText),
       });
     }
   }

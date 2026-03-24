@@ -1,7 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { tasty } from '@tenphi/tasty';
 import type { Heading } from '../lib/docs';
 
@@ -80,6 +80,19 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
     return () => observerRef.current?.disconnect();
   }, [headings]);
 
+  const handleTocClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+      const el = document.getElementById(id);
+
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth' });
+        history.pushState(null, '', `#${id}`);
+      }
+    },
+    [],
+  );
+
   if (headings.length === 0) return null;
 
   return (
@@ -93,6 +106,9 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
           style={{
             paddingLeft: heading.depth === 3 ? '12px' : undefined,
           }}
+          onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+            handleTocClick(e, heading.id)
+          }
         >
           {heading.text}
         </TocLink>
