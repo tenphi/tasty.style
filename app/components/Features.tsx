@@ -37,18 +37,18 @@ const FEATURES: FeatureItem[] = [
     tint: 'coral',
   },
   {
-    icon: <IconPalette size={24} stroke={1.5} />,
-    title: 'Recommended Methodology',
-    description:
-      'The docs define a clear component model for design systems: root + sub-elements, governed public APIs, typed style props where they help, and wrapper-based extension.',
-    tint: 'teal',
-  },
-  {
     icon: <IconDevices size={24} stroke={1.5} />,
     title: 'Define Your Styling Language',
     description:
       'Shape a reusable design-system vocabulary with shared tokens, state aliases, recipes, custom units, and the conventions your components build on.',
     tint: 'amber',
+  },
+  {
+    icon: <IconPalette size={24} stroke={1.5} />,
+    title: 'Recommended Methodology',
+    description:
+      'The docs define a clear component model for design systems: root + sub-elements, governed public APIs, typed style props where they help, and wrapper-based extension.',
+    tint: 'teal',
   },
   {
     icon: <IconComponents size={24} stroke={1.5} />,
@@ -76,8 +76,7 @@ export default function Features() {
       <Section.Content>
         <Grid
           gridColumns={{
-            '': '1sf 1sf 1sf',
-            '@tablet': '1sf 1sf',
+            '': '1sf 1sf',
             '@mobile': '1sf',
           }}
           gap="3x"
