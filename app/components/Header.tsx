@@ -187,7 +187,11 @@ export default function Header() {
               <IconMenu2 size={20} />
             </Button>
           ) : (
-            <SpecialButton as={NextLink} href="/docs/getting-started" size="small">
+            <SpecialButton
+              as={NextLink}
+              href="/docs/getting-started"
+              size="small"
+            >
               Get Started
             </SpecialButton>
           )}
