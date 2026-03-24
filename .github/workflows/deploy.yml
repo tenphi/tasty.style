@@ -21,10 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: tenphi/tasty
-          path: ../tasty
+      - name: Clone tasty repo (docs source)
+        run: git clone --depth 1 https://github.com/tenphi/tasty.git ../tasty
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
