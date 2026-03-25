@@ -3,7 +3,7 @@
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { tasty } from '@tenphi/tasty';
-import { IconX } from '@tabler/icons-react';
+import { IconExternalLink, IconX } from '@tabler/icons-react';
 import Button from '@/app/ui/Button';
 import { INTRODUCTION, NAV_GROUPS } from '../lib/navigation';
 import { useDocsSidebar } from './DocsSidebarContext';
@@ -122,31 +122,41 @@ const NavList = tasty({
   },
 });
 
+const navLinkStyles = {
+  display: 'flex',
+  flow: 'row',
+  gap: '0.5x',
+  placeItems: 'center',
+  padding: '0.75x 1.5x',
+  preset: 't3',
+  color: {
+    '': '#primary-text-soft',
+    active: '#primary-accent-text',
+    ':hover & !active': '#primary-text',
+  },
+  textDecoration: 'none',
+  radius: '1r',
+  fill: {
+    '': 'transparent',
+    active: '#primary-accent-surface.12',
+    ':hover & !active': '#primary-surface-2',
+  },
+  fontWeight: {
+    '': 400,
+    active: 500,
+  },
+  transition: 'theme',
+  cursor: 'pointer',
+} as const;
+
 const NavLink = tasty({
   as: NextLink,
-  styles: {
-    display: 'block',
-    padding: '0.75x 1.5x',
-    preset: 't3',
-    color: {
-      '': '#primary-text-soft',
-      active: '#primary-accent-text',
-      ':hover & !active': '#primary-text',
-    },
-    textDecoration: 'none',
-    radius: '1r',
-    fill: {
-      '': 'transparent',
-      active: '#primary-accent-surface.12',
-      ':hover & !active': '#primary-surface-2',
-    },
-    fontWeight: {
-      '': 400,
-      active: 500,
-    },
-    transition: 'theme',
-    cursor: 'pointer',
-  },
+  styles: navLinkStyles,
+});
+
+const ExternalNavLink = tasty({
+  as: 'a',
+  styles: navLinkStyles,
 });
 
 function getSlugFromPathname(pathname: string): string {
@@ -185,6 +195,21 @@ export default function DocsSidebar() {
             <GroupTitle>{group.title}</GroupTitle>
             <NavList>
               {group.items.map((item) => {
+                if (item.href) {
+                  return (
+                    <ExternalNavLink
+                      key={item.slug}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleNavClick}
+                    >
+                      {item.title}
+                      <IconExternalLink size={14} />
+                    </ExternalNavLink>
+                  );
+                }
+
                 const href =
                   item.slug === INTRODUCTION.slug
                     ? '/docs'

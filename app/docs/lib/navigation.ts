@@ -1,6 +1,7 @@
 export interface NavItem {
   title: string;
   slug: string;
+  href?: string;
 }
 
 export interface NavGroup {
@@ -50,6 +51,31 @@ export const NAV_GROUPS: NavGroup[] = [
       { title: 'Style Rendering Pipeline', slug: 'PIPELINE' },
       { title: 'Style Injector', slug: 'injector' },
       { title: 'Debug Utilities', slug: 'debug' },
+    ],
+  },
+  {
+    title: 'Ecosystem',
+    items: [
+      {
+        title: 'ESLint Plugin',
+        slug: 'eslint-plugin',
+        href: 'https://github.com/tenphi/eslint-plugin-tasty',
+      },
+      {
+        title: 'VSCode Extension',
+        slug: 'vscode-extension',
+        href: 'https://github.com/tenphi/tasty-vscode-extension',
+      },
+      {
+        title: 'Glaze',
+        slug: 'glaze',
+        href: 'https://github.com/tenphi/glaze',
+      },
+      {
+        title: 'Website Repo',
+        slug: 'website-repo',
+        href: 'https://github.com/tenphi/tasty.style',
+      },
     ],
   },
 ];
