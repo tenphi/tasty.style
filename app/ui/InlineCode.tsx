@@ -13,7 +13,7 @@ const InlineCode = tasty({
     color: '#primary-accent-text',
     radius: '1r',
     border: '1bw solid #primary-border',
-    wordBreak: 'break-word',
+    whiteSpace: 'nowrap',
   },
   styleProps: [...BASE_STYLES, ...OUTER_STYLES],
 });
