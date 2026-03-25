@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 
 import './global-styles';
 import TastyStyleRegistry from './tasty-registry';
@@ -23,6 +24,11 @@ export default function RootLayout({
     >
       <body>
         <TastyStyleRegistry>{children}</TastyStyleRegistry>
+        <Script
+          data-goatcounter="https://tenphi.goatcounter.com/count"
+          src="//gc.zgo.at/count.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
