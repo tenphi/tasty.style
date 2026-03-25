@@ -26,6 +26,9 @@ jobs:
       - name: Bump @tenphi/glaze
         run: pnpm add @tenphi/glaze@${{ github.event.client_payload.version }}
 
+      - name: Clone tasty repo (docs source)
+        run: git clone --depth 1 https://github.com/tenphi/tasty.git ../tasty
+
       - name: Verify build
         run: pnpm build
 
