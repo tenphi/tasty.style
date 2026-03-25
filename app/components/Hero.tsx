@@ -82,7 +82,7 @@ const HeroSubtitle = tasty({
     margin: 0,
     textAlign: 'center',
     textWrap: 'balance',
-    width: 'max 640px',
+    width: 'max 860px',
   },
 });
 
