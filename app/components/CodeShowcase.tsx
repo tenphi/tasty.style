@@ -55,37 +55,38 @@ const EXAMPLES = [
 });`,
   },
   {
-    id: 'style-props',
-    label: 'styleProps',
-    title: 'styleProps as the Public API',
+    id: 'style-mod-props',
+    label: 'styleProps & modProps',
+    title: 'styleProps & modProps',
     description:
-      'Expose the CSS controls a component should allow as typed props, including state maps for responsive values.',
-    code: `import { tasty, FLOW_STYLES, POSITION_STYLES } from '@tenphi/tasty';
-
-const Space = tasty({
-  as: 'div',
-  styles: {
-    display: 'flex',
-    flow: 'column',
-    gap: '1x',
-  },
-  styleProps: FLOW_STYLES,
-});
+      'Expose CSS layout controls as typed props with styleProps, and modifier states as direct props with modProps — no mods object needed.',
+    code: `import { tasty, POSITION_STYLES } from '@tenphi/tasty';
 
 const Button = tasty({
   as: 'button',
+  styleProps: POSITION_STYLES,
+  modProps: {
+    isLoading: Boolean,
+    size: ['small', 'medium', 'large'] as const,
+  },
   styles: {
-    padding: '1.5x 3x',
-    fill: '#primary',
+    padding: {
+      '': '1.5x 3x',
+      'size=small': '1x 2x',
+      'size=large': '2x 4x',
+    },
+    fill: {
+      '': '#primary',
+      isLoading: '#primary.5',
+    },
     color: '#on-primary',
     radius: true,
+    cursor: { '': 'pointer', isLoading: 'wait' },
   },
-  styleProps: POSITION_STYLES,
 });
 
-<Space flow={{ '': 'column', '@tablet': 'row' }} gap="2x">
-  <Button placeSelf="end">Add Item</Button>
-</Space>`,
+<Button size="large" placeSelf="end">Submit</Button>
+<Button isLoading>Saving...</Button>`,
   },
   {
     id: 'sub-elements',
