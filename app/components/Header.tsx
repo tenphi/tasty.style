@@ -26,15 +26,9 @@ const HeaderElement = tasty({
       display: 'flex',
       flow: 'row',
       placeItems: 'center',
-      padding: {
-        '': '0 4x',
-        '@mobile | docs': '0 2x',
-      },
+      padding: '0 2x',
       height: '($header-height, 64px)',
-      width: {
-        '': '100%',
-        docs: 'initial 100% 1400px',
-      },
+      width: 'initial 100% 1400px',
       margin: '0 auto',
     },
     LogoImg: {
