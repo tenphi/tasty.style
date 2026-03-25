@@ -35,7 +35,7 @@ function rewriteHref(href: string | undefined): string | undefined {
   const cleaned = href
     .replace(/^\.\//, '')
     .replace(/^docs\//, '')
-    .replace(/\.md$/, '');
+    .replace(/\.md(?=$|#)/, '');
 
   return `/docs/${cleaned}`;
 }
