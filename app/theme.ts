@@ -10,7 +10,7 @@ base.colors({
 const violet = glaze(272, 75);
 
 violet.colors({
-  surface: { lightness: 100, saturation: 0.2 },
+  surface: { lightness: 100, saturation: 0.1 },
   'surface-2': { lightness: 96, saturation: 0.25 },
   'surface-3': { lightness: 92, saturation: 0.3 },
   text: { base: 'surface', lightness: 0, contrast: 'AAA', saturation: 0.08 },
