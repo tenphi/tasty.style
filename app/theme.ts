@@ -253,8 +253,11 @@ const palette = glaze.palette({
 
 export const colorTokens = palette.tasty({
   prefix: true,
-  format: 'rgb',
   modes: { highContrast: true },
+  states: {
+    dark: '@dark-root',
+    highContrast: '@high-contrast-root',
+  },
 });
 
 export const TINT_NAMES = [

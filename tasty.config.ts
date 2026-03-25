@@ -47,9 +47,5 @@ export default {
     'strong',
   ],
 
-  recipes: ['palette', 'typography'],
-
-  funcs: ['okhsl'],
-
   styles: ['scrollPaddingTop', 'textSizeAdjust'],
 };

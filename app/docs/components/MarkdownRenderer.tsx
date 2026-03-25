@@ -77,6 +77,16 @@ function MdxPre({ children }: ComponentPropsWithoutRef<'pre'>) {
   return <pre>{children}</pre>;
 }
 
+function MdxImg(props: ComponentPropsWithoutRef<'img'>) {
+  let { src, ...rest } = props;
+
+  if (typeof src === 'string' && !src.startsWith('/') && !src.startsWith('http')) {
+    src = `/${src}`;
+  }
+
+  return <DocImg src={src} {...rest} />;
+}
+
 function MdxCode({ children, ...props }: ComponentPropsWithoutRef<'code'>) {
   return <InlineCode {...props}>{children}</InlineCode>;
 }
@@ -101,7 +111,7 @@ const components = {
   tr: DocTr,
   th: DocTh,
   td: DocTd,
-  img: DocImg,
+  img: MdxImg,
   strong: DocStrong,
 };
 

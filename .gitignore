@@ -5,3 +5,4 @@ dist
 *.tsbuildinfo
 next-env.d.ts
 public/tasty.css
+public/assets
