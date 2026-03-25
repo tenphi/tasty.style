@@ -149,7 +149,7 @@ const lime = violet.extend({ hue: 125 });
 
 const syntax = glaze(210, 90);
 syntax.colors({
-  text: { lightness: 100, mode: 'fixed' },
+  text: { lightness: 100, mode: 'fixed', saturation: 0 },
   bg: {
     base: 'text',
     lightness: ['-78', '-85'],
