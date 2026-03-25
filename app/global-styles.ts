@@ -9,6 +9,9 @@ tastyStatic('html', {
 });
 
 tastyStatic('body', {
+  // next/font sets --font-sans / --font-mono; Tasty's `font` preset uses --font / --monospace-font
+  '--font': 'var(--font-sans), sans-serif',
+  '--monospace-font': 'var(--font-mono), monospace',
   '-webkit-text-size-adjust': '100%',
   textSizeAdjust: '100%',
   margin: 0,
