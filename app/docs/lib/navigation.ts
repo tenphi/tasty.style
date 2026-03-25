@@ -81,7 +81,9 @@ export const NAV_GROUPS: NavGroup[] = [
 ];
 
 export function getAllSlugs(): string[] {
-  return NAV_GROUPS.flatMap((group) => group.items.map((item) => item.slug));
+  return NAV_GROUPS.flatMap((group) =>
+    group.items.filter((item) => !item.href).map((item) => item.slug),
+  );
 }
 
 export function findNavItem(slug: string): NavItem | undefined {
