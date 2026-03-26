@@ -10,7 +10,7 @@ const InlineCode = tasty({
     fontSize: '0.875em',
     font: 'monospace',
     fill: '#primary-surface-2',
-    color: '#primary-accent-text',
+    color: '#primary-accent-text-2',
     radius: '1r',
     border: '1bw solid #primary-border',
     whiteSpace: 'nowrap',

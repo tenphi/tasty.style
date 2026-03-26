@@ -131,14 +131,14 @@ const navLinkStyles = {
   preset: 't3',
   color: {
     '': '#primary-text-soft',
-    active: '#primary-accent-text',
+    active: '#primary-accent-text-2',
     ':hover & !active': '#primary-text',
   },
   textDecoration: 'none',
   radius: '1r',
   fill: {
     '': 'transparent',
-    active: '#primary-accent-surface.12',
+    active: '#primary-surface-2',
     ':hover & !active': '#primary-surface-2',
   },
   fontWeight: {

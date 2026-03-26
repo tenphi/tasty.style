@@ -3,6 +3,7 @@
 import { tasty } from '@tenphi/tasty';
 
 export const DocsBody = tasty({
+  as: 'main',
   styles: {
     display: 'flex',
     flow: 'row',
