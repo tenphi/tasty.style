@@ -68,6 +68,20 @@ const typographyTokens = generateTypographyTokens({
     fontWeight: '400',
     boldFontWeight: '700',
   },
+  c1: {
+    fontSize: '15px',
+    lineHeight: '1.4',
+    letterSpacing: '0',
+    fontWeight: '400',
+    boldFontWeight: '600',
+  },
+  label: {
+    fontSize: '12px',
+    lineHeight: '1.5',
+    letterSpacing: '0.05em',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+  },
   strong: {
     fontSize: 'inherit',
     lineHeight: 'inherit',
@@ -83,8 +97,6 @@ const config = {
   tokens: {
     ...colorTokens,
     ...typographyTokens,
-    $font: 'var(--font-sans), sans-serif',
-    '$monospace-font': 'var(--font-mono), monospace',
     $gap: '8px',
     $radius: '10px',
     '$card-radius': '20px',
@@ -99,6 +111,10 @@ const config = {
     '$default-letter-spacing': '0.02em',
     '$default-font-weight': '400',
     '$default-font-style': 'normal',
+    '$c1-font-weight': {
+      '': '500',
+      '@dark-root': '400',
+    },
     '$t2-line-height': '1.5',
   },
 };

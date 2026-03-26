@@ -15,7 +15,7 @@ const bg = 'var(--syntax-bg-color)';
 
 export const tastyCodeTheme: ThemeRegistration = {
   name: 'tasty-code',
-  type: 'dark',
+  type: 'light',
   colors: {
     'editor.background': bg,
     'editor.foreground': fg,

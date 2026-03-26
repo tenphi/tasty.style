@@ -21,6 +21,7 @@ export default {
     '$default-letter-spacing',
     '$default-font-weight',
     '$default-font-style',
+    '$c1-font-weight',
     '$t2-line-height',
   ],
 
@@ -44,6 +45,8 @@ export default {
     't2',
     't3',
     't4',
+    'c1',
+    'label',
     'strong',
   ],
 

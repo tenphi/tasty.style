@@ -3,7 +3,7 @@ import Script from 'next/script';
 
 import './global-styles';
 import TastyStyleRegistry from './tasty-registry';
-import { onest, sourceCodePro } from './fonts';
+import { onest, jetbrainsMono } from './fonts';
 
 export const metadata: Metadata = {
   title: 'Tasty — The Styling Engine Built for Design Systems',
@@ -20,7 +20,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${onest.variable} ${sourceCodePro.variable}`}
+      className={`${onest.variable} ${jetbrainsMono.variable}`}
     >
       <body>
         <TastyStyleRegistry>{children}</TastyStyleRegistry>

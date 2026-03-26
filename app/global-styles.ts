@@ -18,6 +18,8 @@ tastyStatic('body', {
   '#border': '#primary-border',
   font: true,
   preset: 't2',
+  $font: 'var(--font-sans), sans-serif',
+  '$monospace-font': 'var(--font-mono), monospace',
 });
 
 tastyStatic('code, pre, kbd', {
@@ -26,4 +28,11 @@ tastyStatic('code, pre, kbd', {
 
 tastyStatic('b', {
   fontWeight: '$bold-font-weight',
+});
+
+tastyStatic('.cm-editor', {
+  fontFamily: 'var(--font-mono)',
+  fontSize: '14px',
+  fontWeight: '$c1-font-weight',
+  height: '100%',
 });

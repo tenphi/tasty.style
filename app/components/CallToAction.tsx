@@ -1,8 +1,10 @@
 'use client';
 
+import NextLink from 'next/link';
 import { tasty } from '@tenphi/tasty';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
+import SpecialButton from '@/app/ui/SpecialButton';
 import CodeBlock from '@/app/ui/CodeBlock';
 
 const CTAWrapper = tasty({
@@ -84,9 +86,9 @@ export default function CallToAction() {
         width={{ '': 'auto', '@mobile': '100%' }}
         align={{ '@mobile': 'center' }}
       >
-        <Button as="a" href="/docs/getting-started">
-          Read Getting Started
-        </Button>
+        <SpecialButton as={NextLink} href="/docs/getting-started">
+          Get Started
+        </SpecialButton>
         <Button as="a" variant="secondary" href="/docs">
           Browse Docs
         </Button>

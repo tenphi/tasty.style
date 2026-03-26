@@ -28,7 +28,10 @@ const HeaderElement = tasty({
       placeItems: 'center',
       padding: '0 2x',
       height: '($header-height, 64px)',
-      width: 'initial 100% 1400px',
+      width: {
+        '': 'initial 100% 1400px',
+        playground: '100%',
+      },
       margin: '0 auto',
     },
     LogoImg: {
@@ -124,25 +127,25 @@ const SearchWrap = tasty({
 });
 
 const NAV_LINKS = [
-  { label: 'Features', href: '#features' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Docs', href: '/docs' },
-  { label: 'Comparison', href: '/docs/comparison' },
+  { label: 'How It Works', href: '/#how-it-works' },
+  { label: 'Documentation', href: '/docs' },
+  { label: 'Playground', href: '/playground' },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const sidebar = useDocsSidebar();
   const isDocs = pathname.startsWith('/docs');
+  const isPlayground = pathname.startsWith('/playground');
 
   return (
-    <HeaderElement mods={{ docs: isDocs }}>
+    <HeaderElement mods={{ docs: isDocs, playground: isPlayground }}>
       <HeaderElement.Inner>
         <LogoLink href="/">
           <HeaderElement.LogoImg src="/tasty.svg" alt="Tasty logo" />
           <HeaderElement.LogoText>Tasty</HeaderElement.LogoText>
         </LogoLink>
-        {!isDocs ? (
+        {!isDocs && !isPlayground ? (
           <HeaderElement.Nav>
             {NAV_LINKS.map((link) => (
               <HeaderNavLink key={link.href} href={link.href}>
@@ -180,7 +183,7 @@ export default function Header() {
             >
               <IconMenu2 size={20} />
             </Button>
-          ) : (
+          ) : !isPlayground ? (
             <SpecialButton
               as={NextLink}
               href="/docs/getting-started"
@@ -188,7 +191,7 @@ export default function Header() {
             >
               Get Started
             </SpecialButton>
-          )}
+          ) : null}
         </HeaderElement.Actions>
       </HeaderElement.Inner>
     </HeaderElement>

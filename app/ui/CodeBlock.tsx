@@ -12,7 +12,7 @@ const CodeBlockElement = tasty({
     color: '#syntax-text',
     radius: '1cr',
     overflow: 'auto',
-    preset: 't3',
+    preset: 'c1',
     font: 'monospace',
     border: true,
     scrollbar: 'thin',

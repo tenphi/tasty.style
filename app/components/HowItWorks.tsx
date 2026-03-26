@@ -1,5 +1,6 @@
 'use client';
 
+import NextLink from 'next/link';
 import { tasty, OUTER_STYLES, BLOCK_STYLES, FLOW_STYLES } from '@tenphi/tasty';
 import { IconArrowRight, IconExternalLink } from '@tabler/icons-react';
 import Section from '@/app/components/Section';
@@ -224,10 +225,8 @@ export default function HowItWorks() {
             </Text>
           </Space>
           <SpecialButton
-            as="a"
-            href="https://cube-ui-kit.vercel.app/?path=/story/getting-started-tasty-playground--playground"
-            target="_blank"
-            rel="noopener noreferrer"
+            as={NextLink}
+            href="/playground"
             margin="0 auto"
           >
             Try in Playground

@@ -57,6 +57,11 @@ export const NAV_GROUPS: NavGroup[] = [
     title: 'Ecosystem',
     items: [
       {
+        title: 'Playground',
+        slug: 'playground',
+        href: '/playground',
+      },
+      {
         title: 'ESLint Plugin',
         slug: 'eslint-plugin',
         href: 'https://github.com/tenphi/eslint-plugin-tasty',

@@ -1,4 +1,4 @@
-import { Onest, Source_Code_Pro } from 'next/font/google';
+import { Onest, JetBrains_Mono } from 'next/font/google';
 
 export const onest = Onest({
   subsets: ['latin'],
@@ -7,7 +7,7 @@ export const onest = Onest({
   variable: '--font-sans',
 });
 
-export const sourceCodePro = Source_Code_Pro({
+export const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
   display: 'swap',
