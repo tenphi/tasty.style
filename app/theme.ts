@@ -11,8 +11,18 @@ const violet = glaze(272, 75);
 
 violet.colors({
   surface: { lightness: 100, saturation: 0.1 },
-  'surface-2': { lightness: 96, saturation: 0.25 },
-  'surface-3': { lightness: 92, saturation: 0.3 },
+  'surface-2': {
+    base: 'surface',
+    lightness: '-4',
+    contrast: [1.1, 1.25],
+    saturation: 0.2,
+  },
+  'surface-3': {
+    base: 'surface',
+    lightness: '-8',
+    contrast: 1.3,
+    saturation: 0.25,
+  },
   text: { base: 'surface', lightness: 0, contrast: 'AAA', saturation: 0.08 },
   'text-2': {
     base: 'surface-2',
