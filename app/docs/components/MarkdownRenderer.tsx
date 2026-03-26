@@ -1,7 +1,9 @@
 import type { ComponentPropsWithoutRef } from 'react';
+import type { Html, Root } from 'mdast';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
+import { visit } from 'unist-util-visit';
 import InlineCode from '@/app/ui/InlineCode';
 import Link from '@/app/ui/Link';
 import { DocCodeBlock } from './MarkdownElements';
@@ -24,6 +26,18 @@ import {
   DocImg,
   DocStrong,
 } from './MarkdownElements';
+
+function remarkRewriteImgSrc() {
+  return (tree: Root) => {
+    visit(tree, 'html', (node: Html) => {
+      node.value = node.value.replace(
+        /(<img\s[^>]*?)src="(?!\/|https?:\/\/)([^"]*?)"/g,
+        (_match: string, prefix: string, src: string) =>
+          `${prefix}src="/${src}"`,
+      );
+    });
+  };
+}
 
 function rewriteHref(href: string | undefined): string | undefined {
   if (!href) return href;
@@ -121,7 +135,7 @@ export default function MarkdownRenderer({ source }: { source: string }) {
       source={source}
       options={{
         mdxOptions: {
-          remarkPlugins: [remarkGfm],
+          remarkPlugins: [remarkGfm, remarkRewriteImgSrc],
           rehypePlugins: [rehypeSlug],
         },
       }}

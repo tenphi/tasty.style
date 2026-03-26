@@ -258,6 +258,7 @@ export default function SearchDialog() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [pfAvailable, setPfAvailable] = useState<boolean | null>(null);
+  const [isMac, setIsMac] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -296,6 +297,10 @@ export default function SearchDialog() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, close, open]);
+
+  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad/.test(navigator.platform ?? ''));
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -365,10 +370,6 @@ export default function SearchDialog() {
       close();
     }
   }
-
-  const isMac =
-    typeof navigator !== 'undefined' &&
-    /Mac|iPhone|iPad/.test(navigator.platform ?? '');
 
   const handleTriggerClick = isOpen ? close : open;
 

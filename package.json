@@ -34,12 +34,14 @@
     "react-dom": "^19.1.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
-    "shiki": "^4.0.2"
+    "shiki": "^4.0.2",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
     "@tenphi/eslint-plugin-tasty": "0.4.3",
+    "@types/mdast": "^4.0.4",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
