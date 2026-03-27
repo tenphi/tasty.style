@@ -19,9 +19,10 @@ import {
   DEFAULT_CODE,
   DEFAULT_GLOBAL,
   DEFAULT_CONFIG,
-  getProjectFiles,
-  fetchPackageLock,
+  getSourceFiles,
+  fetchPlaygroundSnapshot,
   PREVIEW_SCRIPT,
+  SETUP_BINS_SCRIPT,
 } from '../lib/project-files';
 import { prettifyHTML } from '../lib/prettify-html';
 import { splitCSS, type CssSections } from '../lib/reorder-css';
@@ -31,7 +32,6 @@ type BootPhase =
   | 'coi-registering'
   | 'booting'
   | 'mounting'
-  | 'installing'
   | 'starting'
   | 'ready'
   | 'error';
@@ -41,7 +41,6 @@ const PHASE_LABELS: Record<BootPhase, string> = {
   'coi-registering': 'Enabling cross-origin isolation\u2026',
   booting: 'Booting WebContainer\u2026',
   mounting: 'Mounting project files\u2026',
-  installing: 'Installing dependencies\u2026',
   starting: 'Starting dev server\u2026',
   ready: 'Ready!',
   error: 'Something went wrong.',
@@ -153,7 +152,6 @@ export default function PlaygroundClient() {
     const supportsCredentialless =
       typeof (window as any).chrome !== 'undefined' ||
       typeof (window as any).netscape !== 'undefined';
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     if (!window.crossOriginIsolated) {
       setPhase('coi-registering');
@@ -188,92 +186,30 @@ export default function PlaygroundClient() {
           ? 'credentialless'
           : 'require-corp';
 
-        const bootPromise = WebContainer.boot({
-          coep: coepMode as 'credentialless' | 'require-corp',
-          forwardPreviewErrors: true,
-        });
-
-        const BOOT_TIMEOUT_MS = isSafari ? 15_000 : 30_000;
-        const timeoutPromise = new Promise<never>((_, reject) =>
-          setTimeout(
-            () => reject(new Error('__boot_timeout__')),
-            BOOT_TIMEOUT_MS,
-          ),
-        );
-
-        let wc: InstanceType<typeof WebContainer>;
-        try {
-          wc = await Promise.race([bootPromise, timeoutPromise]);
-        } catch (err) {
-          if (err instanceof Error && err.message === '__boot_timeout__') {
-            setPhase('error');
-            setErrorMsg(
-              isSafari
-                ? 'Safari does not fully support cross-origin isolation required by WebContainer. Please use Chrome or Firefox for the best experience, or open Safari DevTools (⌥⌘I) and reload as a workaround.'
-                : 'WebContainer boot timed out. Please try reloading the page.',
-            );
-            return;
-          }
-          throw err;
-        }
+        const [wc, snapshotData] = await Promise.all([
+          WebContainer.boot({
+            coep: coepMode as 'credentialless' | 'require-corp',
+            forwardPreviewErrors: true,
+          }),
+          fetchPlaygroundSnapshot(),
+        ]);
 
         if (teardown) return;
 
         wcRef.current = wc;
 
-        if (teardown) return;
-
         await wc.setPreviewScript(PREVIEW_SCRIPT);
 
         setPhase('mounting');
-        const packageLock = await fetchPackageLock();
+        await wc.mount(snapshotData);
         await wc.mount(
-          getProjectFiles(
-            DEFAULT_CODE,
-            DEFAULT_CONFIG,
-            DEFAULT_GLOBAL,
-            packageLock,
-          ),
+          getSourceFiles(DEFAULT_CODE, DEFAULT_CONFIG, DEFAULT_GLOBAL),
         );
 
         if (teardown) return;
 
-        setPhase('installing');
-
-        const MAX_INSTALL_ATTEMPTS = isSafari ? 3 : 1;
-        let installExit = 1;
-
-        for (let attempt = 1; attempt <= MAX_INSTALL_ATTEMPTS; attempt++) {
-          const install = await wc.spawn('npm', ['install']);
-
-          install.output.pipeTo(
-            new WritableStream({
-              write(chunk) {
-                console.log('[npm]', chunk);
-              },
-            }),
-          );
-
-          installExit = await install.exit;
-
-          if (installExit === 0) break;
-
-          if (attempt < MAX_INSTALL_ATTEMPTS) {
-            console.warn(
-              `[playground] npm install attempt ${attempt} failed, retrying…`,
-            );
-          }
-        }
-
-        if (installExit !== 0) {
-          setPhase('error');
-          setErrorMsg(
-            isSafari
-              ? 'Safari does not fully support cross-origin isolation required by WebContainer. Please use Chrome or Firefox for the best experience, or open Safari DevTools (⌥⌘I) and reload as a workaround.'
-              : `npm install failed with exit code ${installExit}. Check the browser console for details.`,
-          );
-          return;
-        }
+        const setup = await wc.spawn('node', ['-e', SETUP_BINS_SCRIPT]);
+        await setup.exit;
 
         if (teardown) return;
 

@@ -214,70 +214,49 @@ root.render(<Root />);
 };
 `;
 
-export async function fetchPackageLock(): Promise<string> {
-  const res = await fetch('/playground-package-lock.json');
-  if (!res.ok) return '';
-  return res.text();
+/**
+ * Runs inside the WebContainer after mounting the snapshot to recreate
+ * node_modules/.bin symlinks with executable permissions.
+ * The snapshot format does not preserve permissions or symlinks, so
+ * bins must be set up manually (same approach as learn.svelte.dev).
+ */
+export const SETUP_BINS_SCRIPT = `
+const fs = require('fs');
+const path = require('path');
+
+const binDir = 'node_modules/.bin';
+if (!fs.existsSync(binDir)) fs.mkdirSync(binDir, { recursive: true });
+
+const bins = {
+  vite: '../vite/bin/vite.js',
+  tsc: '../typescript/bin/tsc',
+  tsserver: '../typescript/bin/tsserver',
+};
+
+for (const [name, target] of Object.entries(bins)) {
+  const linkPath = path.join(binDir, name);
+  try { fs.unlinkSync(linkPath); } catch {}
+  fs.symlinkSync(target, linkPath);
+  fs.chmodSync(linkPath, 0o755);
+}
+`;
+
+export async function fetchPlaygroundSnapshot(): Promise<ArrayBuffer> {
+  const res = await fetch('/playground-snapshot.bin');
+
+  if (!res.ok) {
+    throw new Error('Failed to load playground snapshot');
+  }
+
+  return res.arrayBuffer();
 }
 
-export function getProjectFiles(
+export function getSourceFiles(
   code: string,
   config: string,
   global: string,
-  packageLock: string,
 ): FileSystemTree {
-  const tree: FileSystemTree = {
-    'package.json': {
-      file: {
-        contents: JSON.stringify(
-          {
-            name: 'tasty-playground',
-            private: true,
-            type: 'module',
-            scripts: { dev: 'vite' },
-            dependencies: {
-              react: '^19.1.0',
-              'react-dom': '^19.1.0',
-              '@tenphi/tasty': '0.15.3',
-              '@tenphi/glaze': '0.7.0',
-            },
-            devDependencies: {
-              '@vitejs/plugin-react': '^4.5.2',
-              vite: '^6.3.5',
-              typescript: '^5.8.3',
-            },
-          },
-          null,
-          2,
-        ),
-      },
-    },
-    'index.html': {
-      file: {
-        contents: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tasty Playground</title>
-</head>
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-</html>`,
-      },
-    },
-    'vite.config.ts': {
-      file: {
-        contents: `import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig({
-  plugins: [react()],
-});`,
-      },
-    },
+  return {
     src: {
       directory: {
         'main.tsx': { file: { contents: MAIN_TSX } },
@@ -287,10 +266,4 @@ export default defineConfig({
       },
     },
   };
-
-  if (packageLock) {
-    tree['package-lock.json'] = { file: { contents: packageLock } };
-  }
-
-  return tree;
 }

@@ -7,3 +7,4 @@ next-env.d.ts
 public/tasty.css
 public/assets
 public/coi-serviceworker.js
+public/playground-snapshot.bin
