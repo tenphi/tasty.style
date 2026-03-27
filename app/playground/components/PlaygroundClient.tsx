@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { tasty, useKeyframes } from '@tenphi/tasty';
+import { useMove } from '@react-aria/interactions';
 import { IconRefresh } from '@tabler/icons-react';
 import CodeEditor from './CodeEditor';
 import OutputPanel from './OutputPanel';
@@ -50,12 +51,13 @@ const PlaygroundGrid = tasty({
   styles: {
     display: 'grid',
     gridTemplateColumns: {
-      '': '1fr 1fr',
+      '': 'var(--left-col, 50%) var(--right-col, 50%)',
       '@mobile': '1fr',
     },
     gridTemplateRows: '1fr 1fr',
     height: 'calc(100vh - ($header-height, 64px))',
     overflow: 'hidden',
+    position: 'relative',
   },
 });
 
@@ -124,6 +126,50 @@ const ErrorText = tasty({
   },
 });
 
+const ResizeHandle = tasty({
+  styles: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: '9px',
+    margin: '0 0 0 -4px',
+    cursor: 'col-resize',
+    touchAction: 'none',
+    zIndex: 20,
+    display: {
+      '': 'flex',
+      '@mobile': 'none',
+    },
+    placeItems: 'center',
+    placeContent: 'center',
+    Indicator: {
+      width: {
+        '': '1px',
+        'dragging | :hover': '3px',
+      },
+      height: '100%',
+      fill: {
+        '': '#primary-border',
+        'dragging | :hover': '#primary-accent-text',
+      },
+      transition: 'fill 0.15s, width 0.15s',
+      radius: 'round',
+    },
+  },
+  elements: {
+    Indicator: 'div',
+  },
+});
+
+const DragOverlay = tasty({
+  styles: {
+    position: 'absolute',
+    inset: 0,
+    zIndex: 15,
+    cursor: 'col-resize',
+  },
+});
+
 type MobilePanel = 'preview' | 'css' | 'html';
 
 export default function PlaygroundClient() {
@@ -147,6 +193,25 @@ export default function PlaygroundClient() {
   const [mobilePanel, setMobilePanel] = useState<MobilePanel>('preview');
   const wcRef = useRef<any>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [leftWidth, setLeftWidth] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const { moveProps } = useMove({
+    onMoveStart() {
+      setIsDragging(true);
+    },
+    onMove(e) {
+      const grid = gridRef.current;
+      if (!grid) return;
+      const gridWidth = grid.getBoundingClientRect().width;
+      const deltaPercent = (e.deltaX / gridWidth) * 100;
+      setLeftWidth((prev) => Math.min(80, Math.max(20, prev + deltaPercent)));
+    },
+    onMoveEnd() {
+      setIsDragging(false);
+    },
+  });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -342,8 +407,28 @@ export default function PlaygroundClient() {
     [],
   );
 
+  const gridStyle = {
+    '--left-col': `${leftWidth}%`,
+    '--right-col': `${100 - leftWidth}%`,
+  } as React.CSSProperties;
+
   return (
-    <PlaygroundGrid>
+    <PlaygroundGrid ref={gridRef} style={gridStyle}>
+      {isDragging && <DragOverlay />}
+      <ResizeHandle
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Resize columns"
+        aria-valuenow={Math.round(leftWidth)}
+        aria-valuemin={20}
+        aria-valuemax={80}
+        tabIndex={0}
+        style={{ left: `${leftWidth}%` }}
+        mods={{ dragging: isDragging }}
+        {...moveProps}
+      >
+        <ResizeHandle.Indicator />
+      </ResizeHandle>
       <Panel>
         <CodeEditor
           defaultCode={DEFAULT_CODE}
