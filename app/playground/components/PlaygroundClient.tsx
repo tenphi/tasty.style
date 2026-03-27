@@ -119,6 +119,8 @@ const ErrorText = tasty({
     preset: 't3',
     color: '#coral-accent-text',
     margin: 0,
+    textAlign: 'center',
+    textWrap: 'balance',
   },
 });
 
@@ -152,6 +154,7 @@ export default function PlaygroundClient() {
     const supportsCredentialless =
       typeof (window as any).chrome !== 'undefined' ||
       typeof (window as any).netscape !== 'undefined';
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     if (!window.crossOriginIsolated) {
       setPhase('coi-registering');
@@ -223,6 +226,18 @@ export default function PlaygroundClient() {
             },
           }),
         );
+
+        devServer.exit.then((code) => {
+          if (code !== 0 && !teardown) {
+            console.error('[vite] process exited with code', code);
+            setPhase('error');
+            setErrorMsg(
+              isSafari
+                ? 'Safari requires DevTools to be open during initial loading. Open DevTools (⌥⌘I), then reload the page. You can close them once the playground is ready.'
+                : `Dev server crashed (exit code ${code}). Try reloading the page.`,
+            );
+          }
+        });
 
         wc.on('server-ready', (_port: number, url: string) => {
           setPreviewUrl(url);
