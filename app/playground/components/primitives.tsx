@@ -181,6 +181,134 @@ export function MobilePanelSelect({ value, onChange }: MobilePanelSelectProps) {
   );
 }
 
+export const Toolbar = tasty({
+  styles: {
+    display: 'flex',
+    flow: 'row',
+    placeItems: 'center',
+    fill: '#primary-surface-2',
+    border: '1bw #primary-border bottom',
+    flexShrink: 0,
+    gap: '0.5x',
+    padding: '0.5x 1x',
+  },
+});
+
+export const ToolbarSpacer = tasty({
+  styles: {
+    flex: '1 1 auto',
+  },
+});
+
+export const ToolbarButton = tasty({
+  as: 'button',
+  styles: {
+    display: 'inline-flex',
+    placeItems: 'center',
+    placeContent: 'center',
+    gap: '0.5x',
+    padding: '0.5x 1.5x',
+    fill: {
+      '': 'transparent',
+      ':hover': '#primary-surface-3',
+    },
+    color: {
+      '': '#primary-text-soft',
+      ':hover': '#primary-text',
+    },
+    border: 'none',
+    cursor: 'pointer',
+    radius: '0.5r',
+    transition: 'theme',
+    preset: 'label',
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+});
+
+const ExampleSelectWrap = tasty({
+  styles: {
+    position: 'relative',
+    display: 'inline-flex',
+    placeItems: 'center',
+    flexShrink: 0,
+  },
+});
+
+const ExampleSelectEl = tasty(SelectElement, {
+  styles: {
+    padding: '0.5x 3x 0.5x 1.5x',
+    preset: 'label',
+    radius: '0.5r',
+    border: 'none',
+    fill: {
+      '': 'transparent',
+      ':hover': '#primary-surface-3',
+    },
+    color: '#primary-text',
+    fontWeight: 600,
+    cursor: 'pointer',
+  },
+});
+
+interface ExampleSelectProps {
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+}
+
+export function ExampleSelect({
+  value,
+  options,
+  onChange,
+}: ExampleSelectProps) {
+  return (
+    <ExampleSelectWrap>
+      <ExampleSelectEl value={value} onChange={onChange}>
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </ExampleSelectEl>
+      <SelectChevron>
+        <IconChevronDown size={12} />
+      </SelectChevron>
+    </ExampleSelectWrap>
+  );
+}
+
+export const ModifiedBadge = tasty({
+  as: 'span',
+  styles: {
+    display: 'inline-flex',
+    placeItems: 'center',
+    preset: 'tag',
+    color: '#primary-accent-text',
+    opacity: {
+      '': 0,
+      visible: 1,
+    },
+    transition: 'opacity 0.2s',
+  },
+});
+
+export const CopiedToast = tasty({
+  as: 'span',
+  styles: {
+    display: 'inline-flex',
+    placeItems: 'center',
+    preset: 'label',
+    color: '#primary-accent-text',
+    opacity: {
+      '': 0,
+      visible: 1,
+    },
+    transition: 'opacity 0.3s',
+    pointerEvents: 'none',
+  },
+});
+
 export const PreviewFrame = tasty({
   as: 'iframe',
   styles: {

@@ -75,6 +75,12 @@ const typographyTokens = generateTypographyTokens({
     fontWeight: '400',
     boldFontWeight: '600',
   },
+  tag: {
+    fontSize: '10px',
+    lineHeight: '1.4',
+    letterSpacing: '0.04em',
+    fontWeight: '600',
+  },
   label: {
     fontSize: '12px',
     lineHeight: '1.5',

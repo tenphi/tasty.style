@@ -3,8 +3,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { tasty, useKeyframes } from '@tenphi/tasty';
 import { useMove } from '@react-aria/interactions';
-import { IconRefresh } from '@tabler/icons-react';
+import {
+  IconRefresh,
+  IconLink,
+  IconArrowBackUp,
+} from '@tabler/icons-react';
 import CodeEditor from './CodeEditor';
+import type { CodeEditorHandle } from './CodeEditor';
 import OutputPanel from './OutputPanel';
 import CssOutputPanel from './CssOutputPanel';
 import {
@@ -15,9 +20,14 @@ import {
   MobilePanelSelect,
   PreviewFrame,
   OutputSection,
+  Toolbar,
+  ToolbarSpacer,
+  ToolbarButton,
+  ExampleSelect,
+  ModifiedBadge,
+  CopiedToast,
 } from './primitives';
 import {
-  DEFAULT_CODE,
   DEFAULT_GLOBAL,
   DEFAULT_CONFIG,
   getSourceFiles,
@@ -27,6 +37,14 @@ import {
 } from '../lib/project-files';
 import { prettifyHTML } from '../lib/prettify-html';
 import { splitCSS, type CssSections } from '../lib/reorder-css';
+import {
+  decodeHash,
+  updateHashDebounced,
+  isStateModified,
+  EXAMPLES,
+  findExample,
+  type PlaygroundState,
+} from '../lib/hash-state';
 
 type BootPhase =
   | 'coi-check'
@@ -47,6 +65,15 @@ const PHASE_LABELS: Record<BootPhase, string> = {
   error: 'Something went wrong.',
 };
 
+const PlaygroundWrap = tasty({
+  styles: {
+    display: 'flex',
+    flow: 'column',
+    height: 'calc(100vh - ($header-height, 64px))',
+    overflow: 'hidden',
+  },
+});
+
 const PlaygroundGrid = tasty({
   styles: {
     display: 'grid',
@@ -55,7 +82,8 @@ const PlaygroundGrid = tasty({
       '@mobile': '1fr',
     },
     gridTemplateRows: '1fr 1fr',
-    height: 'calc(100vh - ($header-height, 64px))',
+    flex: '1 1 0',
+    minHeight: 0,
     overflow: 'hidden',
     position: 'relative',
   },
@@ -172,6 +200,25 @@ const DragOverlay = tasty({
 
 type MobilePanel = 'preview' | 'css' | 'html';
 
+function getInitialState(): PlaygroundState {
+  if (typeof window === 'undefined') {
+    return {
+      slug: EXAMPLES[0].slug,
+      code: EXAMPLES[0].code,
+      global: DEFAULT_GLOBAL,
+      config: DEFAULT_CONFIG,
+      isModified: false,
+    };
+  }
+
+  return decodeHash(window.location.hash);
+}
+
+const EXAMPLE_OPTIONS = EXAMPLES.map((e) => ({
+  value: e.slug,
+  label: e.label,
+}));
+
 export default function PlaygroundClient() {
   useKeyframes(
     {
@@ -180,6 +227,8 @@ export default function PlaygroundClient() {
     },
     { name: 'spin' },
   );
+
+  const initialState = useRef(getInitialState());
 
   const [phase, setPhase] = useState<BootPhase>('coi-check');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -191,11 +240,23 @@ export default function PlaygroundClient() {
   });
   const [htmlOutput, setHtmlOutput] = useState('');
   const [mobilePanel, setMobilePanel] = useState<MobilePanel>('preview');
+
+  const [currentSlug, setCurrentSlug] = useState(initialState.current.slug);
+  const [isModified, setIsModified] = useState(initialState.current.isModified);
+  const [showCopied, setShowCopied] = useState(false);
+
+  const codeRef = useRef(initialState.current.code);
+  const globalRef = useRef(initialState.current.global);
+  const configRef = useRef(initialState.current.config);
+
+  const editorRef = useRef<CodeEditorHandle>(null);
   const wcRef = useRef<any>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [leftWidth, setLeftWidth] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+
+  const copiedTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const { moveProps } = useMove({
     onMoveStart() {
@@ -212,6 +273,30 @@ export default function PlaygroundClient() {
       setIsDragging(false);
     },
   });
+
+  const updateHash = useCallback(() => {
+    const example = findExample(currentSlug);
+
+    if (!example) return;
+
+    const state: PlaygroundState = {
+      slug: currentSlug,
+      code: codeRef.current,
+      global: globalRef.current,
+      config: configRef.current,
+      isModified: isStateModified(
+        {
+          code: codeRef.current,
+          global: globalRef.current,
+          config: configRef.current,
+        },
+        example,
+      ),
+    };
+
+    setIsModified(state.isModified);
+    updateHashDebounced(state);
+  }, [currentSlug]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -271,7 +356,11 @@ export default function PlaygroundClient() {
         setPhase('mounting');
         await wc.mount(snapshotData);
         await wc.mount(
-          getSourceFiles(DEFAULT_CODE, DEFAULT_CONFIG, DEFAULT_GLOBAL),
+          getSourceFiles(
+            codeRef.current,
+            configRef.current,
+            globalRef.current,
+          ),
         );
 
         if (teardown) return;
@@ -292,13 +381,13 @@ export default function PlaygroundClient() {
           }),
         );
 
-        devServer.exit.then((code) => {
+        devServer.exit.then((code: number) => {
           if (code !== 0 && !teardown) {
             console.error('[vite] process exited with code', code);
             setPhase('error');
             setErrorMsg(
               isSafari
-                ? 'Safari requires DevTools to be open during initial loading. Open DevTools (⌥⌘I), then reload the page. You can close them once the playground is ready.'
+                ? 'Safari requires DevTools to be open during initial loading. Open DevTools (\u2325\u2318I), then reload the page. You can close them once the playground is ready.'
                 : `Dev server crashed (exit code ${code}). Try reloading the page.`,
             );
           }
@@ -368,28 +457,144 @@ export default function PlaygroundClient() {
     };
   }, []);
 
-  const handleCodeChange = useCallback(async (code: string) => {
-    try {
-      await wcRef.current?.fs.writeFile('/src/App.tsx', code);
-    } catch (err) {
-      console.warn('Failed to write App.tsx:', err);
+  useEffect(() => {
+    function handleHashChange() {
+      const state = decodeHash(window.location.hash);
+
+      codeRef.current = state.code;
+      globalRef.current = state.global;
+      configRef.current = state.config;
+      setCurrentSlug(state.slug);
+      setIsModified(state.isModified);
+
+      editorRef.current?.setContent('code', state.code);
+      editorRef.current?.setContent('global', state.global);
+      editorRef.current?.setContent('config', state.config);
+
+      writeAllFilesToWC(state.code, state.config, state.global);
     }
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleGlobalChange = useCallback(async (global: string) => {
-    try {
-      await wcRef.current?.fs.writeFile('/src/global.ts', global);
-    } catch (err) {
-      console.warn('Failed to write global.ts:', err);
-    }
-  }, []);
+  const writeAllFilesToWC = useCallback(
+    async (code: string, config: string, global: string) => {
+      const wc = wcRef.current;
 
-  const handleConfigChange = useCallback(async (config: string) => {
-    try {
-      await wcRef.current?.fs.writeFile('/src/config.ts', config);
-    } catch (err) {
-      console.warn('Failed to write config.ts:', err);
-    }
+      if (!wc) return;
+
+      try {
+        await Promise.all([
+          wc.fs.writeFile('/src/App.tsx', code),
+          wc.fs.writeFile('/src/config.ts', config),
+          wc.fs.writeFile('/src/global.ts', global),
+        ]);
+      } catch (err) {
+        console.warn('Failed to write files:', err);
+      }
+    },
+    [],
+  );
+
+  const handleCodeChange = useCallback(
+    (code: string) => {
+      codeRef.current = code;
+      wcRef.current?.fs
+        .writeFile('/src/App.tsx', code)
+        .catch((err: unknown) => console.warn('Failed to write App.tsx:', err));
+      updateHash();
+    },
+    [updateHash],
+  );
+
+  const handleGlobalChange = useCallback(
+    (global: string) => {
+      globalRef.current = global;
+      wcRef.current?.fs
+        .writeFile('/src/global.ts', global)
+        .catch((err: unknown) =>
+          console.warn('Failed to write global.ts:', err),
+        );
+      updateHash();
+    },
+    [updateHash],
+  );
+
+  const handleConfigChange = useCallback(
+    (config: string) => {
+      configRef.current = config;
+      wcRef.current?.fs
+        .writeFile('/src/config.ts', config)
+        .catch((err: unknown) =>
+          console.warn('Failed to write config.ts:', err),
+        );
+      updateHash();
+    },
+    [updateHash],
+  );
+
+  const handleExampleChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const slug = e.target.value;
+      const example = findExample(slug);
+
+      if (!example) return;
+
+      editorRef.current?.flushPending();
+
+      codeRef.current = example.code;
+      globalRef.current = DEFAULT_GLOBAL;
+      configRef.current = DEFAULT_CONFIG;
+      setCurrentSlug(slug);
+      setIsModified(false);
+
+      editorRef.current?.setContent('code', example.code);
+      editorRef.current?.setContent('global', DEFAULT_GLOBAL);
+      editorRef.current?.setContent('config', DEFAULT_CONFIG);
+
+      writeAllFilesToWC(example.code, DEFAULT_CONFIG, DEFAULT_GLOBAL);
+
+      const url = new URL(window.location.href);
+
+      url.hash = slug;
+      window.history.replaceState(null, '', url.toString());
+    },
+    [writeAllFilesToWC],
+  );
+
+  const handleReset = useCallback(() => {
+    const example = findExample(currentSlug);
+
+    if (!example) return;
+
+    editorRef.current?.flushPending();
+
+    codeRef.current = example.code;
+    globalRef.current = DEFAULT_GLOBAL;
+    configRef.current = DEFAULT_CONFIG;
+    setIsModified(false);
+
+    editorRef.current?.setContent('code', example.code);
+    editorRef.current?.setContent('global', DEFAULT_GLOBAL);
+    editorRef.current?.setContent('config', DEFAULT_CONFIG);
+
+    writeAllFilesToWC(example.code, DEFAULT_CONFIG, DEFAULT_GLOBAL);
+
+    const url = new URL(window.location.href);
+
+    url.hash = example.slug;
+    window.history.replaceState(null, '', url.toString());
+  }, [currentSlug, writeAllFilesToWC]);
+
+  const handleCopyLink = useCallback(() => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setShowCopied(true);
+      clearTimeout(copiedTimerRef.current);
+      copiedTimerRef.current = setTimeout(() => setShowCopied(false), 1500);
+    });
   }, []);
 
   const isLoading = phase !== 'ready' && phase !== 'error';
@@ -413,27 +618,59 @@ export default function PlaygroundClient() {
   } as React.CSSProperties;
 
   return (
-    <PlaygroundGrid ref={gridRef} style={gridStyle}>
-      {isDragging && <DragOverlay />}
-      <ResizeHandle
-        role="separator"
-        aria-orientation="vertical"
-        aria-label="Resize columns"
-        aria-valuenow={Math.round(leftWidth)}
-        aria-valuemin={20}
-        aria-valuemax={80}
-        tabIndex={0}
-        style={{ left: `${leftWidth}%` }}
-        mods={{ dragging: isDragging }}
-        {...moveProps}
-      >
-        <ResizeHandle.Indicator />
-      </ResizeHandle>
-      <Panel>
-        <CodeEditor
-          defaultCode={DEFAULT_CODE}
-          defaultGlobal={DEFAULT_GLOBAL}
-          defaultConfig={DEFAULT_CONFIG}
+    <PlaygroundWrap>
+      <Toolbar>
+        <ExampleSelect
+          value={currentSlug}
+          options={EXAMPLE_OPTIONS}
+          onChange={handleExampleChange}
+        />
+        <ModifiedBadge mods={{ visible: isModified }}>
+          (modified)
+        </ModifiedBadge>
+        <ToolbarSpacer />
+        <CopiedToast mods={{ visible: showCopied }}>Copied!</CopiedToast>
+        {isModified && (
+          <ToolbarButton
+            onClick={handleReset}
+            aria-label="Reset to original"
+            title="Reset to original"
+          >
+            <IconArrowBackUp size={14} />
+            Reset
+          </ToolbarButton>
+        )}
+        <ToolbarButton
+          onClick={handleCopyLink}
+          aria-label="Copy link"
+          title="Copy link to clipboard"
+        >
+          <IconLink size={14} />
+          Share
+        </ToolbarButton>
+      </Toolbar>
+      <PlaygroundGrid ref={gridRef} style={gridStyle}>
+        {isDragging && <DragOverlay />}
+        <ResizeHandle
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Resize columns"
+          aria-valuenow={Math.round(leftWidth)}
+          aria-valuemin={20}
+          aria-valuemax={80}
+          tabIndex={0}
+          style={{ left: `${leftWidth}%` }}
+          mods={{ dragging: isDragging }}
+          {...moveProps}
+        >
+          <ResizeHandle.Indicator />
+        </ResizeHandle>
+        <Panel>
+          <CodeEditor
+          ref={editorRef}
+          initialCode={initialState.current.code}
+          initialGlobal={initialState.current.global}
+          initialConfig={initialState.current.config}
           onCodeChange={handleCodeChange}
           onGlobalChange={handleGlobalChange}
           onConfigChange={handleConfigChange}
@@ -496,6 +733,7 @@ export default function PlaygroundClient() {
           />
         </Panel>
       </OutputSection>
-    </PlaygroundGrid>
+      </PlaygroundGrid>
+    </PlaygroundWrap>
   );
 }
