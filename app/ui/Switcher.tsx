@@ -9,7 +9,7 @@ const SwitcherElement = tasty({
     gap: 0,
     padding: '0.25x',
     radius: 'round',
-    fill: '#primary-surface-2',
+    fill: '#primary-surface-3',
     border: true,
   },
   styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES],
@@ -36,7 +36,6 @@ const SwitcherOption = tasty({
     shadow: {
       '': 'none',
       active: '0 1px 3px #primary-shadow-sm',
-      'active & @dark': '0 0 0 1px #primary-border',
     },
     border: 'none',
   },

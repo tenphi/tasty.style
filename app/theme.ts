@@ -13,14 +13,12 @@ violet.colors({
   surface: { lightness: 100, saturation: 0.1 },
   'surface-2': {
     base: 'surface',
-    lightness: '-4',
-    contrast: [1.1, 1.25],
-    saturation: 0.2,
+    lightness: '-2',
+    saturation: 0.15,
   },
   'surface-3': {
     base: 'surface',
-    lightness: '-8',
-    contrast: 1.3,
+    lightness: '-6',
     saturation: 0.25,
   },
   text: { base: 'surface', lightness: 0, contrast: 'AAA', saturation: 0.08 },
