@@ -22,7 +22,7 @@ const Dashboard = tasty({
     },
     margin: '-2x',
     height: '100dvh',
-    width: '1000dvw',
+    width: '100dvw',
     fill: '#accent-text.03',
 
     Sidebar: {
