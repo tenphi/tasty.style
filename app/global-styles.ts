@@ -15,7 +15,6 @@ tastyStatic('body', {
   padding: 0,
   fill: '#surface',
   color: '#text',
-  '#border': '#border',
   font: true,
   preset: 't2',
 });

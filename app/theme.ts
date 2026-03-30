@@ -2,16 +2,11 @@ import { glaze } from '@tenphi/glaze';
 
 glaze.configure({ darkDesaturation: 0 });
 
-const base = glaze(210, 10);
+const blue = glaze(210, 75);
 
-base.colors({
-  black: { lightness: 0, saturation: 0, mode: 'static' },
-  white: { lightness: 100, saturation: 0, mode: 'static' },
-});
-
-const violet = glaze(272, 75);
-
-violet.colors({
+blue.colors({
+  black: { lightness: 0, saturation: 0, mode: 'static', inherit: false },
+  white: { lightness: 100, saturation: 0, mode: 'static', inherit: false },
   surface: { lightness: 100, saturation: 0.1 },
   'surface-2': {
     base: 'surface',
@@ -155,17 +150,17 @@ violet.colors({
   overlay: { lightness: 10, opacity: 0.5 },
 });
 
-const coral = violet.extend({ hue: 15 });
+const coral = blue.extend({ hue: 15 });
 
-const teal = violet.extend({ hue: 155 });
+const teal = blue.extend({ hue: 155 });
 
-const amber = violet.extend({ hue: 70 });
+const amber = blue.extend({ hue: 70 });
 
-const blue = violet.extend({ hue: 210 });
+const violet = blue.extend({ hue: 272 });
 
-const rose = violet.extend({ hue: 340 });
+const rose = blue.extend({ hue: 340 });
 
-const lime = violet.extend({ hue: 125 });
+const lime = blue.extend({ hue: 125 });
 
 const syntax = glaze(210, 90);
 syntax.colors({
@@ -241,7 +236,7 @@ syntax.colors({
 });
 
 const palette = glaze.palette(
-  { base, violet, coral, teal, amber, blue, rose, lime, syntax },
+  { violet, coral, teal, amber, blue, rose, lime, syntax },
   { primary: 'blue' },
 );
 

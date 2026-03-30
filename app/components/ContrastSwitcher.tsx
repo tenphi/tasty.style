@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { IconContrast, IconContrastFilled } from '@tabler/icons-react';
 import Switcher from '@/app/ui/Switcher';
+import { useTheme } from './ThemeContext';
 
 const CONTRAST_OPTIONS = [
   {
@@ -17,28 +17,14 @@ const CONTRAST_OPTIONS = [
   },
 ];
 
-function getSystemContrast(): string {
-  return matchMedia('(prefers-contrast: more)').matches ? 'more' : 'normal';
-}
-
 export default function ContrastSwitcher() {
-  const [contrast, setContrast] = useState('normal');
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe: reads browser-only API on mount
-    setContrast(getSystemContrast());
-  }, []);
-
-  function handleChange(value: string) {
-    setContrast(value);
-    document.documentElement.dataset.contrast = value;
-  }
+  const { contrast, setContrast } = useTheme();
 
   return (
     <Switcher
       options={CONTRAST_OPTIONS}
       value={contrast}
-      onChange={handleChange}
+      onChange={setContrast}
     />
   );
 }
