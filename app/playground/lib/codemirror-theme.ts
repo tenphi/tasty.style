@@ -36,8 +36,74 @@ const theme = EditorView.theme(
           'color-mix(in srgb, var(--syntax-text-color) 10%, transparent) !important',
       },
     '.cm-panels': {
-      backgroundColor: 'var(--syntax-bg-color)',
-      color: 'var(--syntax-text-color)',
+      backgroundColor: 'var(--surface-2-color)',
+      color: 'var(--text-color)',
+      border: 'none',
+    },
+    '.cm-panels.cm-panels-bottom': {
+      borderTop: 'var(--border-width) solid var(--border-color)',
+    },
+    '.cm-search.cm-panel': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 'calc(var(--gap) * 0.5)',
+      padding: 'calc(var(--gap) * 1)',
+      alignItems: 'center',
+    },
+    '.cm-search .cm-textfield': {
+      backgroundColor: 'var(--surface-color)',
+      color: 'var(--text-color)',
+      border: 'var(--border-width) solid var(--border-color)',
+      borderRadius: 'var(--button-radius)',
+      padding: 'calc(var(--gap) * 0.5) calc(var(--gap) * 1)',
+      fontFamily: 'var(--font-mono, var(--font-mono-fallback))',
+      fontSize: 'var(--t4-font-size, var(--default-font-size))',
+      outline: 'none',
+    },
+    '.cm-search .cm-textfield:focus': {
+      borderColor: 'var(--accent-surface-color)',
+      outline: 'var(--outline-width) solid var(--accent-surface-color)',
+    },
+    '.cm-search .cm-button': {
+      backgroundColor: 'var(--surface-3-color)',
+      backgroundImage: 'none',
+      color: 'var(--text-color)',
+      border: 'var(--border-width) solid var(--border-color)',
+      borderRadius: 'var(--button-radius)',
+      padding: 'calc(var(--gap) * 0.5) calc(var(--gap) * 1.5)',
+      cursor: 'pointer',
+      fontFamily: 'var(--font-mono, var(--font-mono-fallback))',
+      fontSize: 'var(--t4-font-size, var(--default-font-size))',
+    },
+    '.cm-search .cm-button:hover': {
+      backgroundColor: 'var(--surface-color)',
+    },
+    '.cm-search button[name="close"]': {
+      backgroundColor: 'transparent',
+      color: 'var(--text-soft-color)',
+      border: 'none',
+      cursor: 'pointer',
+      padding: '0 calc(var(--gap) * 1)',
+      fontSize: '18px',
+      lineHeight: '1',
+      marginLeft: 'auto',
+    },
+    '.cm-search button[name="close"]:hover': {
+      color: 'var(--text-color)',
+    },
+    '.cm-search label': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 'calc(var(--gap) * 0.25)',
+      color: 'var(--text-color)',
+      cursor: 'pointer',
+      fontSize: 'var(--t4-font-size, var(--default-font-size))',
+    },
+    '.cm-search input[type="checkbox"]': {
+      accentColor: 'var(--accent-surface-color)',
+    },
+    '.cm-search br': {
+      display: 'none',
     },
     '.cm-searchMatch': {
       backgroundColor:

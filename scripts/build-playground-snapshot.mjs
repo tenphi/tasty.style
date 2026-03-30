@@ -25,34 +25,57 @@ import { fileURLToPath } from 'url';
 import { createHash } from 'crypto';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const outPath = join(__dirname, '..', 'public', 'playground-snapshot.bin');
+const projectRoot = join(__dirname, '..');
+const outPath = join(projectRoot, 'public', 'playground-snapshot.bin');
 const cacheMetaPath = join(
-  __dirname,
-  '..',
+  projectRoot,
   'public',
   'playground-snapshot.meta.json',
 );
 const CACHE_VERSION = 1;
 
-const PACKAGE_JSON = {
-  name: 'tasty-playground',
-  private: true,
-  type: 'module',
-  scripts: { dev: 'vite' },
-  dependencies: {
-    react: '^19.1.0',
-    'react-dom': '^19.1.0',
-    '@tenphi/tasty': '0.15.3',
-    '@tenphi/glaze': '0.9.1',
-  },
-  devDependencies: {
-    '@vitejs/plugin-react': '^4.5.2',
-    vite: '^6.3.5',
-    'esbuild-wasm': '^0.25.0',
-    '@rollup/wasm-node': '^4.60.0',
-    typescript: '^5.8.3',
-  },
-};
+const SYNCED_DEPS = ['@tenphi/tasty', '@tenphi/glaze'];
+
+function readSyncedVersions() {
+  const pkg = JSON.parse(
+    readFileSync(join(projectRoot, 'package.json'), 'utf8'),
+  );
+  const versions = {};
+  for (const name of SYNCED_DEPS) {
+    const v =
+      pkg.dependencies?.[name] ?? pkg.devDependencies?.[name];
+    if (!v) {
+      throw new Error(
+        `${name} not found in project package.json — ` +
+          'the playground snapshot must stay in sync',
+      );
+    }
+    versions[name] = v;
+  }
+  return versions;
+}
+
+function buildPackageJson() {
+  const synced = readSyncedVersions();
+  return {
+    name: 'tasty-playground',
+    private: true,
+    type: 'module',
+    scripts: { dev: 'vite' },
+    dependencies: {
+      react: '^19.1.0',
+      'react-dom': '^19.1.0',
+      ...synced,
+    },
+    devDependencies: {
+      '@vitejs/plugin-react': '^4.5.2',
+      vite: '^6.3.5',
+      'esbuild-wasm': '^0.25.0',
+      '@rollup/wasm-node': '^4.60.0',
+      typescript: '^5.8.3',
+    },
+  };
+}
 
 const INDEX_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -228,11 +251,11 @@ function cpDirSync(src, dest) {
   }
 }
 
-function computeSnapshotCacheHash() {
+function computeSnapshotCacheHash(packageJson) {
   const hash = createHash('sha256');
   hash.update(`cache-version:${CACHE_VERSION}`);
   hash.update(readFileSync(fileURLToPath(import.meta.url), 'utf8'));
-  hash.update(JSON.stringify(PACKAGE_JSON));
+  hash.update(JSON.stringify(packageJson));
   hash.update(INDEX_HTML);
   hash.update(VITE_CONFIG);
   hash.update(JSON.stringify([...PRUNE_EXTENSIONS].sort()));
@@ -275,7 +298,16 @@ function swapNativeForWasm(nodeModulesDir, nativePkg, wasmPkg) {
 }
 
 async function main() {
-  const cacheHash = computeSnapshotCacheHash();
+  const packageJson = buildPackageJson();
+
+  console.log(
+    'Playground dependency versions:',
+    Object.fromEntries(
+      SYNCED_DEPS.map((name) => [name, packageJson.dependencies[name]]),
+    ),
+  );
+
+  const cacheHash = computeSnapshotCacheHash(packageJson);
   if (!shouldRebuildSnapshot(cacheHash)) {
     console.log('Playground snapshot is up to date; skipping rebuild.');
     return;
@@ -288,7 +320,7 @@ async function main() {
 
     writeFileSync(
       join(tmpDir, 'package.json'),
-      JSON.stringify(PACKAGE_JSON, null, 2),
+      JSON.stringify(packageJson, null, 2),
     );
     writeFileSync(join(tmpDir, 'index.html'), INDEX_HTML);
     writeFileSync(join(tmpDir, 'vite.config.ts'), VITE_CONFIG);
@@ -323,8 +355,8 @@ async function main() {
     console.log('Creating snapshot…');
     const snap = await snapshot(tmpDir);
 
-    if (!existsSync(join(__dirname, '..', 'public'))) {
-      mkdirSync(join(__dirname, '..', 'public'), { recursive: true });
+    if (!existsSync(join(projectRoot, 'public'))) {
+      mkdirSync(join(projectRoot, 'public'), { recursive: true });
     }
 
     writeFileSync(outPath, snap);

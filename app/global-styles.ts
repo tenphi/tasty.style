@@ -34,3 +34,10 @@ tastyStatic('.cm-editor', {
   fontWeight: '$c1-font-weight',
   height: '100%',
 });
+
+tastyStatic('.cm-panels', {
+  fill: '#surface-2',
+  color: '#text',
+  font: 'monospace',
+  preset: 't4',
+});
