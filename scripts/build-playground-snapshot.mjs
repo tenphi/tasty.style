@@ -7,6 +7,7 @@ import { snapshot } from '@webcontainer/snapshot';
 import {
   mkdtempSync,
   writeFileSync,
+  readFileSync,
   rmSync,
   existsSync,
   mkdirSync,
@@ -21,9 +22,17 @@ import { join, resolve } from 'path';
 import { tmpdir } from 'os';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import { createHash } from 'crypto';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const outPath = join(__dirname, '..', 'public', 'playground-snapshot.bin');
+const cacheMetaPath = join(
+  __dirname,
+  '..',
+  'public',
+  'playground-snapshot.meta.json',
+);
+const CACHE_VERSION = 1;
 
 const PACKAGE_JSON = {
   name: 'tasty-playground',
@@ -219,6 +228,36 @@ function cpDirSync(src, dest) {
   }
 }
 
+function computeSnapshotCacheHash() {
+  const hash = createHash('sha256');
+  hash.update(`cache-version:${CACHE_VERSION}`);
+  hash.update(readFileSync(fileURLToPath(import.meta.url), 'utf8'));
+  hash.update(JSON.stringify(PACKAGE_JSON));
+  hash.update(INDEX_HTML);
+  hash.update(VITE_CONFIG);
+  hash.update(JSON.stringify([...PRUNE_EXTENSIONS].sort()));
+  hash.update(JSON.stringify([...PRUNE_NAMES].sort()));
+  hash.update(JSON.stringify([...PRUNE_DIRS].sort()));
+  hash.update(JSON.stringify([...TS_LIB_PRUNE].sort()));
+  hash.update(JSON.stringify([...TS_LIB_LOCALE_DIRS].sort()));
+  return hash.digest('hex');
+}
+
+function shouldRebuildSnapshot(cacheHash) {
+  if (process.argv.includes('--force')) return true;
+  if (process.env.FORCE_PLAYGROUND_SNAPSHOT === '1') return true;
+  if (!existsSync(outPath) || !existsSync(cacheMetaPath)) return true;
+
+  try {
+    const cacheMeta = JSON.parse(readFileSync(cacheMetaPath, 'utf8'));
+    return (
+      cacheMeta.cacheVersion !== CACHE_VERSION || cacheMeta.cacheHash !== cacheHash
+    );
+  } catch {
+    return true;
+  }
+}
+
 /**
  * Replace native packages with their WASM equivalents so they work inside
  * WebContainer (which can't run native binaries).
@@ -236,6 +275,12 @@ function swapNativeForWasm(nodeModulesDir, nativePkg, wasmPkg) {
 }
 
 async function main() {
+  const cacheHash = computeSnapshotCacheHash();
+  if (!shouldRebuildSnapshot(cacheHash)) {
+    console.log('Playground snapshot is up to date; skipping rebuild.');
+    return;
+  }
+
   const tmpDir = mkdtempSync(join(tmpdir(), 'playground-snapshot-'));
 
   try {
@@ -283,6 +328,18 @@ async function main() {
     }
 
     writeFileSync(outPath, snap);
+    writeFileSync(
+      cacheMetaPath,
+      JSON.stringify(
+        {
+          cacheVersion: CACHE_VERSION,
+          cacheHash,
+          generatedAt: new Date().toISOString(),
+        },
+        null,
+        2,
+      ),
+    );
     const sizeMB = (snap.byteLength / 1024 / 1024).toFixed(1);
     console.log(`Snapshot written to ${outPath} (${sizeMB} MB)`);
   } finally {
