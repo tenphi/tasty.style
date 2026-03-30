@@ -1,6 +1,7 @@
 import { tasty } from '@tenphi/tasty';
 
 const Button = tasty({
+  as: 'button',
   styles: {
     display: 'inline-grid',
     placeItems: 'center',

@@ -56,6 +56,7 @@ configure({
     $gap: '8px',
     $radius: '8px',
     '$border-width': '1px',
+    $transition: '80ms',
   },
   states: {
     '@mobile': '@media(w < 768px)',

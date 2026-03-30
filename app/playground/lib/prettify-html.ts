@@ -30,7 +30,7 @@ export function prettifyHTML(html: string): string {
         break;
       }
 
-      const tag = html.slice(i, end + 1);
+      const tag = html.slice(i, end + 1).replace(/=""/g, '');
       const isClosing = tag.startsWith('</');
       const isSelfClosing = tag.endsWith('/>');
       const tagName = tag

@@ -7,6 +7,9 @@ import {
   IconRefresh,
   IconLink,
   IconArrowBackUp,
+  IconDownload,
+  IconToggleLeft,
+  IconToggleRight,
 } from '@tabler/icons-react';
 import CodeEditor from './CodeEditor';
 import type { CodeEditorHandle } from './CodeEditor';
@@ -35,6 +38,7 @@ import {
   PREVIEW_SCRIPT,
   SETUP_BINS_SCRIPT,
 } from '../lib/project-files';
+import { downloadProject } from '../lib/download-project';
 import { prettifyHTML } from '../lib/prettify-html';
 import { splitCSS, type CssSections } from '../lib/reorder-css';
 import {
@@ -81,11 +85,54 @@ const PlaygroundGrid = tasty({
       '': 'var(--left-col, 50%) var(--right-col, 50%)',
       '@mobile': '1fr',
     },
-    gridTemplateRows: '1fr 1fr',
+    gridTemplateRows: {
+      '': '1fr 1fr',
+      'outputHidden': '1fr',
+      'outputHidden & @mobile': '1fr 1fr',
+    },
     flex: '1 1 0',
     minHeight: 0,
     overflow: 'hidden',
     position: 'relative',
+  },
+});
+
+const OutputPanelsWrapper = tasty({
+  styles: {
+    display: {
+      '': 'contents',
+      'hidden': 'none',
+      'hidden & @mobile': 'contents',
+    },
+  },
+});
+
+const OutputToggleButton = tasty({
+  as: 'button',
+  styles: {
+    display: {
+      '': 'inline-flex',
+      '@mobile': 'none',
+    },
+    placeItems: 'center',
+    placeContent: 'center',
+    gap: '0.5x',
+    padding: '0.5x 1.5x',
+    fill: {
+      '': 'transparent',
+      ':hover | pressed': '#surface-3',
+    },
+    color: {
+      '': '#text-soft',
+      ':hover | pressed': '#text',
+    },
+    border: 'none',
+    cursor: 'pointer',
+    radius: '$button-radius',
+    transition: 'theme',
+    preset: 'label',
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
   },
 });
 
@@ -244,6 +291,7 @@ export default function PlaygroundClient() {
   const [currentSlug, setCurrentSlug] = useState(initialState.current.slug);
   const [isModified, setIsModified] = useState(initialState.current.isModified);
   const [showCopied, setShowCopied] = useState(false);
+  const [showOutput, setShowOutput] = useState(true);
 
   const codeRef = useRef(initialState.current.code);
   const globalRef = useRef(initialState.current.global);
@@ -597,6 +645,15 @@ export default function PlaygroundClient() {
     });
   }, []);
 
+  const handleDownload = useCallback(() => {
+    downloadProject(
+      codeRef.current,
+      configRef.current,
+      globalRef.current,
+      currentSlug,
+    );
+  }, [currentSlug]);
+
   const isLoading = phase !== 'ready' && phase !== 'error';
 
   const handleReload = useCallback(() => {
@@ -611,6 +668,10 @@ export default function PlaygroundClient() {
     },
     [],
   );
+
+  const handleToggleOutput = useCallback(() => {
+    setShowOutput((prev) => !prev);
+  }, []);
 
   const gridStyle = {
     '--left-col': `${leftWidth}%`,
@@ -628,8 +689,6 @@ export default function PlaygroundClient() {
         <ModifiedBadge mods={{ visible: isModified }}>
           (modified)
         </ModifiedBadge>
-        <ToolbarSpacer />
-        <CopiedToast mods={{ visible: showCopied }}>Copied!</CopiedToast>
         {isModified && (
           <ToolbarButton
             onClick={handleReset}
@@ -640,6 +699,18 @@ export default function PlaygroundClient() {
             Reset
           </ToolbarButton>
         )}
+        <ToolbarSpacer />
+        <CopiedToast mods={{ visible: showCopied }}>Copied!</CopiedToast>
+        <OutputToggleButton
+          onClick={handleToggleOutput}
+          mods={{ pressed: showOutput }}
+          aria-label={showOutput ? 'Hide output panels' : 'Show output panels'}
+          title={showOutput ? 'Hide output panels' : 'Show output panels'}
+          aria-pressed={showOutput}
+        >
+          {showOutput ? <IconToggleRight size={14} /> : <IconToggleLeft size={14} />}
+          Output
+        </OutputToggleButton>
         <ToolbarButton
           onClick={handleCopyLink}
           aria-label="Copy link"
@@ -648,8 +719,16 @@ export default function PlaygroundClient() {
           <IconLink size={14} />
           Share
         </ToolbarButton>
+        <ToolbarButton
+          onClick={handleDownload}
+          aria-label="Download project"
+          title="Download as zip"
+        >
+          <IconDownload size={14} />
+          Download
+        </ToolbarButton>
       </Toolbar>
-      <PlaygroundGrid ref={gridRef} style={gridStyle}>
+      <PlaygroundGrid ref={gridRef} style={gridStyle} mods={{ outputHidden: !showOutput }}>
         {isDragging && <DragOverlay />}
         <ResizeHandle
           role="separator"
@@ -715,23 +794,25 @@ export default function PlaygroundClient() {
           />
         </Panel>
 
-        <Panel mods={{ mobileHidden: mobilePanel !== 'css' }}>
-          <CssOutputPanel
-            sections={cssSections}
-            mobilePanel={mobilePanel}
-            onMobilePanelChange={handleMobilePanelChange}
-          />
-        </Panel>
+        <OutputPanelsWrapper mods={{ hidden: !showOutput }}>
+          <Panel mods={{ mobileHidden: mobilePanel !== 'css' }}>
+            <CssOutputPanel
+              sections={cssSections}
+              mobilePanel={mobilePanel}
+              onMobilePanelChange={handleMobilePanelChange}
+            />
+          </Panel>
 
-        <Panel mods={{ mobileHidden: mobilePanel !== 'html' }}>
-          <OutputPanel
-            label="HTML Output"
-            value={htmlOutput}
-            language="html"
-            mobilePanel={mobilePanel}
-            onMobilePanelChange={handleMobilePanelChange}
-          />
-        </Panel>
+          <Panel mods={{ mobileHidden: mobilePanel !== 'html' }}>
+            <OutputPanel
+              label="HTML Output"
+              value={htmlOutput}
+              language="html"
+              mobilePanel={mobilePanel}
+              onMobilePanelChange={handleMobilePanelChange}
+            />
+          </Panel>
+        </OutputPanelsWrapper>
       </OutputSection>
       </PlaygroundGrid>
     </PlaygroundWrap>

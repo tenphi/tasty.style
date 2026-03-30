@@ -48,11 +48,7 @@ const ActionButton = tasty({
     cursor: 'pointer',
     transition: 'theme',
     border: 'none',
-    fill: {
-      '': '#accent-surface',
-      ':hover': '#accent-surface',
-      ':active': '#accent-surface',
-    },
+    fill: '#accent-surface',
     color: '#accent-surface-text',
     opacity: {
       '': 1,

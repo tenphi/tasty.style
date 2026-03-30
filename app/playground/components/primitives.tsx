@@ -218,7 +218,7 @@ export const ToolbarButton = tasty({
     },
     border: 'none',
     cursor: 'pointer',
-    radius: '0.5r',
+    radius: '$button-radius',
     transition: 'theme',
     preset: 'label',
     flexShrink: 0,
