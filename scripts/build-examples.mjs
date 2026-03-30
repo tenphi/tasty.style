@@ -9,7 +9,7 @@ const EXAMPLES_DIR = join(ROOT, 'app/playground/examples');
 const OUTPUT_FILE = join(ROOT, 'app/playground/lib/examples.ts');
 
 const files = readdirSync(EXAMPLES_DIR)
-  .filter((f) => f.endsWith('.tsx'))
+  .filter((f) => f.endsWith('.tsx') && f !== 'icons.tsx')
   .sort();
 
 if (files.length === 0) {
@@ -19,8 +19,10 @@ if (files.length === 0) {
 
 const CONFIG_FILE = join(EXAMPLES_DIR, 'default-config.ts');
 const GLOBAL_FILE = join(EXAMPLES_DIR, 'default-global.ts');
+const ICONS_FILE = join(EXAMPLES_DIR, 'icons.tsx');
 const defaultConfig = readFileSync(CONFIG_FILE, 'utf-8');
 const defaultGlobal = readFileSync(GLOBAL_FILE, 'utf-8');
+const iconsCode = readFileSync(ICONS_FILE, 'utf-8');
 
 function fileToSlugAndLabel(filename) {
   const raw = basename(filename, '.tsx');
@@ -72,6 +74,8 @@ lines.push('');
 lines.push(`export const DEFAULT_CONFIG = ${JSON.stringify(defaultConfig)};`);
 lines.push('');
 lines.push(`export const DEFAULT_GLOBAL = ${JSON.stringify(defaultGlobal)};`);
+lines.push('');
+lines.push(`export const ICONS_CODE = ${JSON.stringify(iconsCode)};`);
 lines.push('');
 
 writeFileSync(OUTPUT_FILE, lines.join('\n'), 'utf-8');

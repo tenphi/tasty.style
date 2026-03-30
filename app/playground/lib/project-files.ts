@@ -1,5 +1,10 @@
 import type { FileSystemTree } from '@webcontainer/api';
-import { DEFAULT_EXAMPLE, DEFAULT_CONFIG, DEFAULT_GLOBAL } from './examples';
+import {
+  DEFAULT_EXAMPLE,
+  DEFAULT_CONFIG,
+  DEFAULT_GLOBAL,
+  ICONS_CODE,
+} from './examples';
 
 export { DEFAULT_CONFIG, DEFAULT_GLOBAL };
 
@@ -162,6 +167,7 @@ export function getSourceFiles(
         'App.tsx': { file: { contents: code } },
         'config.ts': { file: { contents: config } },
         'global.ts': { file: { contents: global } },
+        'icons.tsx': { file: { contents: ICONS_CODE } },
       },
     },
   };

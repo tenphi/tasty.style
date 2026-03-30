@@ -1,6 +1,6 @@
 import { glaze } from '@tenphi/glaze';
 
-glaze.configure({ darkCurve: 0.45 });
+glaze.configure({ darkDesaturation: 0 });
 
 const base = glaze(210, 10);
 
@@ -230,18 +230,10 @@ syntax.colors({
   },
 });
 
-const palette = glaze.palette({
-  base,
-  primary: blue,
-  violet,
-  coral,
-  teal,
-  amber,
-  blue,
-  rose,
-  lime,
-  syntax,
-});
+const palette = glaze.palette(
+  { base, violet, coral, teal, amber, blue, rose, lime, syntax },
+  { primary: 'blue' },
+);
 
 export const colorTokens = palette.tasty({
   prefix: true,

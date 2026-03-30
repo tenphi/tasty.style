@@ -103,14 +103,16 @@ function shouldPrune(name) {
   if (dot === -1) return false;
   const ext = name.slice(dot);
   // Keep .d.ts files (type declarations are needed at dev time)
-  if (name.endsWith('.d.ts') || name.endsWith('.d.mts') || name.endsWith('.d.cts')) return false;
+  if (
+    name.endsWith('.d.ts') ||
+    name.endsWith('.d.mts') ||
+    name.endsWith('.d.cts')
+  )
+    return false;
   return PRUNE_EXTENSIONS.has(ext);
 }
 
-const PRUNE_DIRS = new Set([
-  '@esbuild',
-  '@rollup',
-]);
+const PRUNE_DIRS = new Set(['@esbuild', '@rollup']);
 
 const TS_LIB_PRUNE = new Set([
   '_tsc.js',
@@ -118,8 +120,19 @@ const TS_LIB_PRUNE = new Set([
   '_typingsInstaller.js',
 ]);
 const TS_LIB_LOCALE_DIRS = new Set([
-  'cs', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pl', 'pt-br', 'ru', 'tr',
-  'zh-cn', 'zh-tw',
+  'cs',
+  'de',
+  'es',
+  'fr',
+  'it',
+  'ja',
+  'ko',
+  'pl',
+  'pt-br',
+  'ru',
+  'tr',
+  'zh-cn',
+  'zh-tw',
 ]);
 
 function pruneDir(dir, depth = 0) {
@@ -243,7 +256,11 @@ async function main() {
 
     console.log('Swapping native packages for WASM…');
     swapNativeForWasm(join(tmpDir, 'node_modules'), 'esbuild', 'esbuild-wasm');
-    swapNativeForWasm(join(tmpDir, 'node_modules'), 'rollup', '@rollup/wasm-node');
+    swapNativeForWasm(
+      join(tmpDir, 'node_modules'),
+      'rollup',
+      '@rollup/wasm-node',
+    );
 
     console.log('Removing node_modules/.bin (recreated at runtime)…');
     rmSync(join(tmpDir, 'node_modules', '.bin'), {
