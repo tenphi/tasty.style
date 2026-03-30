@@ -34,7 +34,7 @@ const PACKAGE_JSON = {
     react: '^19.1.0',
     'react-dom': '^19.1.0',
     '@tenphi/tasty': '0.15.3',
-    '@tenphi/glaze': '0.7.0',
+    '@tenphi/glaze': '0.9.1',
   },
   devDependencies: {
     '@vitejs/plugin-react': '^4.5.2',

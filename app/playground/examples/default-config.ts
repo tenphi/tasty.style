@@ -1,9 +1,9 @@
 import { configure } from '@tenphi/tasty';
 import { glaze } from '@tenphi/glaze';
 
-const theme = glaze(240, 75);
+const primary = glaze(240, 75);
 
-theme.colors({
+primary.colors({
   surface: { lightness: 100, saturation: 0.1 },
   text: { base: 'surface', lightness: 0, contrast: 'AAA', saturation: 0.08 },
   'text-soft': {
@@ -34,10 +34,19 @@ theme.colors({
   black: { lightness: 0, saturation: 0, mode: 'static' },
 });
 
+const danger = primary.extend({ hue: 15 });
+const success = primary.extend({ hue: 155 });
+const warning = primary.extend({ hue: 70 });
+const info = primary.extend({ hue: 210 });
+
+const palette = glaze.palette(
+  { primary, danger, success, warning, info },
+  { primary: 'primary' },
+);
+
 configure({
   tokens: {
-    ...theme.tasty({
-      prefix: false,
+    ...palette.tasty({
       modes: { highContrast: true },
       states: {
         dark: '@dark-root',
@@ -52,7 +61,8 @@ configure({
     '@mobile': '@media(w < 768px)',
     '@tablet': '@media(w < 1024px)',
     '@desktop': '@media(w >= 1024px)',
-    '@dark-root': 'schema=dark | (!schema & @media(prefers-color-scheme: dark))',
+    '@dark-root':
+      'schema=dark | (!schema & @media(prefers-color-scheme: dark))',
     '@high-contrast-root':
       'contrast=more | (!contrast & @media(prefers-contrast: more))',
     '@dark':
