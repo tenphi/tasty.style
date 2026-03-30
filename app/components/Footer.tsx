@@ -50,6 +50,8 @@ const FooterEl = tasty({
 const Logo = tasty({
   as: 'img',
   styles: {
+    position: 'relative',
+    inset: '-3px top',
     width: '24px',
     height: 'auto',
   },
@@ -131,11 +133,11 @@ export default function Footer() {
       <FooterEl.Bottom>
         <Space flow="row" gap="1.5x" placeItems="center">
           <Logo src="/tasty.svg" alt="Tasty" />
-          <Text as="span" preset="t3 strong" color="#text">
+          <Text as="span" preset="t2 strong" color="#text">
             Tasty
           </Text>
         </Space>
-        <Text as="span" preset="t4" color="#text-soft">
+        <Text as="span" preset="t3" color="#text-soft">
           MIT License &copy; {new Date().getFullYear()} Tenphi
         </Text>
       </FooterEl.Bottom>

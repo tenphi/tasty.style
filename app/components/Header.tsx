@@ -36,8 +36,10 @@ const HeaderElement = tasty({
     },
     LogoImg: {
       $: '>Inner>Logo>',
+      position: 'relative',
       height: '28px',
       width: 'auto',
+      inset: '-3px top',
     },
     LogoText: {
       $: '>Inner>Logo>',
