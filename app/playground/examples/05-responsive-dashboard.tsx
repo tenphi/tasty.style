@@ -20,8 +20,9 @@ const Dashboard = tasty({
       '': '"sidebar header" "sidebar content"',
       '@mobile': '"header" "content"',
     },
-    height: 'min 50x',
-    width: 'max 100%',
+    margin: '-2x',
+    height: '100dvh',
+    width: '1000dvw',
     fill: '#accent-text.03',
 
     Sidebar: {
