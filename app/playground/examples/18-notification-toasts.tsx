@@ -25,7 +25,8 @@ const ToastItem = tasty({
     border: true,
     shadow: '0 2x 8x #black.10',
     width: 'max 320px',
-    transition: 'opacity .3s, translate .3s',
+    $transition: '.3s',
+    transition: 'opacity, translate',
     opacity: { '': 1, '@starting': 0, isExiting: 0 },
     transform: {
       '': 'translateX(0)',

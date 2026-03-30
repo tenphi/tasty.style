@@ -18,7 +18,7 @@ const CardGrid = tasty({
     display: 'grid',
     gridColumns: {
       '': '1fr',
-      '@(cards, w >= 500px)': '1fr 1fr',
+      '@(cards, w >= 600px)': '1fr 1fr',
     },
     gap: '2x',
   },
@@ -29,7 +29,7 @@ const Card = tasty({
     display: 'flex',
     flow: {
       '': 'column',
-      '@(cards, w >= 300px)': 'row',
+      '@(cards, w >= 400px)': 'row',
     },
     gap: '2x',
     padding: '2x',
@@ -41,15 +41,16 @@ const Card = tasty({
     Thumbnail: {
       width: {
         '': 'stretch',
-        '@(cards, w >= 300px)': '10x',
+        '@(cards, w >= 400px)': '8x',
       },
       height: {
-        '': '12x',
-        '@(cards, w >= 300px)': '10x',
+        '': '15x',
+        '@(cards, w >= 400px)': 'auto',
       },
       radius: '1r',
       fill: '#accent-text.08',
       flexShrink: 0,
+      aspectRatio: { '@(cards, w >= 400px)': '1' },
     },
     Body: {
       display: 'flex',

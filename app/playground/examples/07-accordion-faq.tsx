@@ -37,7 +37,8 @@ const Item = tasty({
   styles: {
     display: 'flex',
     flow: 'column',
-    transition: 'theme .3s',
+    $transition: '.3s',
+    transition: 'theme',
     border: { '': '0, 1bw bottom', ':last-child': '0' },
     radius: {
       '': '0',
@@ -68,7 +69,7 @@ const Item = tasty({
     },
     Chevron: {
       display: 'inline-flex',
-      transition: 'rotate .3s',
+      transition: 'rotate',
       transform: { '': 'rotate(0)', isExpanded: 'rotate(180deg)' },
       color: '#text-soft',
     },
@@ -79,7 +80,7 @@ const Item = tasty({
       color: '#text-soft',
       opacity: { '': 1, '@starting': 0 },
       transform: { '': 'translateY(0)', '@starting': 'translateY(-1x)' },
-      transition: 'opacity .3s, translate .3s',
+      transition: 'opacity, translate',
     },
   },
   elements: {

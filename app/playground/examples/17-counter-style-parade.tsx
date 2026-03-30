@@ -13,7 +13,7 @@ const STYLE_OPTIONS = ['thumbs', 'roman', 'steps'] as const;
 type StyleOption = (typeof STYLE_OPTIONS)[number];
 
 const StyledList = tasty({
-  tag: 'ol',
+  as: 'ol',
   modProps: { listType: STYLE_OPTIONS },
   styles: {
     display: 'flex',

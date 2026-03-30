@@ -1,6 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useSyncExternalStore,
+} from 'react';
 import { tasty, useKeyframes } from '@tenphi/tasty';
 import { useMove } from '@react-aria/interactions';
 import {
@@ -69,11 +75,58 @@ const PHASE_LABELS: Record<BootPhase, string> = {
   error: 'Something went wrong.',
 };
 
+function useLocalStorage<T>(
+  key: string,
+  defaultValue: T,
+): [T, (value: T | ((prev: T) => T)) => void] {
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      const handler = (e: StorageEvent) => {
+        if (e.key === key) onStoreChange();
+      };
+      window.addEventListener('storage', handler);
+      return () => window.removeEventListener('storage', handler);
+    },
+    [key],
+  );
+
+  const getSnapshot = useCallback(() => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }, [key]);
+
+  const raw = useSyncExternalStore(subscribe, getSnapshot, () => null);
+  const value: T = raw !== null ? (JSON.parse(raw) as T) : defaultValue;
+
+  const setValue = useCallback(
+    (next: T | ((prev: T) => T)) => {
+      const current =
+        localStorage.getItem(key) !== null
+          ? (JSON.parse(localStorage.getItem(key)!) as T)
+          : defaultValue;
+      const resolved = next instanceof Function ? next(current) : next;
+      localStorage.setItem(key, JSON.stringify(resolved));
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key,
+          newValue: JSON.stringify(resolved),
+        }),
+      );
+    },
+    [key, defaultValue],
+  );
+
+  return [value, setValue];
+}
+
 const PlaygroundWrap = tasty({
   styles: {
     display: 'flex',
     flow: 'column',
-    height: 'calc(100vh - ($header-height, 64px))',
+    height: '(100vh - ($header-height, 64px))',
     overflow: 'hidden',
   },
 });
@@ -81,13 +134,13 @@ const PlaygroundWrap = tasty({
 const PlaygroundGrid = tasty({
   styles: {
     display: 'grid',
-    gridTemplateColumns: {
-      '': 'var(--left-col, 50%) var(--right-col, 50%)',
+    gridColumns: {
+      '': '($left-col, 50%) ($right-col, 50%)',
       '@mobile': '1fr',
     },
-    gridTemplateRows: {
-      '': '1fr 1fr',
-      'outputHidden': '1fr',
+    gridRows: {
+      '': '($top-row, 70%) ($bottom-row, 30%)',
+      outputHidden: '1fr',
       'outputHidden & @mobile': '1fr 1fr',
     },
     flex: '1 1 0',
@@ -101,7 +154,7 @@ const OutputPanelsWrapper = tasty({
   styles: {
     display: {
       '': 'contents',
-      'hidden': 'none',
+      hidden: 'none',
       'hidden & @mobile': 'contents',
     },
   },
@@ -245,6 +298,41 @@ const DragOverlay = tasty({
   },
 });
 
+const VerticalResizeHandle = tasty({
+  styles: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: '9px',
+    margin: '-4px 0 0 0',
+    cursor: 'row-resize',
+    touchAction: 'none',
+    zIndex: 20,
+    display: {
+      '': 'flex',
+      '@mobile': 'none',
+    },
+    placeItems: 'center',
+    placeContent: 'center',
+    Indicator: {
+      height: {
+        '': '1px',
+        'dragging | :hover': '3px',
+      },
+      width: '100%',
+      fill: {
+        '': '#border',
+        'dragging | :hover': '#accent-text',
+      },
+      transition: 'fill 0.15s, height 0.15s',
+      radius: 'round',
+    },
+  },
+  elements: {
+    Indicator: 'div',
+  },
+});
+
 type MobilePanel = 'preview' | 'css' | 'html';
 
 function getInitialState(): PlaygroundState {
@@ -301,14 +389,16 @@ export default function PlaygroundClient() {
   const wcRef = useRef<any>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const [leftWidth, setLeftWidth] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
+  const [leftWidth, setLeftWidth] = useLocalStorage('playground:leftWidth', 50);
+  const [isHDragging, setIsHDragging] = useState(false);
+  const [topHeight, setTopHeight] = useLocalStorage('playground:topHeight', 70);
+  const [isVDragging, setIsVDragging] = useState(false);
 
   const copiedTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  const { moveProps } = useMove({
+  const { moveProps: hMoveProps } = useMove({
     onMoveStart() {
-      setIsDragging(true);
+      setIsHDragging(true);
     },
     onMove(e) {
       const grid = gridRef.current;
@@ -318,7 +408,23 @@ export default function PlaygroundClient() {
       setLeftWidth((prev) => Math.min(80, Math.max(20, prev + deltaPercent)));
     },
     onMoveEnd() {
-      setIsDragging(false);
+      setIsHDragging(false);
+    },
+  });
+
+  const { moveProps: vMoveProps } = useMove({
+    onMoveStart() {
+      setIsVDragging(true);
+    },
+    onMove(e) {
+      const grid = gridRef.current;
+      if (!grid) return;
+      const gridHeight = grid.getBoundingClientRect().height;
+      const deltaPercent = (e.deltaY / gridHeight) * 100;
+      setTopHeight((prev) => Math.min(80, Math.max(20, prev + deltaPercent)));
+    },
+    onMoveEnd() {
+      setIsVDragging(false);
     },
   });
 
@@ -404,11 +510,7 @@ export default function PlaygroundClient() {
         setPhase('mounting');
         await wc.mount(snapshotData);
         await wc.mount(
-          getSourceFiles(
-            codeRef.current,
-            configRef.current,
-            globalRef.current,
-          ),
+          getSourceFiles(codeRef.current, configRef.current, globalRef.current),
         );
 
         if (teardown) return;
@@ -676,6 +778,8 @@ export default function PlaygroundClient() {
   const gridStyle = {
     '--left-col': `${leftWidth}%`,
     '--right-col': `${100 - leftWidth}%`,
+    '--top-row': `${topHeight}%`,
+    '--bottom-row': `${100 - topHeight}%`,
   } as React.CSSProperties;
 
   return (
@@ -686,9 +790,7 @@ export default function PlaygroundClient() {
           options={EXAMPLE_OPTIONS}
           onChange={handleExampleChange}
         />
-        <ModifiedBadge mods={{ visible: isModified }}>
-          (modified)
-        </ModifiedBadge>
+        <ModifiedBadge mods={{ visible: isModified }}>(modified)</ModifiedBadge>
         {isModified && (
           <ToolbarButton
             onClick={handleReset}
@@ -708,7 +810,11 @@ export default function PlaygroundClient() {
           title={showOutput ? 'Hide output panels' : 'Show output panels'}
           aria-pressed={showOutput}
         >
-          {showOutput ? <IconToggleRight size={14} /> : <IconToggleLeft size={14} />}
+          {showOutput ? (
+            <IconToggleRight size={14} />
+          ) : (
+            <IconToggleLeft size={14} />
+          )}
           Output
         </OutputToggleButton>
         <ToolbarButton
@@ -728,8 +834,16 @@ export default function PlaygroundClient() {
           Download
         </ToolbarButton>
       </Toolbar>
-      <PlaygroundGrid ref={gridRef} style={gridStyle} mods={{ outputHidden: !showOutput }}>
-        {isDragging && <DragOverlay />}
+      <PlaygroundGrid
+        ref={gridRef}
+        style={gridStyle}
+        mods={{ outputHidden: !showOutput }}
+      >
+        {(isHDragging || isVDragging) && (
+          <DragOverlay
+            style={{ cursor: isVDragging ? 'row-resize' : 'col-resize' }}
+          />
+        )}
         <ResizeHandle
           role="separator"
           aria-orientation="vertical"
@@ -739,81 +853,98 @@ export default function PlaygroundClient() {
           aria-valuemax={80}
           tabIndex={0}
           style={{ left: `${leftWidth}%` }}
-          mods={{ dragging: isDragging }}
-          {...moveProps}
+          mods={{ dragging: isHDragging }}
+          {...hMoveProps}
         >
           <ResizeHandle.Indicator />
         </ResizeHandle>
         <Panel>
           <CodeEditor
-          ref={editorRef}
-          initialCode={initialState.current.code}
-          initialGlobal={initialState.current.global}
-          initialConfig={initialState.current.config}
-          onCodeChange={handleCodeChange}
-          onGlobalChange={handleGlobalChange}
-          onConfigChange={handleConfigChange}
-        />
-      </Panel>
-
-      <OutputSection>
-        <Panel mods={{ mobileHidden: mobilePanel !== 'preview' }}>
-          <PanelHeaderBar>
-            <MobilePanelSelect
-              value={mobilePanel}
-              onChange={handleMobilePanelChange}
-            />
-            <HeaderLabel>Preview</HeaderLabel>
-            {phase === 'ready' && (
-              <ReloadButton
-                onClick={handleReload}
-                aria-label="Reload preview"
-                title="Reload preview"
-              >
-                <IconRefresh size={14} />
-              </ReloadButton>
-            )}
-          </PanelHeaderBar>
-          {(isLoading || phase === 'error') && (
-            <Overlay>
-              {phase === 'error' ? (
-                <ErrorText>{errorMsg || PHASE_LABELS.error}</ErrorText>
-              ) : (
-                <>
-                  <Spinner />
-                  <StatusText>{PHASE_LABELS[phase]}</StatusText>
-                </>
-              )}
-            </Overlay>
-          )}
-          <PreviewFrame
-            ref={iframeRef}
-            src={previewUrl || 'about:blank'}
-            title="Playground preview"
-            allow="cross-origin-isolated"
+            ref={editorRef}
+            initialCode={initialState.current.code}
+            initialGlobal={initialState.current.global}
+            initialConfig={initialState.current.config}
+            onCodeChange={handleCodeChange}
+            onGlobalChange={handleGlobalChange}
+            onConfigChange={handleConfigChange}
           />
         </Panel>
 
-        <OutputPanelsWrapper mods={{ hidden: !showOutput }}>
-          <Panel mods={{ mobileHidden: mobilePanel !== 'css' }}>
-            <CssOutputPanel
-              sections={cssSections}
-              mobilePanel={mobilePanel}
-              onMobilePanelChange={handleMobilePanelChange}
+        <OutputSection>
+          <Panel mods={{ mobileHidden: mobilePanel !== 'preview' }}>
+            <PanelHeaderBar>
+              <MobilePanelSelect
+                value={mobilePanel}
+                onChange={handleMobilePanelChange}
+              />
+              <HeaderLabel>Preview</HeaderLabel>
+              {phase === 'ready' && (
+                <ReloadButton
+                  onClick={handleReload}
+                  aria-label="Reload preview"
+                  title="Reload preview"
+                >
+                  <IconRefresh size={14} />
+                </ReloadButton>
+              )}
+            </PanelHeaderBar>
+            {(isLoading || phase === 'error') && (
+              <Overlay>
+                {phase === 'error' ? (
+                  <ErrorText>{errorMsg || PHASE_LABELS.error}</ErrorText>
+                ) : (
+                  <>
+                    <Spinner />
+                    <StatusText>{PHASE_LABELS[phase]}</StatusText>
+                  </>
+                )}
+              </Overlay>
+            )}
+            <PreviewFrame
+              ref={iframeRef}
+              src={previewUrl || 'about:blank'}
+              title="Playground preview"
+              allow="cross-origin-isolated"
             />
           </Panel>
 
-          <Panel mods={{ mobileHidden: mobilePanel !== 'html' }}>
-            <OutputPanel
-              label="HTML Output"
-              value={htmlOutput}
-              language="html"
-              mobilePanel={mobilePanel}
-              onMobilePanelChange={handleMobilePanelChange}
-            />
-          </Panel>
-        </OutputPanelsWrapper>
-      </OutputSection>
+          {showOutput && (
+            <VerticalResizeHandle
+              role="separator"
+              aria-orientation="horizontal"
+              aria-label="Resize rows"
+              aria-valuenow={Math.round(topHeight)}
+              aria-valuemin={20}
+              aria-valuemax={80}
+              tabIndex={0}
+              style={{ top: `${topHeight}%` }}
+              mods={{ dragging: isVDragging }}
+              {...vMoveProps}
+            >
+              <VerticalResizeHandle.Indicator />
+            </VerticalResizeHandle>
+          )}
+
+          <OutputPanelsWrapper mods={{ hidden: !showOutput }}>
+            <Panel mods={{ mobileHidden: mobilePanel !== 'css' }}>
+              <CssOutputPanel
+                sections={cssSections}
+                mobilePanel={mobilePanel}
+                onMobilePanelChange={handleMobilePanelChange}
+              />
+            </Panel>
+
+            <Panel mods={{ mobileHidden: mobilePanel !== 'html' }}>
+              <OutputPanel
+                label="HTML Output"
+                value={htmlOutput}
+                language="html"
+                mobilePanel={mobilePanel}
+                onMobilePanelChange={handleMobilePanelChange}
+              />
+            </Panel>
+          </OutputPanelsWrapper>
+        </OutputSection>
       </PlaygroundGrid>
     </PlaygroundWrap>
   );

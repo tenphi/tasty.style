@@ -18,7 +18,7 @@ configure({
     },
     interactive: {
       cursor: 'pointer',
-      transition: 'theme .2s, shadow .2s, scale .2s',
+      transition: 'theme, shadow, scale',
       transform: { '': 'scale(1)', ':hover': 'scale(1.02)' },
       shadow: {
         '': '$elevation-shadow',

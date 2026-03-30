@@ -14,7 +14,6 @@ const Chat = tasty({
     flow: 'column',
     gap: '1.5x',
     padding: '2x',
-    width: 'max 420px',
   },
 });
 

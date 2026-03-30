@@ -34,7 +34,7 @@ const Bar = tasty({
     height: '0 $bar-height 100%',
     radius: '1r top',
     fill: '#accent-surface',
-    transition: 'height 0.15s',
+    transition: 'height',
     '@keyframes': {
       shimmer: {
         '0%, 100%': { opacity: '0.85' },
@@ -64,7 +64,8 @@ const ProgressTrack = tasty({
       image:
         'linear-gradient(90deg, #accent-surface, #info-accent-surface, #accent-surface)',
       backgroundSize: '200% 100%',
-      transition: 'width .5s',
+      $transition: '.5s',
+      transition: 'width',
       animation: '$sweep-name 2s linear infinite',
     },
   },

@@ -1,4 +1,4 @@
-import { tasty, useProperty } from '@tenphi/tasty';
+import { tasty } from '@tenphi/tasty';
 
 const GradientCard = tasty({
   styles: {
@@ -12,7 +12,8 @@ const GradientCard = tasty({
     '#glow': 'oklch(65% 0.25 265)',
     image: 'linear-gradient($gradient-angle, #accent-surface, #info-accent-surface)',
     color: '#accent-surface-text',
-    transition: 'shadow .3s',
+    $transition: '.3s',
+    transition: 'shadow',
     shadow: {
       '': '0 2x 16x $glow-color',
       ':hover': '0 3x 24x $glow-color',
@@ -44,19 +45,8 @@ const Layout = tasty({
   },
 });
 
-function PropertyDemo() {
-  useProperty('#demo-glow', {
-    syntax: '<color>',
-    inherits: false,
-    initialValue: 'oklch(65% 0.25 265)',
-  });
-
-  return null;
-}
-
 export const App = () => (
   <Layout>
-    <PropertyDemo />
     <GradientCard>
       <GradientCard.Title>Animated Gradient</GradientCard.Title>
       <GradientCard.Body>

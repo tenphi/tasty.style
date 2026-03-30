@@ -33,7 +33,7 @@ const ToggleButton = tasty({
     radius: 'round',
     cursor: 'pointer',
     preset: 't3',
-    transition: 'theme .2s',
+    transition: 'theme',
     border: true,
     fill: { '': '#surface', isActive: '#accent-text.10' },
     color: { '': '#text-soft', isActive: '#accent-text' },
@@ -51,7 +51,8 @@ const Container = tasty({
     fill: '#surface',
     border: true,
     cursor: 'pointer',
-    transition: 'gap .3s',
+    $transition: '.3s',
+    transition: 'gap',
   },
 });
 
@@ -60,7 +61,7 @@ const Tile = tasty({
     width: { '': '8x', '@parent(isCompact)': '6x' },
     height: { '': '8x', '@parent(isCompact)': '6x' },
     radius: '1r',
-    transition: 'theme .2s, scale .2s',
+    transition: 'theme, scale',
     transform: {
       '': 'scale(1)',
       '@own(:hover)': 'scale(1.12)',
