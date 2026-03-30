@@ -903,7 +903,7 @@
             }
           },
           "endCaptures": {
-            "1": {
+            "0": {
               "name": "punctuation.definition.string.end.tsx"
             }
           },
@@ -989,7 +989,7 @@
             }
           },
           "endCaptures": {
-            "1": {
+            "0": {
               "name": "punctuation.definition.string.end.tsx"
             }
           },

@@ -1,87 +1,9 @@
 import type { FileSystemTree } from '@webcontainer/api';
-import { DEFAULT_EXAMPLE } from './examples';
+import { DEFAULT_EXAMPLE, DEFAULT_CONFIG, DEFAULT_GLOBAL } from './examples';
+
+export { DEFAULT_CONFIG, DEFAULT_GLOBAL };
 
 export const DEFAULT_CODE = DEFAULT_EXAMPLE.code;
-
-export const DEFAULT_CONFIG = `import { configure } from '@tenphi/tasty';
-import { glaze } from '@tenphi/glaze';
-
-const theme = glaze(240, 75);
-
-theme.colors({
-  surface: { lightness: 100, saturation: 0.1 },
-  text: { base: 'surface', lightness: 0, contrast: 'AAA', saturation: 0.08 },
-  'text-soft': {
-    base: 'surface',
-    lightness: 20,
-    contrast: ['AA', 'AAA'],
-    saturation: 0.05,
-  },
-  border: {
-    base: 'surface',
-    lightness: ['-10', '-20'],
-    saturation: 0.35,
-  },
-  'accent-surface-text': { lightness: 100, mode: 'fixed' },
-  'accent-surface': {
-    base: 'accent-surface-text',
-    lightness: '-48',
-    contrast: ['AA', 7],
-    mode: 'fixed',
-  },
-  'accent-text': {
-    base: 'surface',
-    lightness: 50,
-    contrast: ['AA', 'AAA'],
-    saturation: 0.9,
-  },
-  white: { lightness: 100, saturation: 0, mode: 'static' },
-  black: { lightness: 0, saturation: 0, mode: 'static' },
-});
-
-configure({
-  tokens: {
-    ...theme.tasty({
-      prefix: false,
-      modes: { highContrast: true },
-      states: {
-        dark: '@dark-root',
-        highContrast: '@high-contrast-root',
-      },
-    }),
-    $gap: '8px',
-    $radius: '8px',
-    '$border-width': '1px',
-  },
-  states: {
-    '@mobile': '@media(w < 768px)',
-    '@tablet': '@media(w < 1024px)',
-    '@desktop': '@media(w >= 1024px)',
-    '@dark-root': 'schema=dark | (!schema & @media(prefers-color-scheme: dark))',
-    '@high-contrast-root':
-      'contrast=more | (!contrast & @media(prefers-contrast: more))',
-    '@dark':
-      '@root(schema=dark) | (!@root(schema) & @media(prefers-color-scheme: dark))',
-    '@high-contrast':
-      '@root(contrast=more) | (!@root(contrast) & @media(prefers-contrast: more))',
-    '@reduce-motion': '@media(prefers-reduced-motion: reduce)',
-  },
-});
-`;
-
-export const DEFAULT_GLOBAL = `import { useGlobalStyles } from '@tenphi/tasty';
-
-export function useAppGlobalStyles() {
-  useGlobalStyles('body', {
-    fill: '#surface',
-    color: '#text',
-    preset: 't2',
-    margin: 0,
-    padding: '2x',
-    fontFamily: 'system-ui, sans-serif',
-  });
-}
-`;
 
 export const PREVIEW_SCRIPT = `
 (function() {

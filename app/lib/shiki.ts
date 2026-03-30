@@ -1,4 +1,4 @@
-import type { LanguageRegistration } from 'shiki/core';
+import type { LanguageRegistration, ThemedToken } from 'shiki/core';
 import { createHighlighterCoreSync } from 'shiki/core';
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 import tsx from 'shiki/langs/tsx.mjs';
@@ -57,5 +57,18 @@ export function highlightCode(code: string, lang: string) {
       lang: 'text',
       theme: 'tasty-code',
     });
+  }
+}
+
+export function tokenizeCode(code: string, lang: string) {
+  const resolved = LANG_ALIASES[lang] || lang;
+
+  try {
+    return highlighter.codeToTokens(code, {
+      lang: resolved,
+      theme: 'tasty-code',
+    });
+  } catch {
+    return { tokens: [] as ThemedToken[][] };
   }
 }

@@ -111,7 +111,7 @@ export default function Hero() {
       />
       <HeroInner>
         <HeroLogo src="/tasty.svg" alt="Tasty logo" />
-        <Badge>v{pkg.dependencies['@tenphi/tasty']}</Badge>
+        <Badge>tasty v{pkg.dependencies['@tenphi/tasty']}</Badge>
         <HeroTitle>
           Deterministic styling for{' '}
           <HeroAccent>stateful component systems</HeroAccent>

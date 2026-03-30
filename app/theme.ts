@@ -1,5 +1,7 @@
 import { glaze } from '@tenphi/glaze';
 
+glaze.configure({ darkCurve: 0.45 });
+
 const base = glaze(210, 10);
 
 base.colors({
@@ -169,69 +171,59 @@ syntax.colors({
   },
   comment: {
     base: 'bg',
-    lightness: 52,
     contrast: ['AA', 'AAA'],
     saturation: 0.01,
     hue: 210,
   },
   punctuation: {
     base: 'bg',
-    lightness: 42,
     contrast: ['AA', 'AAA'],
     saturation: 0.01,
     hue: 210,
   },
   keyword: {
     base: 'bg',
-    lightness: 25,
     contrast: ['AA', 'AAA'],
     saturation: 0.65,
   },
   string: {
     base: 'bg',
-    lightness: 26,
     contrast: ['AA', 'AAA'],
     saturation: 0.55,
     hue: 15,
   },
   token: {
     base: 'bg',
-    lightness: 28,
     contrast: ['AA', 'AAA'],
     saturation: 0.55,
     hue: 125,
   },
   property: {
     base: 'bg',
-    lightness: 30,
     contrast: ['AA', 'AAA'],
     saturation: 0.55,
     hue: 155,
   },
   number: {
     base: 'bg',
-    lightness: 26,
     contrast: ['AA', 'AAA'],
     saturation: 0.6,
     hue: 70,
   },
   function: {
     base: 'bg',
-    lightness: 28,
     contrast: ['AA', 'AAA'],
     saturation: 0.55,
     hue: 210,
   },
   value: {
     base: 'bg',
-    lightness: 32,
     contrast: ['AA', 'AAA'],
     saturation: 0.5,
     hue: 210,
   },
   operator: {
     base: 'bg',
-    lightness: 28,
     contrast: ['AA', 'AAA'],
     saturation: 0.5,
     hue: 340,

@@ -12,6 +12,9 @@ const theme = EditorView.theme(
       fontFamily: 'var(--font-mono), monospace',
       fontSize: '14px',
       lineHeight: '1.5',
+      scrollbarWidth: 'thin',
+      scrollbarColor:
+        'color-mix(in srgb, var(--syntax-text-color) 15%, transparent) transparent',
     },
     '.cm-gutters': {
       backgroundColor: 'var(--syntax-bg-color)',
@@ -59,6 +62,9 @@ const theme = EditorView.theme(
         backgroundColor:
           'color-mix(in srgb, var(--syntax-text-color) 10%, transparent)',
       },
+    },
+    '.cm-line span': {
+      color: 'inherit',
     },
   },
 );
@@ -159,4 +165,6 @@ const highlighting = HighlightStyle.define([
   },
 ]);
 
-export const tastyCodeMirrorTheme = [theme, syntaxHighlighting(highlighting)];
+export const tastyEditorTheme = theme;
+export const tastyHighlightStyle = syntaxHighlighting(highlighting);
+export const tastyCodeMirrorTheme = [tastyEditorTheme, tastyHighlightStyle];

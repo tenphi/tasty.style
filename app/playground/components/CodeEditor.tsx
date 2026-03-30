@@ -112,12 +112,14 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
           { EditorView, basicSetup },
           { EditorState },
           { javascript },
-          { tastyCodeMirrorTheme },
+          { tastyEditorTheme },
+          { shikiHighlight },
         ] = await Promise.all([
           import('codemirror'),
           import('@codemirror/state'),
           import('@codemirror/lang-javascript'),
           import('../lib/codemirror-theme'),
+          import('../lib/shiki-highlight'),
         ]);
 
         if (destroyed) return;
@@ -129,7 +131,8 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
               extensions: [
                 basicSetup,
                 javascript({ jsx: true, typescript: true }),
-                ...tastyCodeMirrorTheme,
+                tastyEditorTheme,
+                shikiHighlight('tsx'),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
                     clearTimeout(debounceRef.current.code);
@@ -151,7 +154,8 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
               extensions: [
                 basicSetup,
                 javascript({ jsx: false, typescript: true }),
-                ...tastyCodeMirrorTheme,
+                tastyEditorTheme,
+                shikiHighlight('typescript'),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
                     clearTimeout(debounceRef.current.global);
@@ -173,7 +177,8 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
               extensions: [
                 basicSetup,
                 javascript({ jsx: false, typescript: true }),
-                ...tastyCodeMirrorTheme,
+                tastyEditorTheme,
+                shikiHighlight('typescript'),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
                     clearTimeout(debounceRef.current.config);
