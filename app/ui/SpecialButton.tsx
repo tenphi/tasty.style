@@ -24,7 +24,7 @@ const Outer = tasty(Button, {
       ':hover': '70%',
       ':active': '40%',
       '@dark & :hover': '80%',
-      '@dark &:active': '60%',
+      '@dark &:active': '0%',
     },
     border: 'none',
     fill: '#white',
@@ -48,12 +48,11 @@ const Outer = tasty(Button, {
       position: 'absolute',
       inset: 0,
       radius: 'round',
-      image:
-        'linear-gradient(to bottom, #white.3 0%, #white.0 50%, #black.0 50%, #black.3 100%)',
       shadow: {
-        '': 'inset 0 0 0 1bw #white.5',
-        '@dark': 'inset 0 0 0 1bw #white.2',
+        '': 'inset 0 0 2x #shadow-accent-inset-2.0',
+        ':active': 'inset 0 0 2x #shadow-accent-inset-2',
       },
+      transition: 'theme',
     },
   },
 });

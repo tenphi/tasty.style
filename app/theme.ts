@@ -142,6 +142,16 @@ violet.colors({
     fg: 'text',
     intensity: 22,
   },
+  'shadow-accent-inset-2': {
+    type: 'shadow',
+    bg: 'accent-surface',
+    intensity: 15,
+  },
+  'shadow-inset-2': {
+    type: 'shadow',
+    bg: 'surface-2',
+    intensity: 10,
+  },
   overlay: { lightness: 10, opacity: 0.5 },
 });
 

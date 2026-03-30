@@ -16,6 +16,10 @@ const Button = tasty({
     transition: 'theme',
     textDecoration: 'none',
     whiteSpace: 'nowrap',
+    shadow: {
+      '': 'inset 0 0 2x #shadow-inset-2.0',
+      ':active': 'inset 0 0 2x #shadow-inset-2',
+    },
   },
   variants: {
     default: {
@@ -25,6 +29,10 @@ const Button = tasty({
         ':active': '#accent-surface-3',
       },
       color: '#accent-surface-text',
+      shadow: {
+        '': 'inset 0 0 2x #shadow-accent-inset-2.0',
+        ':active': 'inset 0 0 2x #shadow-accent-inset-2',
+      },
     },
     secondary: {
       fill: {
