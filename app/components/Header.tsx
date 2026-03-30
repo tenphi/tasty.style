@@ -114,6 +114,10 @@ const HeaderNavLink = tasty({
     },
     transition: 'theme',
     cursor: 'pointer',
+    shadow: {
+      '': 'inset 0 0 2x #shadow-inset-2.0',
+      ':active': 'inset 0 0 2x #shadow-inset-2',
+    },
   },
 });
 
