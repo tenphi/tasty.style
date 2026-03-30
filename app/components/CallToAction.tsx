@@ -22,7 +22,7 @@ const CTAWrapper = tasty({
     },
     gap: '4x',
     image:
-      'radial-gradient(ellipse 70% 50% at 50% 100%, #violet-surface-3.60, transparent), linear-gradient(180deg, #primary-surface-2, #primary-surface)',
+      'radial-gradient(ellipse 70% 50% at 50% 100%, #violet-surface-3.60, transparent), linear-gradient(180deg, #surface-2, #surface)',
   },
 });
 
@@ -33,7 +33,7 @@ const CTATitle = tasty({
       '': 'h1',
       '@mobile': 'h2',
     },
-    color: '#primary-text',
+    color: '#text',
     margin: 0,
     textWrap: 'balance',
   },
@@ -43,7 +43,7 @@ const CTASubtitle = tasty({
   as: 'p',
   styles: {
     preset: 't1',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: 0,
     width: 'max 500px',
     textAlign: 'center',

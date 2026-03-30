@@ -17,7 +17,7 @@ const HeaderElement = tasty({
     position: 'sticky',
     inset: '0 top',
     zIndex: 100,
-    fill: '#primary-surface.6',
+    fill: '#surface.6',
     backdropFilter: 'blur(12px)',
     border: 'bottom',
     width: '100%',
@@ -42,7 +42,7 @@ const HeaderElement = tasty({
     LogoText: {
       $: '>Inner>Logo>',
       preset: 'h4',
-      color: '#primary-text',
+      color: '#text',
       fontWeight: 700,
       hide: {
         '': false,
@@ -87,7 +87,7 @@ const LogoLink = tasty({
     placeItems: 'center',
     gap: '1x',
     textDecoration: 'none',
-    color: '#primary-text',
+    color: '#text',
     transition: 'opacity',
     opacity: {
       '': 1,
@@ -102,15 +102,15 @@ const HeaderNavLink = tasty({
   styles: {
     preset: 't3',
     color: {
-      '': '#primary-text-soft',
-      ':hover': '#primary-text',
+      '': '#text-soft',
+      ':hover': '#text',
     },
     textDecoration: 'none',
     padding: '1x 1.5x',
     radius: true,
     fill: {
       '': 'transparent',
-      ':hover': '#primary-surface-2',
+      ':hover': '#surface-2',
     },
     transition: 'theme',
     cursor: 'pointer',

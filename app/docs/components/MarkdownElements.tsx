@@ -8,7 +8,7 @@ export const DocH2 = tasty({
   as: 'h2',
   styles: {
     preset: 'h2',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: '4x 0 2x',
     padding: '1x 0 0',
     scrollMarginTop: '($header-height, 64px)',
@@ -19,7 +19,7 @@ export const DocH3 = tasty({
   as: 'h3',
   styles: {
     preset: 'h3',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: '3x 0 1.5x',
     scrollMarginTop: '($header-height, 64px)',
   },
@@ -29,7 +29,7 @@ export const DocH4 = tasty({
   as: 'h4',
   styles: {
     preset: 'h4',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: '2x 0 1x',
     scrollMarginTop: '($header-height, 64px)',
   },
@@ -39,7 +39,7 @@ export const DocParagraph = tasty({
   as: 'p',
   styles: {
     preset: 't2',
-    color: '#primary-text',
+    color: '#text',
     margin: '0 0 2x',
     '$t2-line-height': '1.7',
   },
@@ -53,10 +53,10 @@ export const DocBlockquote = tasty({
     gap: '1x',
     padding: '2x 3x',
     margin: '0 0 2x',
-    fill: '#primary-surface-2',
-    border: 'left 3px solid #primary-accent-surface',
+    fill: '#surface-2',
+    border: 'left 3px solid #accent-surface',
     radius: '0 1r 1r 0',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     preset: 't2',
   },
 });
@@ -65,7 +65,7 @@ export const DocHr = tasty({
   as: 'hr',
   styles: {
     border: 'none',
-    borderTop: '1bw solid #primary-border',
+    borderTop: '1bw solid #border',
     margin: '4x 0',
   },
 });
@@ -74,7 +74,7 @@ export const DocUl = tasty({
   as: 'ul',
   styles: {
     preset: 't2',
-    color: '#primary-text',
+    color: '#text',
     margin: '0 0 2x',
     padding: '0 0 0 3x',
     '$t2-line-height': '1.7',
@@ -85,7 +85,7 @@ export const DocOl = tasty({
   as: 'ol',
   styles: {
     preset: 't2',
-    color: '#primary-text',
+    color: '#text',
     margin: '0 0 2x',
     padding: '0 0 0 3x',
     '$t2-line-height': '1.7',
@@ -116,7 +116,7 @@ export const DocTable = tasty({
 export const DocThead = tasty({
   as: 'thead',
   styles: {
-    fill: '#primary-surface-2',
+    fill: '#surface-2',
   },
 });
 
@@ -128,7 +128,7 @@ export const DocTbody = tasty({
 export const DocTr = tasty({
   as: 'tr',
   styles: {
-    borderBottom: '1bw solid #primary-border',
+    borderBottom: '1bw solid #border',
   },
 });
 
@@ -138,7 +138,7 @@ export const DocTh = tasty({
     padding: '1x 1.5x',
     textAlign: 'left',
     fontWeight: 600,
-    color: '#primary-text',
+    color: '#text',
     whiteSpace: 'nowrap',
   },
 });
@@ -147,7 +147,7 @@ export const DocTd = tasty({
   as: 'td',
   styles: {
     padding: '1x 1.5x',
-    color: '#primary-text',
+    color: '#text',
   },
 });
 

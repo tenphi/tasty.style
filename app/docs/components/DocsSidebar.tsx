@@ -47,7 +47,7 @@ const Aside = tasty({
     overflow: 'hidden auto',
     overscrollBehavior: 'none',
     padding: '3x 0',
-    fill: '#primary-surface',
+    fill: '#surface',
     scrollbar: 'thin',
     position: {
       '': 'fixed',
@@ -77,7 +77,7 @@ const Aside = tasty({
     $transition: '0.2s',
     shadow: {
       '': 'none',
-      'open & !@desktop': '-4x 0 8x #primary-shadow-md',
+      'open & !@desktop': '-4x 0 8x #shadow-md',
     },
   },
 });
@@ -106,7 +106,7 @@ const GroupTitle = tasty({
   as: 'span',
   styles: {
     preset: 't4 strong',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     padding: '2x 1.5x 0.5x',
     textTransform: 'uppercase',
     letterSpacing: '0.06em',
@@ -130,16 +130,16 @@ const navLinkStyles = {
   padding: '0.75x 1.5x',
   preset: 't3',
   color: {
-    '': '#primary-text-soft',
-    active: '#primary-accent-text-2',
-    ':hover & !active': '#primary-text',
+    '': '#text-soft',
+    active: '#accent-text-2',
+    ':hover & !active': '#text',
   },
   textDecoration: 'none',
   radius: '1r',
   fill: {
     '': 'transparent',
-    active: '#primary-surface-2',
-    ':hover & !active': '#primary-surface-2',
+    active: '#surface-2',
+    ':hover & !active': '#surface-2',
   },
   fontWeight: {
     '': 400,

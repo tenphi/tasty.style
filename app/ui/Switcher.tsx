@@ -9,7 +9,7 @@ const SwitcherElement = tasty({
     gap: 0,
     padding: '0.25x',
     radius: 'round',
-    fill: '#primary-surface-3',
+    fill: '#surface-3',
     border: true,
   },
   styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES],
@@ -27,15 +27,15 @@ const SwitcherOption = tasty({
     transition: 'theme',
     fill: {
       '': 'transparent',
-      active: '#primary-surface',
+      active: '#surface',
     },
     color: {
-      '': '#primary-text-soft',
-      active: '#primary-text',
+      '': '#text-soft',
+      active: '#text',
     },
     shadow: {
       '': 'none',
-      active: '0 1px 3px #primary-shadow-sm',
+      active: '0 1px 3px #shadow-sm',
     },
     border: 'none',
   },

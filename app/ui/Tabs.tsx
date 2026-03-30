@@ -18,16 +18,16 @@ const TabButton = tasty({
     whiteSpace: 'nowrap',
     fill: {
       '': 'transparent',
-      active: '#primary-accent-surface',
+      active: '#accent-surface',
     },
     color: {
-      '': '#primary-text-soft',
-      ':hover & !active': '#primary-text',
-      active: '#primary-accent-surface-text',
+      '': '#text-soft',
+      ':hover & !active': '#text',
+      active: '#accent-surface-text',
     },
     borderColor: {
-      '': '#primary-border',
-      active: '#primary-accent-surface',
+      '': '#border',
+      active: '#accent-surface',
     },
   },
 });

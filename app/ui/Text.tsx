@@ -6,7 +6,7 @@ const Text = tasty({
   as: 'p',
   styles: {
     preset: 't2',
-    color: '#primary-text',
+    color: '#text',
     margin: 0,
   },
   styleProps: [

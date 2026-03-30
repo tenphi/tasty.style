@@ -34,7 +34,7 @@ export const PageTitle = tasty({
   as: 'h1',
   styles: {
     preset: 'h1',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: '0 0 4x',
   },
 });

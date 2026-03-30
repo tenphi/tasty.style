@@ -15,7 +15,7 @@ const HeroOuter = tasty({
     overflow: 'hidden',
     width: '100%',
     image:
-      'radial-gradient(ellipse 80% 60% at 50% 0%, #violet-surface-3, transparent), radial-gradient(ellipse 60% 50% at 80% 20%, #coral-surface-3.40, transparent), radial-gradient(ellipse 60% 50% at 20% 30%, #blue-surface-3.40, transparent), linear-gradient(180deg, #primary-surface, #primary-surface-2)',
+      'radial-gradient(ellipse 80% 60% at 50% 0%, #violet-surface-3, transparent), radial-gradient(ellipse 60% 50% at 80% 20%, #coral-surface-3.40, transparent), radial-gradient(ellipse 60% 50% at 20% 30%, #blue-surface-3.40, transparent), linear-gradient(180deg, #surface, #surface-2)',
   },
 });
 
@@ -45,7 +45,7 @@ const HeroLogo = tasty({
       '@mobile': '72px',
     },
     height: 'auto',
-    filter: 'drop-shadow(0 4px 12px #primary-shadow-logo)',
+    filter: 'drop-shadow(0 4px 12px #shadow-logo)',
   },
 });
 
@@ -56,7 +56,7 @@ const HeroTitle = tasty({
       '': 'd1',
       '@mobile': 'h1',
     },
-    color: '#primary-text',
+    color: '#text',
     margin: 0,
     textAlign: 'center',
     textWrap: 'balance',
@@ -78,7 +78,7 @@ const HeroSubtitle = tasty({
   as: 'p',
   styles: {
     preset: 't1',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: 0,
     textAlign: 'center',
     textWrap: 'balance',

@@ -57,7 +57,7 @@ const Card = tasty({
     Description: {
       $: '>',
       preset: 't2',
-      color: '#primary-text-soft',
+      color: '#text-soft',
       margin: '0',
     },
   },

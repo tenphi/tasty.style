@@ -45,8 +45,8 @@ const SearchTrigger = tasty({
     padding: '0.75x 1.5x',
     radius: 'round',
     border: true,
-    fill: '#primary-surface-2',
-    color: '#primary-text-soft',
+    fill: '#surface-2',
+    color: '#text-soft',
     preset: 't3',
     cursor: 'pointer',
     transition: 'theme',
@@ -73,9 +73,9 @@ const SearchIconTrigger = tasty({
     border: 'none',
     fill: {
       '': 'transparent',
-      ':hover': '#primary-surface-2',
+      ':hover': '#surface-2',
     },
-    color: '#primary-text-soft',
+    color: '#text-soft',
     cursor: 'pointer',
     transition: 'theme',
     hide: {
@@ -94,10 +94,10 @@ const Kbd = tasty({
     padding: '0 0.75x',
     height: '2.5x',
     radius: '0.5r',
-    fill: '#primary-surface',
+    fill: '#surface',
     border: true,
     preset: 't4',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     fontFamily: 'inherit',
     lineHeight: 1,
   },
@@ -122,9 +122,9 @@ const DialogPanel = tasty({
     width: 'initial 100% 560px',
     maxHeight: '70vh',
     radius: '1.5r',
-    fill: '#primary-surface',
+    fill: '#surface',
     border: true,
-    shadow: '0 8x 24x #primary-shadow-lg',
+    shadow: '0 8x 24x #shadow-lg',
     overflow: 'hidden',
   },
 });
@@ -136,7 +136,7 @@ const SearchInputWrap = tasty({
     placeItems: 'center',
     gap: '1.5x',
     padding: '2x 2.5x',
-    borderBottom: '1bw solid #primary-border',
+    borderBottom: '1bw solid #border',
   },
 });
 
@@ -148,11 +148,11 @@ const SearchInput = tasty({
     border: 'none',
     outline: 'none',
     fill: 'transparent',
-    color: '#primary-text',
+    color: '#text',
     preset: 't2',
     Placeholder: {
       $: '::placeholder',
-      color: '#primary-text-soft',
+      color: '#text-soft',
     },
   },
 });
@@ -178,7 +178,7 @@ const ResultItem = tasty({
     cursor: 'pointer',
     fill: {
       '': 'transparent',
-      selected: '#primary-accent-surface.08',
+      selected: '#accent-surface.08',
     },
     transition: 'theme',
     ResultTitle: {
@@ -186,8 +186,8 @@ const ResultItem = tasty({
       display: 'block',
       preset: 't3 strong',
       color: {
-        '': '#primary-text',
-        '@parent(selected)': '#primary-accent-text',
+        '': '#text',
+        '@parent(selected)': '#accent-text',
       },
       margin: '0 0 0.25x',
     },
@@ -195,7 +195,7 @@ const ResultItem = tasty({
       $: '>',
       display: 'block',
       preset: 't4',
-      color: '#primary-text-soft',
+      color: '#text-soft',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'normal',
@@ -214,7 +214,7 @@ const EmptyState = tasty({
     placeItems: 'center',
     padding: '4x 2x',
     preset: 't3',
-    color: '#primary-text-soft',
+    color: '#text-soft',
   },
 });
 
@@ -225,9 +225,9 @@ const Footer = tasty({
     placeItems: 'center',
     placeContent: 'space-between',
     padding: '1x 2x',
-    border: 'top #primary-border',
+    border: 'top #border',
     preset: 't4',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     gap: '0.5x',
   },
 });

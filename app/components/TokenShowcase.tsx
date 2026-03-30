@@ -11,7 +11,7 @@ import CodeBlock from '@/app/ui/CodeBlock';
 const GlazeLink = tasty({
   as: 'a',
   styles: {
-    color: '#primary-accent-text',
+    color: '#accent-text',
     textDecoration: {
       '': 'underline',
       ':hover': 'none',
@@ -28,8 +28,8 @@ const TokenLabel = tasty({
     padding: '0.75x 2x',
     preset: 't3 strong',
     radius: '1r 1r 0 0',
-    fill: '#primary-accent-surface',
-    color: '#primary-accent-surface-text',
+    fill: '#accent-surface',
+    color: '#accent-surface-text',
     placeSelf: 'start',
     position: 'relative',
     inset: '1bw top left',
@@ -115,7 +115,7 @@ export default function TokenShowcase() {
           <Space gap="1.5x">
             <Text
               preset="t1"
-              color="#primary-text-soft-2"
+              color="#text-soft-2"
               textAlign="center"
               textWrap="balance"
             >
@@ -126,7 +126,7 @@ export default function TokenShowcase() {
             </Text>
             <Text
               preset="t1"
-              color="#primary-text-soft-2"
+              color="#text-soft-2"
               textAlign="center"
               textWrap="balance"
             >

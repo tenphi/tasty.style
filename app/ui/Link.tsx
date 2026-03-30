@@ -7,8 +7,8 @@ const Link = tasty({
   as: NextLink,
   styles: {
     color: {
-      '': '#primary-accent-text',
-      ':hover': '#primary-icon',
+      '': '#accent-text',
+      ':hover': '#icon',
     },
     textDecoration: {
       '': 'none',

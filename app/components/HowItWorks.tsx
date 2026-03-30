@@ -29,7 +29,7 @@ const ArrowIconWrap = tasty({
     display: 'flex',
     placeItems: 'center',
     placeContent: 'center',
-    color: '#primary-accent-text-2',
+    color: '#accent-text-2',
     transform: {
       '': 'rotate(0deg)',
       '@mobile': 'rotate(90deg)',
@@ -42,7 +42,7 @@ const SIMPLE_INPUT_CODE = `const Button = tasty({
   styles: {
     fill: {
       '': '#primary',
-      ':hover': '#primary-hover',
+      ':hover': '#hover',
       '[disabled]': '#surface',
     },
     color: {
@@ -155,7 +155,7 @@ function ExampleGrid({
     >
       <Space gap="2x">
         <ColumnHeader>
-          <Text preset="h3" color="#primary-text-2">
+          <Text preset="h3" color="#text-2">
             Tasty DSL
           </Text>
           <Badge fill="#teal-surface-3" color="#teal-accent-text-3">
@@ -169,7 +169,7 @@ function ExampleGrid({
       </ArrowIconWrap>
       <Space gap="2x">
         <ColumnHeader flow={{ '': 'row-reverse', '@mobile': 'row' }}>
-          <Text preset="h3" color="#primary-text-2">
+          <Text preset="h3" color="#text-2">
             Exclusive CSS Selectors
           </Text>
           <Badge fill="#coral-surface-3" color="#coral-accent-text-3">
@@ -204,7 +204,7 @@ const TABS = [
 
 export default function HowItWorks() {
   return (
-    <SectionWrap fill="#primary-surface-2">
+    <SectionWrap fill="#surface-2">
       <Section id="how-it-works">
         <Section.Title>How It Actually Works</Section.Title>
         <Section.Subtitle>
@@ -214,11 +214,11 @@ export default function HowItWorks() {
         <Section.Content>
           <Tabs tabs={TABS} defaultTab="interactive-states" />
           <Space gap="2x">
-            <Text preset="t1" color="#primary-text-soft-2" textAlign="center">
+            <Text preset="t1" color="#text-soft-2" textAlign="center">
               Each branch is guarded so one rule wins by construction. No
               specificity arithmetic. No source-order accidents.
             </Text>
-            <Text preset="t1" color="#primary-text-soft-2" textAlign="center">
+            <Text preset="t1" color="#text-soft-2" textAlign="center">
               That is what lets components{' '}
               <strong>compose, extend, and stay predictable</strong> as states
               intersect.

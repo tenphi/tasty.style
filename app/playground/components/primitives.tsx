@@ -16,8 +16,8 @@ export const Panel = tasty({
     flow: 'column',
     overflow: 'hidden',
     position: 'relative',
-    border: '1bw #primary-border right bottom',
-    fill: '#primary-surface',
+    border: '1bw #border right bottom',
+    fill: '#surface',
     flex: {
       '': 'none',
       '@mobile': '1 1 0',
@@ -38,10 +38,10 @@ export const PanelHeaderBar = tasty({
       '@mobile': '0',
     },
     height: PANEL_HEADER_HEIGHT,
-    fill: '#primary-surface-2',
-    color: '#primary-text-soft',
+    fill: '#surface-2',
+    color: '#text-soft',
     preset: 'label',
-    border: '1bw #primary-border bottom',
+    border: '1bw #border bottom',
     flexShrink: 0,
     gap: '1x',
   },
@@ -63,8 +63,8 @@ export const TabBar = tasty({
   styles: {
     display: 'flex',
     flow: 'row',
-    fill: '#primary-surface-2',
-    border: '1bw #primary-border bottom',
+    fill: '#surface-2',
+    border: '1bw #border bottom',
     flexShrink: 0,
     height: PANEL_HEADER_HEIGHT,
   },
@@ -78,11 +78,11 @@ export const Tab = tasty({
     padding: '0 2x',
     fill: {
       '': 'transparent',
-      active: '#primary-surface-3',
+      active: '#surface-3',
     },
     color: {
-      '': '#primary-text-soft',
-      active: '#primary-text',
+      '': '#text-soft',
+      active: '#text',
     },
     border: 'none',
     cursor: 'pointer',
@@ -94,7 +94,7 @@ export const Tab = tasty({
     font: 'monospace',
     borderBottom: {
       '': '2px solid transparent',
-      active: '2px solid #primary-accent-surface',
+      active: '2px solid #accent-surface',
     },
     transition: 'theme',
   },
@@ -121,7 +121,7 @@ const MobilePanelSelectWrap = tasty({
     },
     placeItems: 'center',
     flexShrink: 0,
-    border: '1bw #primary-border right',
+    border: '1bw #border right',
   },
 });
 
@@ -133,9 +133,9 @@ const MobilePanelSelectEl = tasty(SelectElement, {
     border: 'none',
     fill: {
       '': 'transparent',
-      ':hover': '#primary-surface-3',
+      ':hover': '#surface-3',
     },
-    color: '#primary-text-soft',
+    color: '#text-soft',
   },
 });
 
@@ -148,7 +148,7 @@ const SelectChevron = tasty({
     transform: 'translateY(-50%)',
     display: 'inline-flex',
     placeItems: 'center',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     pointerEvents: 'none',
   },
 });
@@ -186,8 +186,8 @@ export const Toolbar = tasty({
     display: 'flex',
     flow: 'row',
     placeItems: 'center',
-    fill: '#primary-surface-2',
-    border: '1bw #primary-border bottom',
+    fill: '#surface-2',
+    border: '1bw #border bottom',
     flexShrink: 0,
     gap: '0.5x',
     padding: '0.5x 1x',
@@ -210,11 +210,11 @@ export const ToolbarButton = tasty({
     padding: '0.5x 1.5x',
     fill: {
       '': 'transparent',
-      ':hover': '#primary-surface-3',
+      ':hover': '#surface-3',
     },
     color: {
-      '': '#primary-text-soft',
-      ':hover': '#primary-text',
+      '': '#text-soft',
+      ':hover': '#text',
     },
     border: 'none',
     cursor: 'pointer',
@@ -243,9 +243,9 @@ const ExampleSelectEl = tasty(SelectElement, {
     border: 'none',
     fill: {
       '': 'transparent',
-      ':hover': '#primary-surface-3',
+      ':hover': '#surface-3',
     },
-    color: '#primary-text',
+    color: '#text',
     fontWeight: 600,
     cursor: 'pointer',
   },
@@ -284,7 +284,7 @@ export const ModifiedBadge = tasty({
     display: 'inline-flex',
     placeItems: 'center',
     preset: 'tag',
-    color: '#primary-accent-text',
+    color: '#accent-text',
     opacity: {
       '': 0,
       visible: 1,
@@ -299,7 +299,7 @@ export const CopiedToast = tasty({
     display: 'inline-flex',
     placeItems: 'center',
     preset: 'label',
-    color: '#primary-accent-text',
+    color: '#accent-text',
     opacity: {
       '': 0,
       visible: 1,

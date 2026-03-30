@@ -21,7 +21,7 @@ const Section = tasty({
         '': 'h1',
         '@mobile': 'h2',
       },
-      color: '#primary-text',
+      color: '#text',
       textAlign: 'center',
       textWrap: 'balance',
       margin: 0,
@@ -29,7 +29,7 @@ const Section = tasty({
     Subtitle: {
       $: '>',
       preset: 't1',
-      color: '#primary-text-soft',
+      color: '#text-soft',
       textAlign: 'center',
       textWrap: 'balance',
       width: 'max 600px',

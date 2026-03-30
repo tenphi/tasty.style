@@ -131,11 +131,11 @@ export default function Footer() {
       <FooterEl.Bottom>
         <Space flow="row" gap="1.5x" placeItems="center">
           <Logo src="/tasty.svg" alt="Tasty" />
-          <Text as="span" preset="t3 strong" color="#primary-text">
+          <Text as="span" preset="t3 strong" color="#text">
             Tasty
           </Text>
         </Space>
-        <Text as="span" preset="t4" color="#primary-text-soft">
+        <Text as="span" preset="t4" color="#text-soft">
           MIT License &copy; {new Date().getFullYear()} Tenphi
         </Text>
       </FooterEl.Bottom>

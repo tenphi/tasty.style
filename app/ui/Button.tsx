@@ -20,28 +20,28 @@ const Button = tasty({
   variants: {
     default: {
       fill: {
-        '': '#primary-accent-surface',
-        ':hover': '#primary-accent-surface-2',
-        ':active': '#primary-accent-surface-3',
+        '': '#accent-surface',
+        ':hover': '#accent-surface-2',
+        ':active': '#accent-surface-3',
       },
-      color: '#primary-accent-surface-text',
+      color: '#accent-surface-text',
     },
     secondary: {
       fill: {
-        '': '#primary-surface-2',
-        ':hover': '#primary-surface-3',
-        ':active': '#primary-surface-2',
+        '': '#surface-2',
+        ':hover': '#surface-3',
+        ':active': '#surface-2',
       },
-      color: '#primary-text',
+      color: '#text',
       border: true,
     },
     ghost: {
       fill: {
         '': 'transparent',
-        ':hover': '#primary-surface-2',
-        ':active': '#primary-surface-3',
+        ':hover': '#surface-2',
+        ':active': '#surface-3',
       },
-      color: '#primary-text',
+      color: '#text',
     },
   },
   styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES],

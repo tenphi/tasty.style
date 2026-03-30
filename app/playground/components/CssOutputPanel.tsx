@@ -21,9 +21,9 @@ interface CssOutputPanelProps {
 const PanelLabel = tasty(HeaderLabel, {
   styles: {
     padding: '0 2x',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     preset: 'label',
-    border: '1bw #primary-border right',
+    border: '1bw #border right',
     flexShrink: 0,
     flex: '0 0 auto',
   },

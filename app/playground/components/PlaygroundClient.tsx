@@ -98,8 +98,8 @@ const ReloadButton = tasty({
     padding: '0.5x',
     fill: 'transparent',
     color: {
-      '': '#primary-text-soft',
-      ':hover': '#primary-text',
+      '': '#text-soft',
+      ':hover': '#text',
     },
     border: 'none',
     cursor: 'pointer',
@@ -116,8 +116,8 @@ const Overlay = tasty({
     flow: 'column',
     placeItems: 'center',
     placeContent: 'center',
-    fill: '#primary-surface-2',
-    color: '#primary-text',
+    fill: '#surface-2',
+    color: '#text',
     zIndex: 10,
     gap: '1x',
   },
@@ -127,8 +127,8 @@ const Spinner = tasty({
   styles: {
     width: '32px',
     height: '32px',
-    border: '3px solid #primary-border',
-    borderTopColor: '#primary-accent-text',
+    border: '3px solid #border',
+    borderTopColor: '#accent-text',
     radius: 'round',
     animation: 'spin 0.8s linear infinite',
   },
@@ -138,7 +138,7 @@ const StatusText = tasty({
   as: 'p',
   styles: {
     preset: 't3',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: 0,
   },
 });
@@ -177,8 +177,8 @@ const ResizeHandle = tasty({
       },
       height: '100%',
       fill: {
-        '': '#primary-border',
-        'dragging | :hover': '#primary-accent-text',
+        '': '#border',
+        'dragging | :hover': '#accent-text',
       },
       transition: 'fill 0.15s, width 0.15s',
       radius: 'round',

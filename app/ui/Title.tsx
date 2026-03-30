@@ -6,7 +6,7 @@ const Title = tasty({
   as: 'h2',
   styles: {
     preset: 'h3',
-    color: '#primary-text-soft',
+    color: '#text-soft',
     margin: 0,
   },
   styleProps: [

@@ -14,7 +14,7 @@ const ShowcaseWrapper = tasty({
     flow: 'column',
     gap: '2x',
     width: '100%',
-    fill: '#primary-surface',
+    fill: '#surface',
     border: true,
     radius: '1cr',
     overflow: 'hidden',
@@ -42,8 +42,8 @@ const EXAMPLES = [
   styles: {
     fill: {
       '': '#primary',
-      ':hover': '#primary-hover',
-      ':active': '#primary-pressed',
+      ':hover': '#hover',
+      ':active': '#pressed',
       '[disabled]': '#surface',
     },
     color: {
@@ -155,7 +155,7 @@ configure({
 
 export default function CodeShowcase() {
   return (
-    <SectionWrap fill="#primary-surface-2">
+    <SectionWrap fill="#surface-2">
       <Section id="code-showcase">
         <Section.Title>See It In Action</Section.Title>
         <Section.Subtitle>
@@ -171,10 +171,10 @@ export default function CodeShowcase() {
               content: (
                 <ShowcaseWrapper>
                   <ShowcaseDescription>
-                    <Text preset="h3" color="#primary-text">
+                    <Text preset="h3" color="#text">
                       {example.title}
                     </Text>
-                    <Text preset="t2" color="#primary-text-soft">
+                    <Text preset="t2" color="#text-soft">
                       {example.description}
                     </Text>
                   </ShowcaseDescription>
