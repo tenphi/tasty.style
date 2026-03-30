@@ -7,6 +7,7 @@ const Button = tasty({
     placeItems: 'center',
     padding: '1x 2x',
     radius: true,
+    border: true,
     fill: '#accent-surface',
     color: '#accent-surface-text',
     preset: 't2',
