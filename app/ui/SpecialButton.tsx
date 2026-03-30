@@ -49,8 +49,9 @@ const Outer = tasty(Button, {
       inset: 0,
       radius: 'round',
       shadow: {
-        '': 'inset 0 0 2x #shadow-accent-inset-2.0',
-        ':active': 'inset 0 0 2x #shadow-accent-inset-2',
+        '': 'inset 0 0 2x #shadow-accent-inset-2.0, inset 0 0 0 1bw #accent-surface-text.2',
+        ':active':
+          'inset 0 0 2x #shadow-accent-inset-2, inset 0 0 0 1bw #accent-surface-text.2',
       },
       transition: 'theme',
     },
