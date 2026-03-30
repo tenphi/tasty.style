@@ -93,7 +93,7 @@ const GlowOrb = tasty({
     height: '400px',
     radius: 'ellipse',
     filter: 'blur(120px)',
-    opacity: 0.1,
+    opacity: 0.2,
     pointerEvents: 'none',
   },
   styleProps: ['fill', ...OUTER_STYLES],
