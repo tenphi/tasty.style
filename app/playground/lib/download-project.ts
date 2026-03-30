@@ -113,7 +113,7 @@ export function downloadProject(
   };
 
   const zipped = zipSync(files, { level: 6 });
-  const blob = new Blob([zipped], { type: 'application/zip' });
+  const blob = new Blob([zipped.buffer], { type: 'application/zip' });
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement('a');
