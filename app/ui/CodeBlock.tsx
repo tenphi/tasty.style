@@ -3,6 +3,7 @@
 import { Fragment } from 'react';
 import { tasty, BASE_STYLES, OUTER_STYLES, BLOCK_STYLES } from '@tenphi/tasty';
 import { highlightCode } from '@/app/lib/shiki';
+import { SYNTAX_COLOR_CLASSES } from '@/app/lib/shiki-theme';
 
 const CodeBlockElement = tasty({
   as: 'pre',
@@ -48,11 +49,19 @@ export default function CodeBlock({
         <CodeBlockElement.Code>
           {tokens.map((line, i) => (
             <Fragment key={i}>
-              {line.map((token, j) => (
-                <span key={j} style={{ color: token.color }}>
-                  {token.content}
-                </span>
-              ))}
+              {line.map((token, j) => {
+                const cls = token.color
+                  ? SYNTAX_COLOR_CLASSES[token.color]
+                  : undefined;
+
+                return cls ? (
+                  <span key={j} className={cls}>
+                    {token.content}
+                  </span>
+                ) : (
+                  <Fragment key={j}>{token.content}</Fragment>
+                );
+              })}
               {i < tokens.length - 1 ? '\n' : null}
             </Fragment>
           ))}

@@ -40,3 +40,14 @@ tastyStatic('.cm-panels', {
   font: 'monospace',
   preset: 't4',
 });
+
+tastyStatic('.sh-c', { color: '#syntax-comment', fontStyle: 'italic' });
+tastyStatic('.sh-p', { color: '#syntax-punctuation' });
+tastyStatic('.sh-k', { color: '#syntax-keyword' });
+tastyStatic('.sh-s', { color: '#syntax-string' });
+tastyStatic('.sh-t', { color: '#syntax-token' });
+tastyStatic('.sh-r', { color: '#syntax-property' });
+tastyStatic('.sh-n', { color: '#syntax-number' });
+tastyStatic('.sh-f', { color: '#syntax-function' });
+tastyStatic('.sh-v', { color: '#syntax-value' });
+tastyStatic('.sh-o', { color: '#syntax-operator' });

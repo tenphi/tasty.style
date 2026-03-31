@@ -13,6 +13,19 @@ const operator = 'var(--syntax-operator-color)';
 const fg = 'var(--syntax-text-color)';
 const bg = 'var(--syntax-bg-color)';
 
+export const SYNTAX_COLOR_CLASSES: Record<string, string> = {
+  [comment]: 'sh-c',
+  [punctuation]: 'sh-p',
+  [keyword]: 'sh-k',
+  [string]: 'sh-s',
+  [token]: 'sh-t',
+  [property]: 'sh-r',
+  [number]: 'sh-n',
+  [func]: 'sh-f',
+  [value]: 'sh-v',
+  [operator]: 'sh-o',
+};
+
 export const tastyCodeTheme: ThemeRegistration = {
   name: 'tasty-code',
   type: 'light',

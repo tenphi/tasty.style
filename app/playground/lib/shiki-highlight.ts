@@ -7,6 +7,7 @@ import {
 } from '@codemirror/view';
 import type { Extension, Range } from '@codemirror/state';
 import { tokenizeCode } from '@/app/lib/shiki';
+import { SYNTAX_COLOR_CLASSES } from '@/app/lib/shiki-theme';
 
 function buildDecorations(view: EditorView, lang: string): DecorationSet {
   const doc = view.state.doc;
@@ -29,12 +30,10 @@ function buildDecorations(view: EditorView, lang: string): DecorationSet {
       const from = pos + col;
       const to = Math.min(from + token.content.length, docLen);
 
-      if (token.color && from < to) {
-        ranges.push(
-          Decoration.mark({
-            attributes: { style: `color: ${token.color}` },
-          }).range(from, to),
-        );
+      const cls = token.color ? SYNTAX_COLOR_CLASSES[token.color] : undefined;
+
+      if (cls && from < to) {
+        ranges.push(Decoration.mark({ class: cls }).range(from, to));
       }
 
       col += token.content.length;
