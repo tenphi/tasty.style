@@ -86,7 +86,6 @@ export default function CssOutputPanel({
                 css(),
                 ...tastyCodeMirrorTheme,
                 EditorState.readOnly.of(true),
-                EditorView.editable.of(false),
               ],
             }),
             parent: container,
@@ -126,10 +125,7 @@ export default function CssOutputPanel({
   return (
     <>
       <TabBar>
-        <MobilePanelSelect
-          value={mobilePanel}
-          onChange={onMobilePanelChange}
-        />
+        <MobilePanelSelect value={mobilePanel} onChange={onMobilePanelChange} />
         <PanelLabel>Generated CSS</PanelLabel>
         {ALL_TABS.map((tab) => (
           <Tab

@@ -58,7 +58,6 @@ export default function OutputPanel({
             langExtension,
             ...tastyCodeMirrorTheme,
             EditorState.readOnly.of(true),
-            EditorView.editable.of(false),
           ],
         }),
         parent: containerRef.current,
@@ -89,10 +88,7 @@ export default function OutputPanel({
   return (
     <>
       <PanelHeaderBar>
-        <MobilePanelSelect
-          value={mobilePanel}
-          onChange={onMobilePanelChange}
-        />
+        <MobilePanelSelect value={mobilePanel} onChange={onMobilePanelChange} />
         <HeaderLabel>{label}</HeaderLabel>
       </PanelHeaderBar>
       <EditorWrap ref={containerRef} />

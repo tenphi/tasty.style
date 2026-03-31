@@ -1,11 +1,17 @@
 import { tasty } from '@tenphi/tasty';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
-const SCHEMAS = [
-  { name: 'light', label: 'Light', color: 'oklch(97% 0.01 240)' },
-  { name: 'dark', label: 'Dark', color: 'oklch(20% 0.03 260)' },
-  { name: 'ocean', label: 'Ocean', color: 'oklch(45% 0.12 230)' },
-  { name: 'sunset', label: 'Sunset', color: 'oklch(65% 0.18 50)' },
+const THEMES = [
+  { name: 'primary', label: 'Primary' },
+  { name: 'danger', label: 'Danger' },
+  { name: 'success', label: 'Success' },
+  { name: 'warning', label: 'Warning' },
+  { name: 'info', label: 'Info' },
+];
+
+const TYPES = [
+  { name: 'normal', label: 'Normal' },
+  { name: 'accent', label: 'Accent' },
 ];
 
 const Layout = tasty({
@@ -22,7 +28,7 @@ const SwatchRow = tasty({
   styles: { display: 'flex', flow: 'row wrap', gap: '1.5x', align: 'center' },
 });
 
-const Swatch = tasty({
+const ThemeSwatch = tasty({
   as: 'button',
   modProps: { isActive: Boolean },
   styles: {
@@ -37,14 +43,14 @@ const Swatch = tasty({
       '': '2bw solid transparent',
       isActive: '2bw solid #accent-text',
     },
-    shadow: { '': 'none', isActive: '0 0 0 2bw #accent-text.20' },
+    shadow: { '': 'none', isActive: '0 0 0 2bw #shadow' },
     $transition: '.3s',
     transition: 'theme',
     transform: { '': 'scale(1)', ':active': 'scale(0.92)' },
   },
 });
 
-const ContrastToggle = tasty({
+const TypeToggle = tasty({
   as: 'button',
   modProps: { isActive: Boolean },
   styles: {
@@ -63,6 +69,7 @@ const ContrastToggle = tasty({
 });
 
 const PreviewCard = tasty({
+  modProps: { theme: String, type: String },
   styles: {
     display: 'flex',
     flow: 'column',
@@ -73,80 +80,134 @@ const PreviewCard = tasty({
     $transition: '.3s',
     transition: 'theme',
     fill: {
-      '': '#surface #accent-text.05',
-      '@root(schema=ocean)': '#surface #info-accent-text.08',
-      '@root(schema=sunset)': '#surface #warning-accent-text.08',
+      '': '#surface',
+      'type=accent': '#accent-surface',
+      'theme=danger': '#danger-surface',
+      'theme=danger & type=accent': '#danger-accent-surface',
+      'theme=success': '#success-surface',
+      'theme=success & type=accent': '#success-accent-surface',
+      'theme=warning': '#warning-surface',
+      'theme=warning & type=accent': '#warning-accent-surface',
+      'theme=info': '#info-surface',
+      'theme=info & type=accent': '#info-accent-surface',
+    },
+    color: {
+      '': '#text',
+      'type=accent': '#accent-surface-text',
+      'theme=danger': '#danger-text',
+      'theme=danger & type=accent': '#danger-accent-surface-text',
+      'theme=success': '#success-text',
+      'theme=success & type=accent': '#success-accent-surface-text',
+      'theme=warning': '#warning-text',
+      'theme=warning & type=accent': '#warning-accent-surface-text',
+      'theme=info': '#info-text',
+      'theme=info & type=accent': '#info-accent-surface-text',
     },
     border: {
       '': '1bw solid #border',
-      '@root(schema=ocean)': '1bw solid #info-accent-text.20',
-      '@root(schema=sunset)': '1bw solid #warning-accent-text.20',
+      'type=accent': '1bw solid transparent',
+      'theme=danger': '1bw solid #danger-border',
+      'theme=danger & type=accent': '1bw solid transparent',
+      'theme=success': '1bw solid #success-border',
+      'theme=success & type=accent': '1bw solid transparent',
+      'theme=warning': '1bw solid #warning-border',
+      'theme=warning & type=accent': '1bw solid transparent',
+      'theme=info': '1bw solid #info-border',
+      'theme=info & type=accent': '1bw solid transparent',
       '@high-contrast': '2bw solid #text',
     },
     shadow: {
-      '': '0 2x 8x #black.08',
-      '@dark': '0 2x 12x #black.25',
+      '': '0 2x 8x #shadow',
+      'type=accent': '0 2x 8x #accent-shadow',
+      'theme=danger': '0 2x 8x #danger-shadow',
+      'theme=danger & type=accent': '0 2x 8x #danger-accent-shadow',
+      'theme=success': '0 2x 8x #success-shadow',
+      'theme=success & type=accent': '0 2x 8x #success-accent-shadow',
+      'theme=warning': '0 2x 8x #warning-shadow',
+      'theme=warning & type=accent': '0 2x 8x #warning-accent-shadow',
+      'theme=info': '0 2x 8x #info-shadow',
+      'theme=info & type=accent': '0 2x 8x #info-accent-shadow',
     },
 
     Title: {
       preset: 't2 strong',
       color: {
         '': '#accent-text',
-        '@root(schema=ocean)': '#info-accent-text',
-        '@root(schema=sunset)': '#warning-accent-text',
+        'type=accent': '#accent-surface-text',
+        'theme=danger': '#danger-accent-text',
+        'theme=danger & type=accent': '#danger-accent-surface-text',
+        'theme=success': '#success-accent-text',
+        'theme=success & type=accent': '#success-accent-surface-text',
+        'theme=warning': '#warning-accent-text',
+        'theme=warning & type=accent': '#warning-accent-surface-text',
+        'theme=info': '#info-accent-text',
+        'theme=info & type=accent': '#info-accent-surface-text',
       },
     },
-    Body: { preset: 't3', color: '#text' },
-    Footer: { preset: 't3', color: '#text-soft.8' },
+    Body: {
+      preset: 't3',
+      color: {
+        '': '#text',
+        'type=accent': '#accent-surface-text',
+        'theme=danger & type=accent': '#danger-accent-surface-text',
+        'theme=success & type=accent': '#success-accent-surface-text',
+        'theme=warning & type=accent': '#warning-accent-surface-text',
+        'theme=info & type=accent': '#info-accent-surface-text',
+      },
+    },
+    Footer: {
+      preset: 't3',
+      color: {
+        '': '#text-soft.8',
+        'type=accent': '#accent-surface-text.7',
+        'theme=danger & type=accent': '#danger-accent-surface-text.7',
+        'theme=success & type=accent': '#success-accent-surface-text.7',
+        'theme=warning & type=accent': '#warning-accent-surface-text.7',
+        'theme=info & type=accent': '#info-accent-surface-text.7',
+      },
+    },
   },
   elements: { Title: 'h3', Body: 'p', Footer: 'span' },
 });
 
 export const App = () => {
-  const [schema, setSchema] = useState('light');
-  const [highContrast, setHighContrast] = useState(false);
-
-  const applySchema = useCallback((name: string) => {
-    setSchema(name);
-    const root = document.documentElement;
-    if (name === 'light') root.removeAttribute('data-schema');
-    else root.setAttribute('data-schema', name);
-  }, []);
-
-  const toggleContrast = useCallback(() => {
-    setHighContrast((prev) => {
-      const next = !prev;
-      const root = document.documentElement;
-      if (next) root.setAttribute('data-contrast', 'more');
-      else root.removeAttribute('data-contrast');
-      return next;
-    });
-  }, []);
+  const [type, setType] = useState<'normal' | 'accent'>('normal');
+  const [theme, setTheme] = useState('primary');
 
   return (
     <Layout>
       <SwatchRow>
-        {SCHEMAS.map((s) => (
-          <Swatch
-            key={s.name}
-            isActive={schema === s.name}
-            tokens={{ '$swatch-color': s.color }}
-            onClick={() => applySchema(s.name)}
-            title={s.label}
+        {THEMES.map((t) => (
+          <ThemeSwatch
+            key={t.name}
+            isActive={theme === t.name}
+            tokens={{ '$swatch-color': `#${t.name}-accent-surface` }}
+            onClick={() => setTheme(t.name)}
+            title={t.label}
           />
         ))}
       </SwatchRow>
-      <ContrastToggle isActive={highContrast} onClick={toggleContrast}>
-        High Contrast {highContrast ? '✓' : ''}
-      </ContrastToggle>
-      <PreviewCard>
+      <SwatchRow>
+        {TYPES.map((t) => (
+          <TypeToggle
+            key={t.name}
+            isActive={type === t.name}
+            onClick={() => setType(t.name as 'normal' | 'accent')}
+          >
+            {t.label}
+          </TypeToggle>
+        ))}
+      </SwatchRow>
+      <PreviewCard theme={theme} type={type}>
         <PreviewCard.Title>Chameleon Theme</PreviewCard.Title>
         <PreviewCard.Body>
-          Click a swatch to switch the color scheme. The card transitions
-          smoothly between themes using @root() states and the @dark alias.
+          Switch themes and card types above. Dark mode and high contrast are
+          controlled by the playground toolbar. The card uses modProps-driven
+          state maps and design tokens from the palette.
         </PreviewCard.Body>
         <PreviewCard.Footer>
-          Current: {SCHEMAS.find((s) => s.name === schema)?.label}
+          Theme: {THEMES.find((t) => t.name === theme)?.label} / Type:{' '}
+          {TYPES.find((t) => t.name === type)?.label}
         </PreviewCard.Footer>
       </PreviewCard>
     </Layout>

@@ -32,6 +32,13 @@ primary.colors({
   },
   white: { lightness: 100, saturation: 0, mode: 'static' },
   black: { lightness: 0, saturation: 0, mode: 'static' },
+  shadow: { type: 'shadow', bg: 'surface', fg: 'border', intensity: 80 },
+  'accent-shadow': {
+    type: 'shadow',
+    bg: 'surface',
+    fg: 'accent-surface',
+    intensity: 80,
+  },
 });
 
 const danger = primary.extend({ hue: 15 });
