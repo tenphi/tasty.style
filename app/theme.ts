@@ -3,9 +3,7 @@ import { glaze } from '@tenphi/glaze';
 glaze.configure({
   darkDesaturation: 0,
   shadowTuning: {
-    // Default tuning for all shadow colors
-    alphaMax: 0.3,
-    bgHueBlend: 0.2,
+    darkShadowCurve: 0.3,
   },
 });
 

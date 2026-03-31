@@ -27,12 +27,15 @@ function getSystemContrast(): string {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState(() =>
-    typeof window !== 'undefined' ? getSystemTheme() : 'light',
-  );
-  const [contrast, setContrastState] = useState(() =>
-    typeof window !== 'undefined' ? getSystemContrast() : 'normal',
-  );
+  const [theme, setThemeState] = useState('light');
+  const [contrast, setContrastState] = useState('normal');
+
+  /* eslint-disable */
+  useEffect(() => {
+    setThemeState(getSystemTheme());
+    setContrastState(getSystemContrast());
+  }, []);
+  /* eslint-enable */
 
   useEffect(() => {
     document.documentElement.dataset.schema = theme;
