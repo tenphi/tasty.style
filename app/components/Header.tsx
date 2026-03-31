@@ -180,16 +180,33 @@ export default function Header() {
             <IconBrandGithub size={20} />
           </Button>
           {isDocs && sidebar ? (
-            <Button
-              variant="ghost"
-              padding="1x"
-              aria-label="Open menu"
-              onClick={sidebar.toggle}
-              hide={{ '': false, '@desktop': true }}
+            <>
+              <SpecialButton
+                as={NextLink}
+                href="/playground"
+                size="small"
+              >
+                Playground
+              </SpecialButton>
+              <Button
+                variant="ghost"
+                padding="1x"
+                aria-label="Open menu"
+                onClick={sidebar.toggle}
+                hide={{ '': false, '@desktop': true }}
+              >
+                <IconMenu2 size={20} />
+              </Button>
+            </>
+          ) : isPlayground ? (
+            <SpecialButton
+              as={NextLink}
+              href="/docs"
+              size="small"
             >
-              <IconMenu2 size={20} />
-            </Button>
-          ) : !isPlayground ? (
+              Docs
+            </SpecialButton>
+          ) : (
             <SpecialButton
               as={NextLink}
               href="/docs/getting-started"
@@ -197,7 +214,7 @@ export default function Header() {
             >
               Get Started
             </SpecialButton>
-          ) : null}
+          )}
         </HeaderElement.Actions>
       </HeaderElement.Inner>
     </HeaderElement>
