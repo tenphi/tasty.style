@@ -130,9 +130,10 @@ const theme = EditorView.theme({
         'color-mix(in srgb, var(--syntax-text-color) 10%, transparent)',
     },
   },
-  '.cm-line span': {
-    color: 'inherit',
-  },
+});
+
+export const suppressLezerHighlight = EditorView.theme({
+  '.cm-line span': { color: 'inherit' },
 });
 
 const highlighting = HighlightStyle.define([

@@ -41,13 +41,16 @@ tastyStatic('.cm-panels', {
   preset: 't4',
 });
 
-tastyStatic('.sh-c', { color: '#syntax-comment', fontStyle: 'italic' });
-tastyStatic('.sh-p', { color: '#syntax-punctuation' });
-tastyStatic('.sh-k', { color: '#syntax-keyword' });
-tastyStatic('.sh-s', { color: '#syntax-string' });
-tastyStatic('.sh-t', { color: '#syntax-token' });
-tastyStatic('.sh-r', { color: '#syntax-property' });
-tastyStatic('.sh-n', { color: '#syntax-number' });
-tastyStatic('.sh-f', { color: '#syntax-function' });
-tastyStatic('.sh-v', { color: '#syntax-value' });
-tastyStatic('.sh-o', { color: '#syntax-operator' });
+tastyStatic('.sh-c.sh-c.sh-c', {
+  color: '#syntax-comment',
+  fontStyle: 'italic',
+});
+tastyStatic('.sh-p.sh-p.sh-p', { color: '#syntax-punctuation' });
+tastyStatic('.sh-k.sh-k.sh-k', { color: '#syntax-keyword' });
+tastyStatic('.sh-s.sh-s.sh-s', { color: '#syntax-string' });
+tastyStatic('.sh-t.sh-t.sh-t', { color: '#syntax-token' });
+tastyStatic('.sh-r.sh-r.sh-r', { color: '#syntax-property' });
+tastyStatic('.sh-n.sh-n.sh-n', { color: '#syntax-number' });
+tastyStatic('.sh-f.sh-f.sh-f', { color: '#syntax-function' });
+tastyStatic('.sh-v.sh-v.sh-v', { color: '#syntax-value' });
+tastyStatic('.sh-o.sh-o.sh-o', { color: '#syntax-operator' });

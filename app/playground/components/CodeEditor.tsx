@@ -113,7 +113,7 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
           { EditorView, basicSetup },
           { EditorState },
           { javascript },
-          { tastyEditorTheme },
+          { tastyEditorTheme, suppressLezerHighlight },
           { shikiHighlight },
         ] = await Promise.all([
           import('codemirror'),
@@ -133,6 +133,7 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
                 basicSetup,
                 javascript({ jsx: true, typescript: true }),
                 tastyEditorTheme,
+                suppressLezerHighlight,
                 shikiHighlight('tsx'),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
@@ -156,6 +157,7 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
                 basicSetup,
                 javascript({ jsx: false, typescript: true }),
                 tastyEditorTheme,
+                suppressLezerHighlight,
                 shikiHighlight('typescript'),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
@@ -179,6 +181,7 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
                 basicSetup,
                 javascript({ jsx: false, typescript: true }),
                 tastyEditorTheme,
+                suppressLezerHighlight,
                 shikiHighlight('typescript'),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
