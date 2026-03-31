@@ -283,7 +283,7 @@ export const ModifiedBadge = tasty({
   styles: {
     display: 'inline-flex',
     placeItems: 'center',
-    preset: 'tag',
+    preset: 'label',
     color: '#accent-text',
     opacity: {
       '': 0,

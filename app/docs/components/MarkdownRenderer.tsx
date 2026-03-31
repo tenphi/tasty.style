@@ -92,7 +92,8 @@ function MdxPre({ children }: ComponentPropsWithoutRef<'pre'>) {
 }
 
 function MdxImg(props: ComponentPropsWithoutRef<'img'>) {
-  let { src, ...rest } = props;
+  const { src: srcProp, ...rest } = props;
+  let src = srcProp;
 
   if (typeof src === 'string' && !src.startsWith('/') && !src.startsWith('http')) {
     src = `/${src}`;

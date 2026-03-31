@@ -8,6 +8,7 @@ import {
   useImperativeHandle,
   forwardRef,
 } from 'react';
+import type { EditorView } from '@codemirror/view';
 import { TabBar, Tab, EditorWrap } from './primitives';
 
 type TabName = 'code' | 'global' | 'config';
@@ -43,9 +44,9 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
     const codeContainerRef = useRef<HTMLDivElement>(null);
     const globalContainerRef = useRef<HTMLDivElement>(null);
     const configContainerRef = useRef<HTMLDivElement>(null);
-    const codeViewRef = useRef<any>(null);
-    const globalViewRef = useRef<any>(null);
-    const configViewRef = useRef<any>(null);
+    const codeViewRef = useRef<EditorView | null>(null);
+    const globalViewRef = useRef<EditorView | null>(null);
+    const configViewRef = useRef<EditorView | null>(null);
     const debounceRef = useRef<{
       code?: ReturnType<typeof setTimeout>;
       global?: ReturnType<typeof setTimeout>;
@@ -196,11 +197,13 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
 
       initEditors();
 
+      const timers = debounceRef.current;
+
       return () => {
         destroyed = true;
-        clearTimeout(debounceRef.current.code);
-        clearTimeout(debounceRef.current.global);
-        clearTimeout(debounceRef.current.config);
+        clearTimeout(timers.code);
+        clearTimeout(timers.global);
+        clearTimeout(timers.config);
         codeViewRef.current?.destroy();
         globalViewRef.current?.destroy();
         configViewRef.current?.destroy();

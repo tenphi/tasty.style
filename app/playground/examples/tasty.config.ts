@@ -15,8 +15,6 @@ const COLORS = [
 const THEMES = ['primary', 'danger', 'success', 'warning', 'info'];
 
 export default {
-  extends: '@tenphi/tasty',
-
   tokens: [
     ...COLORS.map((c) => `#${c}`),
     ...THEMES.flatMap((t) => COLORS.map((c) => `#${t}-${c}`)),

@@ -27,19 +27,17 @@ function getSystemContrast(): string {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState('light');
-  const [contrast, setContrastState] = useState('normal');
+  const [theme, setThemeState] = useState(() =>
+    typeof window !== 'undefined' ? getSystemTheme() : 'light',
+  );
+  const [contrast, setContrastState] = useState(() =>
+    typeof window !== 'undefined' ? getSystemContrast() : 'normal',
+  );
 
   useEffect(() => {
-    const systemTheme = getSystemTheme();
-    const systemContrast = getSystemContrast();
-
-    setThemeState(systemTheme);
-    setContrastState(systemContrast);
-
-    document.documentElement.dataset.schema = systemTheme;
-    document.documentElement.dataset.contrast = systemContrast;
-  }, []);
+    document.documentElement.dataset.schema = theme;
+    document.documentElement.dataset.contrast = contrast;
+  }, [theme, contrast]);
 
   const setTheme = useCallback((value: string) => {
     setThemeState(value);

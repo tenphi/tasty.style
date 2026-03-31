@@ -16,8 +16,8 @@ const Chip = tasty({
     transition: 'theme',
     border: 'none',
     outline: { '': 'none', ':focus-visible': '2ow #accent-text / 2px' },
-    opacity: { isDisabled: 0.5 },
-    fill: { isPressed: '#accent-text.15' },
+    opacity: { '': 1, isDisabled: 0.5 },
+    fill: { '': 'transparent', isPressed: '#accent-text.15' },
   },
   variants: {
     solid: {

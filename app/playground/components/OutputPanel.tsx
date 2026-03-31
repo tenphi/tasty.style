@@ -2,6 +2,7 @@
 
 import type { ChangeEvent } from 'react';
 import { useRef, useEffect } from 'react';
+import type { EditorView } from '@codemirror/view';
 import {
   PanelHeaderBar,
   HeaderLabel,
@@ -25,7 +26,7 @@ export default function OutputPanel({
   onMobilePanelChange,
 }: OutputPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const viewRef = useRef<any>(null);
+  const viewRef = useRef<EditorView | null>(null);
   const latestValueRef = useRef(value);
   latestValueRef.current = value;
 

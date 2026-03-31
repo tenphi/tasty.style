@@ -49,7 +49,7 @@ const Field = tasty({
       fill: { '': '#surface', isDisabled: '#accent-text.03' },
       color: { '': '#text', isDisabled: '#text-soft' },
       transition: 'theme',
-      cursor: { isDisabled: 'not-allowed' },
+      cursor: { '': 'auto', isDisabled: 'not-allowed' },
     },
     Helper: {
       preset: 't3',

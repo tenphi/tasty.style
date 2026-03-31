@@ -15,6 +15,8 @@ export default defineConfig(
       'public/**',
       'out/**',
       'next-env.d.ts',
+      'scripts/**',
+      'app/playground/coi-serviceworker-custom.js',
     ],
   },
   eslint.configs.recommended,

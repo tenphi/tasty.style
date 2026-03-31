@@ -2,6 +2,7 @@
 
 import type { ChangeEvent } from 'react';
 import { useRef, useEffect, useState, useCallback } from 'react';
+import type { EditorView } from '@codemirror/view';
 import { tasty } from '@tenphi/tasty';
 import type { CssSections } from '../lib/reorder-css';
 import {
@@ -51,7 +52,7 @@ export default function CssOutputPanel({
     tokens: null,
     utility: null,
   });
-  const viewRefs = useRef<Record<CssTab, any>>({
+  const viewRefs = useRef<Record<CssTab, EditorView | null>>({
     elements: null,
     tokens: null,
     utility: null,
@@ -96,11 +97,13 @@ export default function CssOutputPanel({
 
     init();
 
+    const views = viewRefs.current;
+
     return () => {
       destroyed = true;
       for (const tab of ALL_TABS) {
-        viewRefs.current[tab]?.destroy();
-        viewRefs.current[tab] = null;
+        views[tab]?.destroy();
+        views[tab] = null;
       }
     };
   }, []);

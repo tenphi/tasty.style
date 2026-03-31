@@ -59,7 +59,7 @@ const ToolButton = tasty({
       ':hover': '#accent-text',
       isActive: '#accent-text',
     },
-    outline: { '': 'none', '@own(:focus-visible)': '2ow #accent-text / 1px' },
+    outline: { '': 'none', ':focus-visible': '2ow #accent-text / 1px' },
   },
 });
 
@@ -73,7 +73,7 @@ const Layout = tasty({
   },
 });
 
-const Row = tasty({
+const _Row = tasty({
   styles: { display: 'flex', flow: 'row wrap', gap: '1x', align: 'center' },
 });
 
@@ -133,10 +133,10 @@ export const App = () => {
           <IconAlignRight size={18} />
         </ToolButton>
         <Toolbar.Separator />
-        <ToolButton onClick={() => {}}>
+        <ToolButton onClick={() => undefined}>
           <IconLink size={18} />
         </ToolButton>
-        <ToolButton onClick={() => {}}>
+        <ToolButton onClick={() => undefined}>
           <IconPhoto size={18} />
         </ToolButton>
       </Toolbar>

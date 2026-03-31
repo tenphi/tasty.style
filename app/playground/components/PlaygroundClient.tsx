@@ -8,6 +8,7 @@ import {
   useSyncExternalStore,
 } from 'react';
 import { tasty, useKeyframes } from '@tenphi/tasty';
+import type { WebContainer } from '@webcontainer/api';
 import { useMove } from '@react-aria/interactions';
 import {
   IconRefresh,
@@ -386,7 +387,7 @@ export default function PlaygroundClient() {
   const configRef = useRef(initialState.current.config);
 
   const editorRef = useRef<CodeEditorHandle>(null);
-  const wcRef = useRef<any>(null);
+  const wcRef = useRef<WebContainer | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [leftWidth, setLeftWidth] = useLocalStorage('playground:leftWidth', 50);
@@ -455,15 +456,22 @@ export default function PlaygroundClient() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    const win = window as Window &
+      typeof globalThis & {
+        chrome?: unknown;
+        netscape?: unknown;
+        coi?: { coepCredentialless: () => boolean; quiet: boolean };
+      };
+
     const supportsCredentialless =
-      typeof (window as any).chrome !== 'undefined' ||
-      typeof (window as any).netscape !== 'undefined';
+      typeof win.chrome !== 'undefined' ||
+      typeof win.netscape !== 'undefined';
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     if (!window.crossOriginIsolated) {
       setPhase('coi-registering');
 
-      (window as any).coi = {
+      win.coi = {
         coepCredentialless: () => supportsCredentialless,
         quiet: true,
       };
@@ -526,6 +534,7 @@ export default function PlaygroundClient() {
         devServer.output.pipeTo(
           new WritableStream({
             write(chunk) {
+              // eslint-disable-next-line no-console
               console.log('[vite]', chunk);
             },
           }),

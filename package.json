@@ -55,7 +55,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
-    "@tenphi/eslint-plugin-tasty": "0.4.3",
+    "@tenphi/eslint-plugin-tasty": "0.5.1",
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",

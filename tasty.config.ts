@@ -1,8 +1,6 @@
 import { colorTokens } from './app/theme';
 
 export default {
-  extends: '@tenphi/tasty',
-
   tokens: [
     ...Object.keys(colorTokens),
 
@@ -49,6 +47,4 @@ export default {
     'label',
     'strong',
   ],
-
-  styles: ['scrollPaddingTop', 'textSizeAdjust'],
 };

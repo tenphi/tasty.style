@@ -64,12 +64,12 @@ const Tile = tasty({
     transition: 'theme, scale',
     transform: {
       '': 'scale(1)',
-      '@own(:hover)': 'scale(1.12)',
-      '@parent(:hover) & !@own(:hover)': 'scale(0.95)',
+      ':hover': 'scale(1.12)',
+      '@parent(:hover) & !:hover': 'scale(0.95)',
     },
     opacity: {
       '': 1,
-      '@parent(:hover) & !@own(:hover)': 0.6,
+      '@parent(:hover) & !:hover': 0.6,
     },
     cursor: 'pointer',
   },

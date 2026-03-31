@@ -50,7 +50,7 @@ const Card = tasty({
       radius: '1r',
       fill: '#accent-text.08',
       flexShrink: 0,
-      aspectRatio: { '@(cards, w >= 400px)': '1' },
+      aspectRatio: { '': 'auto', '@(cards, w >= 400px)': '1' },
     },
     Body: {
       display: 'flex',
