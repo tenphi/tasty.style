@@ -41,6 +41,34 @@ export function getDocContent(slug: string): string {
   return preprocessForMdx(raw);
 }
 
+export function extractDescription(markdown: string): string {
+  let inCodeBlock = false;
+
+  for (const line of markdown.split('\n')) {
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('```')) {
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+
+    if (inCodeBlock || !trimmed || trimmed.startsWith('#')) continue;
+
+    const plain = trimmed
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/<[^>]+>/g, '');
+
+    if (plain.length < 20) continue;
+
+    return plain.length > 160 ? `${plain.slice(0, 157)}...` : plain;
+  }
+
+  return '';
+}
+
 export function extractHeadings(markdown: string): Heading[] {
   const headings: Heading[] = [];
   const slugger = new GithubSlugger();

@@ -5,10 +5,55 @@ import './global-styles';
 import TastyStyleRegistry from './tasty-registry';
 import { onest, jetbrainsMono } from './fonts';
 
+const SITE_URL = 'https://tasty.style';
+const SITE_NAME = 'Tasty';
+const SITE_TITLE = 'Tasty — The Styling Engine Built for Design Systems';
+const SITE_DESCRIPTION =
+  'Deterministic CSS generation. State-aware DSL. Zero specificity conflicts. Ever.';
+
 export const metadata: Metadata = {
-  title: 'Tasty — The Styling Engine Built for Design Systems',
-  description:
-    'Deterministic CSS generation. State-aware DSL. Zero specificity conflicts. Ever.',
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '32x32' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: '/',
+    siteName: SITE_NAME,
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: SITE_TITLE,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: '/',
+  },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -23,6 +68,10 @@ export default function RootLayout({
       className={`${onest.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <TastyStyleRegistry>{children}</TastyStyleRegistry>
         <Script
           data-goatcounter="https://tenphi.goatcounter.com/count"

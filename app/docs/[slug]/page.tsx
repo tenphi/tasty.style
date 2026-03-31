@@ -1,5 +1,10 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getDocContent, extractHeadings } from '../lib/docs';
+import {
+  getDocContent,
+  extractDescription,
+  extractHeadings,
+} from '../lib/docs';
 import { getAllSlugs, findNavItem } from '../lib/navigation';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import TableOfContents from '../components/TableOfContents';
@@ -7,6 +12,28 @@ import { Article, PageTitle } from '../components/DocsPageContent';
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const navItem = findNavItem(slug);
+
+  if (!navItem) return {};
+
+  const source = getDocContent(slug);
+  const description = extractDescription(source);
+
+  return {
+    title: `${navItem.title} — Tasty Docs`,
+    description,
+    alternates: {
+      canonical: slug === 'introduction' ? '/docs' : `/docs/${slug}`,
+    },
+  };
 }
 
 export default async function DocPage({

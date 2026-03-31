@@ -2,9 +2,6 @@ import { glaze } from '@tenphi/glaze';
 
 glaze.configure({
   darkDesaturation: 0,
-  shadowTuning: {
-    darkShadowCurve: 0.3,
-  },
 });
 
 const blue = glaze(210, 75);

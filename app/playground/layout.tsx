@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Playground — Tasty',
   description:
     'Interactive playground for Tasty — write styled React components and see live CSS output.',
+  alternates: {
+    canonical: '/playground',
+  },
 };
 
 export default function PlaygroundLayout({
