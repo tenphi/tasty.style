@@ -97,9 +97,7 @@ export const App = () => {
     <Accordion>
       {FAQ.map((item, i) => (
         <Item key={i} isExpanded={expanded === i}>
-          <Item.Question
-            onClick={() => setExpanded(expanded === i ? null : i)}
-          >
+          <Item.Question onClick={() => setExpanded(expanded === i ? null : i)}>
             {item.q}
             <Item.Chevron>
               <IconChevronDown size={18} />

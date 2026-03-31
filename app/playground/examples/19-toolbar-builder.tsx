@@ -113,23 +113,41 @@ export const App = () => {
         Compact {compact ? '✓' : ''}
       </Toggle>
       <Toolbar isCompact={compact}>
-        <ToolButton isActive={active.has('bold')} onClick={() => toggle('bold')}>
+        <ToolButton
+          isActive={active.has('bold')}
+          onClick={() => toggle('bold')}
+        >
           <IconBold size={18} />
         </ToolButton>
-        <ToolButton isActive={active.has('italic')} onClick={() => toggle('italic')}>
+        <ToolButton
+          isActive={active.has('italic')}
+          onClick={() => toggle('italic')}
+        >
           <IconItalic size={18} />
         </ToolButton>
-        <ToolButton isActive={active.has('underline')} onClick={() => toggle('underline')}>
+        <ToolButton
+          isActive={active.has('underline')}
+          onClick={() => toggle('underline')}
+        >
           <IconUnderline size={18} />
         </ToolButton>
         <Toolbar.Separator />
-        <ToolButton isActive={active.has('left')} onClick={() => toggle('left')}>
+        <ToolButton
+          isActive={active.has('left')}
+          onClick={() => toggle('left')}
+        >
           <IconAlignLeft size={18} />
         </ToolButton>
-        <ToolButton isActive={active.has('center')} onClick={() => toggle('center')}>
+        <ToolButton
+          isActive={active.has('center')}
+          onClick={() => toggle('center')}
+        >
           <IconAlignCenter size={18} />
         </ToolButton>
-        <ToolButton isActive={active.has('right')} onClick={() => toggle('right')}>
+        <ToolButton
+          isActive={active.has('right')}
+          onClick={() => toggle('right')}
+        >
           <IconAlignRight size={18} />
         </ToolButton>
         <Toolbar.Separator />

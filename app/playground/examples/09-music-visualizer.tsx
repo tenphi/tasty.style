@@ -55,7 +55,7 @@ const ProgressTrack = tasty({
     overflow: 'hidden',
 
     Fill: {
-      '$progress': '0%',
+      $progress: '0%',
       '$sweep-name': 'none',
       width: '$progress',
       height: '100%',
@@ -107,7 +107,7 @@ export const App = () => {
       </BarRow>
       <ProgressTrack>
         <ProgressTrack.Fill
-          tokens={{ '$progress': `${progress}%`, '$sweep-name': sweep }}
+          tokens={{ $progress: `${progress}%`, '$sweep-name': sweep }}
         />
       </ProgressTrack>
     </Layout>

@@ -66,8 +66,7 @@ class ShikiHighlightPlugin {
 }
 
 export function shikiHighlight(lang: string): Extension {
-  return ViewPlugin.define(
-    (view) => new ShikiHighlightPlugin(view, lang),
-    { decorations: (v) => v.decorations },
-  );
+  return ViewPlugin.define((view) => new ShikiHighlightPlugin(view, lang), {
+    decorations: (v) => v.decorations,
+  });
 }

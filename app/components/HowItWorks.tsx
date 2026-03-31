@@ -224,11 +224,7 @@ export default function HowItWorks() {
               intersect.
             </Text>
           </Space>
-          <SpecialButton
-            as={NextLink}
-            href="/playground"
-            margin="0 auto"
-          >
+          <SpecialButton as={NextLink} href="/playground" margin="0 auto">
             Try in Playground
             <IconExternalLink size={18} />
           </SpecialButton>

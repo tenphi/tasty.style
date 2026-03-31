@@ -181,11 +181,7 @@ export default function Header() {
           </Button>
           {isDocs && sidebar ? (
             <>
-              <SpecialButton
-                as={NextLink}
-                href="/playground"
-                size="small"
-              >
+              <SpecialButton as={NextLink} href="/playground" size="small">
                 Playground
               </SpecialButton>
               <Button
@@ -199,11 +195,7 @@ export default function Header() {
               </Button>
             </>
           ) : isPlayground ? (
-            <SpecialButton
-              as={NextLink}
-              href="/docs"
-              size="small"
-            >
+            <SpecialButton as={NextLink} href="/docs" size="small">
               Docs
             </SpecialButton>
           ) : (

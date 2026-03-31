@@ -1,11 +1,36 @@
 import { tasty } from '@tenphi/tasty';
 
 const MESSAGES = [
-  { sender: 'them' as const, name: 'Alice', text: 'Hey! Have you tried Tasty yet?', time: '10:21 AM' },
-  { sender: 'me' as const, name: 'You', text: 'Just started! The state maps are incredible.', time: '10:22 AM' },
-  { sender: 'them' as const, name: 'Alice', text: 'Wait until you see the radius shapes — leaf and backleaf!', time: '10:23 AM' },
-  { sender: 'me' as const, name: 'You', text: 'Already using them. The chat bubbles look so good.', time: '10:24 AM' },
-  { sender: 'them' as const, name: 'Alice', text: 'Told you 😄', time: '10:24 AM' },
+  {
+    sender: 'them' as const,
+    name: 'Alice',
+    text: 'Hey! Have you tried Tasty yet?',
+    time: '10:21 AM',
+  },
+  {
+    sender: 'me' as const,
+    name: 'You',
+    text: 'Just started! The state maps are incredible.',
+    time: '10:22 AM',
+  },
+  {
+    sender: 'them' as const,
+    name: 'Alice',
+    text: 'Wait until you see the radius shapes — leaf and backleaf!',
+    time: '10:23 AM',
+  },
+  {
+    sender: 'me' as const,
+    name: 'You',
+    text: 'Already using them. The chat bubbles look so good.',
+    time: '10:24 AM',
+  },
+  {
+    sender: 'them' as const,
+    name: 'Alice',
+    text: 'Told you 😄',
+    time: '10:24 AM',
+  },
 ];
 
 const Chat = tasty({

@@ -42,8 +42,7 @@ function readSyncedVersions() {
   );
   const versions = {};
   for (const name of SYNCED_DEPS) {
-    const v =
-      pkg.dependencies?.[name] ?? pkg.devDependencies?.[name];
+    const v = pkg.dependencies?.[name] ?? pkg.devDependencies?.[name];
     if (!v) {
       throw new Error(
         `${name} not found in project package.json — ` +
@@ -274,7 +273,8 @@ function shouldRebuildSnapshot(cacheHash) {
   try {
     const cacheMeta = JSON.parse(readFileSync(cacheMetaPath, 'utf8'));
     return (
-      cacheMeta.cacheVersion !== CACHE_VERSION || cacheMeta.cacheHash !== cacheHash
+      cacheMeta.cacheVersion !== CACHE_VERSION ||
+      cacheMeta.cacheHash !== cacheHash
     );
   } catch {
     return true;

@@ -95,7 +95,11 @@ function MdxImg(props: ComponentPropsWithoutRef<'img'>) {
   const { src: srcProp, ...rest } = props;
   let src = srcProp;
 
-  if (typeof src === 'string' && !src.startsWith('/') && !src.startsWith('http')) {
+  if (
+    typeof src === 'string' &&
+    !src.startsWith('/') &&
+    !src.startsWith('http')
+  ) {
     src = `/${src}`;
   }
 

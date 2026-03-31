@@ -150,10 +150,7 @@ export const IconBell = icon('bell', [
 
 export const IconUsers = icon('users', [
   ['path', { d: 'M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0', key: '0' }],
-  [
-    'path',
-    { d: 'M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2', key: '1' },
-  ],
+  ['path', { d: 'M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2', key: '1' }],
   ['path', { d: 'M16 3.13a4 4 0 0 1 0 7.75', key: '2' }],
   ['path', { d: 'M21 21v-2a4 4 0 0 0 -3 -3.85', key: '3' }],
 ]);
@@ -299,14 +296,8 @@ export const IconPhoto = icon('photo', [
       key: '1',
     },
   ],
-  [
-    'path',
-    { d: 'M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5', key: '2' },
-  ],
-  [
-    'path',
-    { d: 'M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3', key: '3' },
-  ],
+  ['path', { d: 'M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5', key: '2' }],
+  ['path', { d: 'M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3', key: '3' }],
 ]);
 
 export const IconLink = icon('link', [

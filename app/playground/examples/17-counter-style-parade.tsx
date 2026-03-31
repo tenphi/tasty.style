@@ -107,10 +107,7 @@ export const App = () => {
           </Picker>
         ))}
       </Row>
-      <StyledList
-        listType={style}
-        tokens={{ '$steps-style': stepsName }}
-      >
+      <StyledList listType={style} tokens={{ '$steps-style': stepsName }}>
         {ITEMS.map((item) => (
           <li key={item}>{item}</li>
         ))}

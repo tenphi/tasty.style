@@ -74,7 +74,8 @@ export const App = () => {
     <Card>
       <Card.Title>Card Title</Card.Title>
       <Card.Description>
-        This is a card component with sub-elements, hover states, and shadow transitions.
+        This is a card component with sub-elements, hover states, and shadow
+        transitions.
       </Card.Description>
       <Card.Actions>
         <ActionButton>Primary</ActionButton>

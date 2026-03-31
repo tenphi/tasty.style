@@ -10,7 +10,8 @@ const GradientCard = tasty({
     width: 'max 340px',
     '$gradient-angle': '0deg',
     '#glow': 'oklch(65% 0.25 265)',
-    image: 'linear-gradient($gradient-angle, #accent-surface, #info-accent-surface)',
+    image:
+      'linear-gradient($gradient-angle, #accent-surface, #info-accent-surface)',
     color: '#accent-surface-text',
     $transition: '.3s',
     transition: 'shadow',

@@ -3,11 +3,21 @@ import { useState } from 'react';
 import { IconArrowUp, IconArrowDown, IconSelector } from './icons';
 
 const DATA = [
-  { name: 'Alice Johnson', role: 'Engineer', status: 'Active', joined: '2023-01' },
+  {
+    name: 'Alice Johnson',
+    role: 'Engineer',
+    status: 'Active',
+    joined: '2023-01',
+  },
   { name: 'Bob Smith', role: 'Designer', status: 'Active', joined: '2023-03' },
   { name: 'Carol Davis', role: 'PM', status: 'Away', joined: '2022-11' },
   { name: 'Dan Wilson', role: 'Engineer', status: 'Active', joined: '2024-01' },
-  { name: 'Eve Martinez', role: 'Designer', status: 'Inactive', joined: '2023-06' },
+  {
+    name: 'Eve Martinez',
+    role: 'Designer',
+    status: 'Inactive',
+    joined: '2023-06',
+  },
 ];
 
 const COLS = ['name', 'role', 'status', 'joined'] as const;
@@ -94,13 +104,17 @@ export const App = () => {
 
   const handleSort = (col: Col) => {
     if (sortCol === col) setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
-    else { setSortCol(col); setSortDir('asc'); }
+    else {
+      setSortCol(col);
+      setSortDir('asc');
+    }
   };
 
   const toggleSelect = (i: number) => {
     setSelected((prev) => {
       const next = new Set(prev);
-      if (next.has(i)) next.delete(i); else next.add(i);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
       return next;
     });
   };
@@ -121,14 +135,24 @@ export const App = () => {
           >
             {col}
             <HeaderCell.SortIcon>
-              {sortCol === col
-                ? (sortDir === 'asc' ? <IconArrowUp size={14} /> : <IconArrowDown size={14} />)
-                : <IconSelector size={14} />}
+              {sortCol === col ? (
+                sortDir === 'asc' ? (
+                  <IconArrowUp size={14} />
+                ) : (
+                  <IconArrowDown size={14} />
+                )
+              ) : (
+                <IconSelector size={14} />
+              )}
             </HeaderCell.SortIcon>
           </HeaderCell>
         ))}
         {sorted.map((row, i) => (
-          <Row key={row.name} isSelected={selected.has(i)} onClick={() => toggleSelect(i)}>
+          <Row
+            key={row.name}
+            isSelected={selected.has(i)}
+            onClick={() => toggleSelect(i)}
+          >
             {COLS.map((col) => (
               <Row.Cell key={col}>{row[col]}</Row.Cell>
             ))}

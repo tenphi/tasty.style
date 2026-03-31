@@ -20,7 +20,5 @@ const THEME_OPTIONS = [
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
 
-  return (
-    <Switcher options={THEME_OPTIONS} value={theme} onChange={setTheme} />
-  );
+  return <Switcher options={THEME_OPTIONS} value={theme} onChange={setTheme} />;
 }

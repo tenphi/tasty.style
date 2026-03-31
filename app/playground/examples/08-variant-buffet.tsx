@@ -111,16 +111,10 @@ export const App = () => {
         {variant}
       </Chip>
       <Row>
-        <Chip
-          variant="outline"
-          onClick={() => setPressed((p) => !p)}
-        >
+        <Chip variant="outline" onClick={() => setPressed((p) => !p)}>
           Pressed {pressed ? '✓' : ''}
         </Chip>
-        <Chip
-          variant="outline"
-          onClick={() => setDisabled((d) => !d)}
-        >
+        <Chip variant="outline" onClick={() => setDisabled((d) => !d)}>
           Disabled {disabled ? '✓' : ''}
         </Chip>
       </Row>

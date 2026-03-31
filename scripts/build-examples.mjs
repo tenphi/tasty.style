@@ -53,21 +53,29 @@ const lines = [
 ];
 
 for (const ex of examples) {
-  const varName = ex.slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase()).toUpperCase() + '_CODE';
+  const varName =
+    ex.slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase()).toUpperCase() +
+    '_CODE';
   lines.push(`const ${varName} = ${JSON.stringify(ex.code)};`);
   lines.push('');
 }
 
 lines.push('export const EXAMPLES: PlaygroundExample[] = [');
 for (const ex of examples) {
-  const varName = ex.slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase()).toUpperCase() + '_CODE';
-  lines.push(`  { slug: '${ex.slug}', label: '${ex.label}', code: ${varName} },`);
+  const varName =
+    ex.slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase()).toUpperCase() +
+    '_CODE';
+  lines.push(
+    `  { slug: '${ex.slug}', label: '${ex.label}', code: ${varName} },`,
+  );
 }
 lines.push('];');
 lines.push('');
 lines.push('export const DEFAULT_EXAMPLE = EXAMPLES[0];');
 lines.push('');
-lines.push('export function findExample(slug: string): PlaygroundExample | undefined {');
+lines.push(
+  'export function findExample(slug: string): PlaygroundExample | undefined {',
+);
 lines.push('  return EXAMPLES.find((e) => e.slug === slug);');
 lines.push('}');
 lines.push('');

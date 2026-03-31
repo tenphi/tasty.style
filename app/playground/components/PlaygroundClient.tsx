@@ -464,8 +464,7 @@ export default function PlaygroundClient() {
       };
 
     const supportsCredentialless =
-      typeof win.chrome !== 'undefined' ||
-      typeof win.netscape !== 'undefined';
+      typeof win.chrome !== 'undefined' || typeof win.netscape !== 'undefined';
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     if (!window.crossOriginIsolated) {

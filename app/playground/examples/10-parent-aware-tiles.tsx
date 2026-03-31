@@ -81,10 +81,7 @@ export const App = () => {
 
   return (
     <Layout>
-      <ToggleButton
-        isActive={compact}
-        onClick={() => setCompact((c) => !c)}
-      >
+      <ToggleButton isActive={compact} onClick={() => setCompact((c) => !c)}>
         Compact {compact ? '✓' : ''}
       </ToggleButton>
       <Container isCompact={compact}>

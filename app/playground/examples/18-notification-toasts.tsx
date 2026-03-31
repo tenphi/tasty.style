@@ -1,9 +1,20 @@
 import { tasty } from '@tenphi/tasty';
 import { useState, useEffect, useCallback } from 'react';
-import { IconCircleCheck, IconCircleX, IconAlertTriangle, IconInfoCircle, IconX } from './icons';
+import {
+  IconCircleCheck,
+  IconCircleX,
+  IconAlertTriangle,
+  IconInfoCircle,
+  IconX,
+} from './icons';
 
 type ToastType = 'success' | 'error' | 'warning' | 'info';
-interface Toast { id: number; type: ToastType; message: string; exiting?: boolean }
+interface Toast {
+  id: number;
+  type: ToastType;
+  message: string;
+  exiting?: boolean;
+}
 
 const ICONS: Record<ToastType, React.FC<{ size?: number }>> = {
   success: IconCircleCheck,
@@ -74,11 +85,23 @@ const ToastItem = tasty({
 });
 
 const Layout = tasty({
-  styles: { display: 'flex', flow: 'column', gap: '2x', padding: '3x', align: 'center' },
+  styles: {
+    display: 'flex',
+    flow: 'column',
+    gap: '2x',
+    padding: '3x',
+    align: 'center',
+  },
 });
 
 const ToastStack = tasty({
-  styles: { display: 'flex', flow: 'column', gap: '1x', align: 'flex-end', width: 'min 320px' },
+  styles: {
+    display: 'flex',
+    flow: 'column',
+    gap: '1x',
+    align: 'flex-end',
+    width: 'min 320px',
+  },
 });
 
 const ButtonRow = tasty({
@@ -118,8 +141,13 @@ export const App = () => {
   }, []);
 
   const dismissToast = useCallback((id: number) => {
-    setToasts((t) => t.map((toast) => (toast.id === id ? { ...toast, exiting: true } : toast)));
-    setTimeout(() => setToasts((t) => t.filter((toast) => toast.id !== id)), 300);
+    setToasts((t) =>
+      t.map((toast) => (toast.id === id ? { ...toast, exiting: true } : toast)),
+    );
+    setTimeout(
+      () => setToasts((t) => t.filter((toast) => toast.id !== id)),
+      300,
+    );
   }, []);
 
   useEffect(() => {
@@ -142,8 +170,14 @@ export const App = () => {
         {toasts.map((toast) => {
           const Icon = ICONS[toast.type];
           return (
-            <ToastItem key={toast.id} variant={toast.type} isExiting={toast.exiting}>
-              <ToastItem.Icon><Icon size={20} /></ToastItem.Icon>
+            <ToastItem
+              key={toast.id}
+              variant={toast.type}
+              isExiting={toast.exiting}
+            >
+              <ToastItem.Icon>
+                <Icon size={20} />
+              </ToastItem.Icon>
               <ToastItem.Message>{toast.message}</ToastItem.Message>
               <ToastItem.Close onClick={() => dismissToast(toast.id)}>
                 <IconX size={16} />
