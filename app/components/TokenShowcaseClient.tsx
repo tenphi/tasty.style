@@ -57,8 +57,8 @@ export default function TokenShowcaseClient({
       <Section id="tokens">
         <Section.Title>Tokens, Units, and Color Systems</Section.Title>
         <Section.Subtitle>
-          Define a shared styling language with global tokens, state-aware values,
-          and OKHSL-friendly color authoring
+          Define a shared styling language with global tokens, state-aware
+          values, and OKHSL-friendly color authoring
         </Section.Subtitle>
         <Section.Content>
           <Grid
@@ -82,10 +82,10 @@ export default function TokenShowcaseClient({
               textAlign="center"
               textWrap="balance"
             >
-              Use <b>configure()</b> to define the tokens your design system owns.
-              Those values become shared CSS custom properties, and they can use
-              state maps too, so themes and breakpoints reuse the same vocabulary
-              everywhere.
+              Use <b>configure()</b> to define the tokens your design system
+              owns. Those values become shared CSS custom properties, and they
+              can use state maps too, so themes and breakpoints reuse the same
+              vocabulary everywhere.
             </Text>
             <Text
               preset="t1"
@@ -93,8 +93,8 @@ export default function TokenShowcaseClient({
               textAlign="center"
               textWrap="balance"
             >
-              Tasty also supports <b>OKHSL</b> natively. When you want full light,
-              dark, and high-contrast palettes with automatic{' '}
+              Tasty also supports <b>OKHSL</b> natively. When you want full
+              light, dark, and high-contrast palettes with automatic{' '}
               <b>WCAG-aware</b> contrast solving, use{' '}
               <GlazeLink
                 href="https://github.com/tenphi/glaze"
