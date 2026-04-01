@@ -1,34 +1,5 @@
-'use client';
-
-import { tasty } from '@tenphi/tasty';
-import Section from '@/app/components/Section';
-import Space from '@/app/ui/Space';
-import Text from '@/app/ui/Text';
-import CodeBlock from '@/app/ui/CodeBlock';
-import Tabs from '@/app/ui/Tabs';
-import SectionWrap from '@/app/ui/SectionWrap';
-
-const ShowcaseWrapper = tasty({
-  styles: {
-    display: 'flex',
-    flow: 'column',
-    gap: '2x',
-    width: '100%',
-    fill: '#surface',
-    border: true,
-    radius: '1cr',
-    overflow: 'hidden',
-  },
-});
-
-const ShowcaseDescription = tasty({
-  styles: {
-    padding: '3x 3x 0',
-    display: 'flex',
-    flow: 'column',
-    gap: '1x',
-  },
-});
+import ServerCodeBlock from '@/app/ui/ServerCodeBlock';
+import CodeShowcaseClient from './CodeShowcaseClient';
 
 const EXAMPLES = [
   {
@@ -155,40 +126,18 @@ configure({
 
 export default function CodeShowcase() {
   return (
-    <SectionWrap fill="#surface-2">
-      <Section id="code-showcase">
-        <Section.Title>See It In Action</Section.Title>
-        <Section.Subtitle>
-          Patterns from the recommended design-system model
-        </Section.Subtitle>
-        <Section.Content>
-          <Tabs
-            width="max 720px"
-            margin="auto left right"
-            tabs={EXAMPLES.map((example) => ({
-              id: example.id,
-              label: example.label,
-              content: (
-                <ShowcaseWrapper>
-                  <ShowcaseDescription>
-                    <Text preset="h3" color="#text">
-                      {example.title}
-                    </Text>
-                    <Text preset="t2" color="#text-soft">
-                      {example.description}
-                    </Text>
-                  </ShowcaseDescription>
-                  <Space padding="0 3x 3x">
-                    <CodeBlock radius="1r" lang="tsx">
-                      {example.code}
-                    </CodeBlock>
-                  </Space>
-                </ShowcaseWrapper>
-              ),
-            }))}
-          />
-        </Section.Content>
-      </Section>
-    </SectionWrap>
+    <CodeShowcaseClient
+      tabs={EXAMPLES.map((example) => ({
+        id: example.id,
+        label: example.label,
+        title: example.title,
+        description: example.description,
+        codeBlock: (
+          <ServerCodeBlock radius="1r" lang="tsx">
+            {example.code}
+          </ServerCodeBlock>
+        ),
+      }))}
+    />
   );
 }

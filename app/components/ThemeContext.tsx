@@ -2,11 +2,12 @@
 
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
+  useRef,
+  useState,
 } from 'react';
 
 interface ThemeContextValue {
@@ -29,15 +30,25 @@ function getSystemContrast(): string {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState('light');
   const [contrast, setContrastState] = useState('normal');
+  const mountedRef = useRef(false);
 
-  /* eslint-disable */
   useEffect(() => {
-    setThemeState(getSystemTheme());
-    setContrastState(getSystemContrast());
+    const t = getSystemTheme();
+    const c = getSystemContrast();
+    document.documentElement.dataset.schema = t;
+    document.documentElement.dataset.contrast = c;
+    const raf = requestAnimationFrame(() => {
+      setThemeState(t);
+      setContrastState(c);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
-  /* eslint-enable */
 
   useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
     document.documentElement.dataset.schema = theme;
     document.documentElement.dataset.contrast = contrast;
   }, [theme, contrast]);

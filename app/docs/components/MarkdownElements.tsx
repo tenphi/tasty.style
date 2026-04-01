@@ -1,9 +1,6 @@
 'use client';
 
-import { Fragment } from 'react';
 import { tasty } from '@tenphi/tasty';
-import { highlightCode } from '@/app/lib/shiki';
-import { SYNTAX_COLOR_CLASSES } from '@/app/lib/shiki-theme';
 
 export const DocH2 = tasty({
   as: 'h2',
@@ -193,42 +190,7 @@ const DocCodeBlockElement = tasty({
   },
 });
 
-export function DocCodeBlock({
-  children,
-  lang,
-}: {
-  children: string;
-  lang?: string;
-}) {
-  if (lang) {
-    const { tokens } = highlightCode(children, lang);
-
-    return (
-      <DocCodeBlockElement>
-        <DocCodeBlockElement.Code>
-          {tokens.map((line, i) => (
-            <Fragment key={i}>
-              {line.map((token, j) => {
-                const cls = token.color
-                  ? SYNTAX_COLOR_CLASSES[token.color]
-                  : undefined;
-
-                return cls ? (
-                  <span key={j} className={cls}>
-                    {token.content}
-                  </span>
-                ) : (
-                  <Fragment key={j}>{token.content}</Fragment>
-                );
-              })}
-              {i < tokens.length - 1 ? '\n' : null}
-            </Fragment>
-          ))}
-        </DocCodeBlockElement.Code>
-      </DocCodeBlockElement>
-    );
-  }
-
+export function DocCodeBlock({ children }: { children: React.ReactNode }) {
   return (
     <DocCodeBlockElement>
       <DocCodeBlockElement.Code>{children}</DocCodeBlockElement.Code>

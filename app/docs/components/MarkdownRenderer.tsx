@@ -1,9 +1,11 @@
-import type { ComponentPropsWithoutRef } from 'react';
+import { Fragment, type ComponentPropsWithoutRef } from 'react';
 import type { Html, Root } from 'mdast';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import { visit } from 'unist-util-visit';
+import { highlightCode } from '@/app/lib/shiki';
+import { SYNTAX_COLOR_CLASSES } from '@/app/lib/shiki-theme';
 import InlineCode from '@/app/ui/InlineCode';
 import Link from '@/app/ui/Link';
 import { DocCodeBlock } from './MarkdownElements';
@@ -85,7 +87,34 @@ function MdxPre({ children }: ComponentPropsWithoutRef<'pre'>) {
         ? child.props.children
         : String(child.props.children ?? '');
 
-    return <DocCodeBlock lang={lang}>{code}</DocCodeBlock>;
+    if (lang) {
+      const { tokens } = highlightCode(code, lang);
+
+      return (
+        <DocCodeBlock>
+          {tokens.map((line, i) => (
+            <Fragment key={i}>
+              {line.map((token, j) => {
+                const cls = token.color
+                  ? SYNTAX_COLOR_CLASSES[token.color]
+                  : undefined;
+
+                return cls ? (
+                  <span key={j} className={cls}>
+                    {token.content}
+                  </span>
+                ) : (
+                  <Fragment key={j}>{token.content}</Fragment>
+                );
+              })}
+              {i < tokens.length - 1 ? '\n' : null}
+            </Fragment>
+          ))}
+        </DocCodeBlock>
+      );
+    }
+
+    return <DocCodeBlock>{code}</DocCodeBlock>;
   }
 
   return <pre>{children}</pre>;
