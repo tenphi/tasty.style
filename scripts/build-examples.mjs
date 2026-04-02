@@ -34,11 +34,13 @@ function fileToSlugAndLabel(filename) {
   return { slug, label };
 }
 
-const examples = files.map((file) => {
-  const { slug, label } = fileToSlugAndLabel(file);
-  const code = readFileSync(join(EXAMPLES_DIR, file), 'utf-8');
-  return { slug, label, code };
-});
+const examples = files
+  .map((file) => {
+    const { slug, label } = fileToSlugAndLabel(file);
+    const code = readFileSync(join(EXAMPLES_DIR, file), 'utf-8');
+    return { slug, label, code };
+  })
+  .sort((a, b) => a.label.localeCompare(b.label));
 
 const lines = [
   '// @generated — do not edit by hand. Edit files in app/playground/examples/ instead.',
