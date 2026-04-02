@@ -127,7 +127,7 @@ const PlaygroundWrap = tasty({
   styles: {
     display: 'flex',
     flow: 'column',
-    height: '(100vh - ($header-height, 64px))',
+    height: '(100dvh - ($header-height, 64px))',
     overflow: 'hidden',
   },
 });

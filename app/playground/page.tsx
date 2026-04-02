@@ -12,7 +12,7 @@ const PlaygroundClient = dynamic(
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: 'calc(100vh - 64px)',
+          height: 'calc(100dvh - 64px)',
           color: 'var(--primary-text-color)',
           backgroundColor: 'var(--primary-surface-color)',
           fontFamily: 'var(--font-sans), sans-serif',
