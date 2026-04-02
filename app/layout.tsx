@@ -7,9 +7,9 @@ import { onest, jetbrainsMono } from './fonts';
 
 const SITE_URL = 'https://tasty.style';
 const SITE_NAME = 'Tasty';
-const SITE_TITLE = 'Tasty — The Styling Engine Built for Design Systems';
+const SITE_TITLE = 'Tasty — Deterministic styling for stateful component systems';
 const SITE_DESCRIPTION =
-  'Deterministic CSS generation. State-aware DSL. Zero specificity conflicts. Ever.';
+  'Tasty compiles state maps into mutually exclusive selectors, so component styles resolve from declared logic instead of cascade or source-order accidents.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
