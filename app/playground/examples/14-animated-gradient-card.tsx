@@ -31,7 +31,7 @@ const GradientCard = tasty({
     },
     animation: 'rotate 6s linear infinite, pulse 4s ease-in-out infinite',
 
-    Title: { preset: 't1 strong' },
+    Title: { preset: 't1m' },
     Body: { preset: 't2', opacity: 0.85 },
   },
   elements: { Title: 'h3', Body: 'p' },

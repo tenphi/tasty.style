@@ -45,7 +45,7 @@ const HeaderCell = tasty({
     gap: '0.5x',
     align: 'center',
     padding: '1.5x 2x',
-    preset: 't3 strong',
+    preset: 't3m',
     color: { '': '#text-soft', ':hover': '#accent-text' },
     fill: '#accent-text.03',
     border: '0, 1bw bottom',

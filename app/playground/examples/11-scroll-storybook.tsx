@@ -15,7 +15,7 @@ const Layout = tasty({
 
 const Label = tasty({
   styles: {
-    preset: 't3 strong',
+    preset: 't3m',
     color: '#text-soft',
     width: '100%',
     textAlign: 'center',

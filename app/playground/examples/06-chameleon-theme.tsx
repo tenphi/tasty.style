@@ -149,7 +149,7 @@ const PreviewCard = tasty({
     },
 
     Title: {
-      preset: 't2 strong',
+      preset: 't2m',
       color: {
         '': '#card-accent-text',
         'type=accent': '#card-accent-surface-text',

@@ -27,7 +27,7 @@ const Aside = tasty({
 const TocTitle = tasty({
   as: 'span',
   styles: {
-    preset: 't4 strong',
+    preset: 't4m',
     color: '#text-soft',
     padding: '0 0 1x',
     textTransform: 'uppercase',

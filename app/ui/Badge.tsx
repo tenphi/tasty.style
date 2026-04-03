@@ -13,7 +13,7 @@ const Badge = tasty({
   styles: {
     display: 'inline-flex',
     padding: '0.5x 1.5x',
-    preset: 't3 strong',
+    preset: 't3m',
     radius: 'round',
     fill: '#surface-3',
     color: '#accent-text-3',

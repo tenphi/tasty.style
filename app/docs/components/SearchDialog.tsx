@@ -184,7 +184,7 @@ const ResultItem = tasty({
     ResultTitle: {
       $: '>',
       display: 'block',
-      preset: 't3 strong',
+      preset: 't3m',
       color: {
         '': '#text',
         '@parent(selected)': '#accent-text',

@@ -36,8 +36,9 @@ const SwitcherOption = tasty({
     shadow: {
       '': 'none',
       active: '0 1px 3px #shadow-sm',
+      '@dark & active': 'inset 0 0 0 1bw #border',
     },
-    border: 'none',
+    border: 0,
   },
 });
 

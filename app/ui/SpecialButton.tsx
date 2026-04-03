@@ -10,7 +10,7 @@ const Outer = tasty(Button, {
     overflow: 'hidden',
     padding: 0,
     preset: {
-      'size=small': 't3 strong',
+      'size=small': 't3m',
     },
     $angle: {
       '': '30deg',

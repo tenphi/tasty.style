@@ -58,7 +58,7 @@ const Card = tasty({
       gap: '0.5x',
       flexGrow: 1,
     },
-    Title: { preset: 't2 strong', color: '#text' },
+    Title: { preset: 't2m', color: '#text' },
     Description: { preset: 't3', color: '#text-soft' },
   },
   elements: {

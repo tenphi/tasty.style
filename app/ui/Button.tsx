@@ -9,7 +9,7 @@ const Button = tasty({
     placeItems: 'center',
     gap: '1x',
     padding: '1.5x 3x',
-    preset: 't2 strong',
+    preset: 't2m',
     radius: 'round',
     border: 'none',
     cursor: 'pointer',

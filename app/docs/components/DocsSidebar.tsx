@@ -105,7 +105,7 @@ const TopBar = tasty({
 const GroupTitle = tasty({
   as: 'span',
   styles: {
-    preset: 't4 strong',
+    preset: 't4m',
     color: '#text-soft',
     padding: '2x 1.5x 0.5x',
     textTransform: 'uppercase',

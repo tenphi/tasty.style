@@ -31,7 +31,7 @@ const MoodRing = tasty({
     position: 'relative',
     padding: '2x 4x',
     radius: '1.5r',
-    preset: 't2 strong',
+    preset: 't2m',
     cursor: 'pointer',
     transition: 'theme, scale',
     opacity: { '': 1, '@starting': 0 },

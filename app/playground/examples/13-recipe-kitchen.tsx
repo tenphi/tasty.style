@@ -83,7 +83,7 @@ const Row = tasty({
 });
 
 const Label = tasty({
-  styles: { preset: 't3 strong', color: '#text-soft', width: '100%' },
+  styles: { preset: 't3m', color: '#text-soft', width: '100%' },
 });
 
 export const App = () => (

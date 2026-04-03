@@ -44,7 +44,7 @@ const Dashboard = tasty({
       border: '1bw bottom',
       align: 'center',
       gap: '1x',
-      preset: 't2 strong',
+      preset: 't2m',
       color: '#text',
     },
     Content: {
@@ -98,7 +98,7 @@ const StatCard = tasty({
     flexGrow: 1,
 
     Title: { preset: 't3', color: '#text-soft' },
-    Value: { preset: 't1 strong', color: '#text' },
+    Value: { preset: 't1m', color: '#text' },
   },
   elements: { Title: 'span', Value: 'span' },
   styleProps: FLOW_STYLES,

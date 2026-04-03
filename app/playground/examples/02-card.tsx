@@ -16,7 +16,7 @@ const Card = tasty({
       ':hover': '0 2x 8x #black.10',
     },
     Title: {
-      preset: 't2 strong',
+      preset: 't2m',
       color: '#text',
     },
     Description: {

@@ -24,6 +24,8 @@ export default {
     '$transition',
   ],
 
+  presets: ['t1m', 't2', 't2m', 't3', 't3m'],
+
   states: [
     '@mobile',
     '@tablet',

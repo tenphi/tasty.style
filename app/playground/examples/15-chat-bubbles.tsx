@@ -52,7 +52,7 @@ const Message = tasty({
     margin: { '': 'auto right', 'sender=me': 'auto left' },
 
     Name: {
-      preset: 't3 strong',
+      preset: 't3m',
       color: '#text-soft',
       padding: '0 1x',
     },

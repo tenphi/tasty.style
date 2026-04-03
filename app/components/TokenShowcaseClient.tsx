@@ -26,7 +26,7 @@ const TokenLabel = tasty({
   styles: {
     display: 'inline-flex',
     padding: '0.75x 2x',
-    preset: 't3 strong',
+    preset: 't3m',
     radius: '1r 1r 0 0',
     fill: '#accent-surface',
     color: '#accent-surface-text',

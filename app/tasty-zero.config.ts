@@ -47,12 +47,26 @@ const typographyTokens = generateTypographyTokens({
     fontWeight: '400',
     boldFontWeight: '600',
   },
+  t1m: {
+    fontSize: '20px',
+    lineHeight: '1.5',
+    letterSpacing: '0',
+    fontWeight: '500',
+    boldFontWeight: '700',
+  },
   t2: {
     fontSize: '16px',
     lineHeight: '1.5',
     letterSpacing: '0',
     fontWeight: '400',
     boldFontWeight: '600',
+  },
+  t2m: {
+    fontSize: '16px',
+    lineHeight: '1.5',
+    letterSpacing: '0',
+    fontWeight: '500',
+    boldFontWeight: '700',
   },
   t3: {
     fontSize: '14px',
@@ -61,12 +75,26 @@ const typographyTokens = generateTypographyTokens({
     fontWeight: '400',
     boldFontWeight: '600',
   },
+  t3m: {
+    fontSize: '14px',
+    lineHeight: '1.5',
+    letterSpacing: '0',
+    fontWeight: '500',
+    boldFontWeight: '700',
+  },
   t4: {
     fontSize: '12px',
     lineHeight: '1.5',
     letterSpacing: '0',
     fontWeight: '400',
     boldFontWeight: '700',
+  },
+  t4m: {
+    fontSize: '12px',
+    lineHeight: '1.5',
+    letterSpacing: '0',
+    fontWeight: '500',
+    boldFontWeight: '800',
   },
   c1: {
     fontSize: '15px',
@@ -87,14 +115,6 @@ const typographyTokens = generateTypographyTokens({
     letterSpacing: '0.05em',
     fontWeight: '600',
     textTransform: 'uppercase',
-  },
-  strong: {
-    fontSize: 'inherit',
-    lineHeight: 'inherit',
-    letterSpacing: 'inherit',
-    fontFamily: 'inherit',
-    fontStyle: 'inherit',
-    fontWeight: 'var(--bold-font-weight, 600)',
   },
 });
 

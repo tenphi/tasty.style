@@ -1,4 +1,4 @@
-import { configure } from '@tenphi/tasty';
+import { configure, generateTypographyTokens } from '@tenphi/tasty';
 import { glaze } from '@tenphi/glaze';
 
 const primary = glaze(240, 75);
@@ -51,6 +51,14 @@ const palette = glaze.palette(
   { primary: 'primary' },
 );
 
+const typographyTokens = generateTypographyTokens({
+  t1m: { fontSize: '20px', lineHeight: '1.5', fontWeight: '500' },
+  t2: { fontSize: '16px', lineHeight: '1.5', fontWeight: '400' },
+  t2m: { fontSize: '16px', lineHeight: '1.5', fontWeight: '500' },
+  t3: { fontSize: '14px', lineHeight: '1.5', fontWeight: '400' },
+  t3m: { fontSize: '14px', lineHeight: '1.5', fontWeight: '500' },
+});
+
 configure({
   tokens: {
     ...palette.tasty({
@@ -60,6 +68,7 @@ configure({
         highContrast: '@high-contrast-root',
       },
     }),
+    ...typographyTokens,
     $gap: '8px',
     $radius: '8px',
     '$border-width': '1px',

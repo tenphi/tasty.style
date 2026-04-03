@@ -14,7 +14,7 @@ const Layout = tasty({
 
 const Label = tasty({
   styles: {
-    preset: 't3 strong',
+    preset: 't3m',
     color: '#text-soft',
     width: '100%',
     textAlign: 'center',
@@ -26,7 +26,9 @@ const ButtonGroupElement = tasty({
   styles: {
     display: 'inline-flex',
     flow: 'row',
-    radius: '$group-radius',
+    // the longhand modifier is required to force the style handler to output 
+    // longhand CSS styles that can be further inherited
+    radius: '$group-radius longhand',
   },
 });
 
@@ -91,8 +93,9 @@ const Button = tasty({
     radius: {
       '': true,
       '@parent(button-group, >)': '0',
-      '@parent(button-group, >) & :first-child': '$group-radius left',
-      '@parent(button-group, >) & :last-child': '$group-radius right',
+      // You can also use `$group-radius` instead of `inherit` value
+      '@parent(button-group, >) & :first-child': 'inherit left',
+      '@parent(button-group, >) & :last-child': 'inherit right',
     },
   },
 });
