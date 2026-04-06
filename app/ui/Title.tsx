@@ -1,5 +1,3 @@
-'use client';
-
 import { tasty, BASE_STYLES, OUTER_STYLES } from '@tenphi/tasty';
 
 const Title = tasty({

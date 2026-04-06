@@ -1,5 +1,3 @@
-'use client';
-
 import { tasty } from '@tenphi/tasty';
 
 const Section = tasty({

@@ -1,5 +1,3 @@
-'use client';
-
 import type { ReactNode } from 'react';
 import { tasty } from '@tenphi/tasty';
 import Button from './Button';

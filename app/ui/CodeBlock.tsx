@@ -1,5 +1,3 @@
-'use client';
-
 import { tasty, BASE_STYLES, OUTER_STYLES, BLOCK_STYLES } from '@tenphi/tasty';
 
 const CodeBlockElement = tasty({

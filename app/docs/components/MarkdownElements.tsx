@@ -1,5 +1,3 @@
-'use client';
-
 import { tasty } from '@tenphi/tasty';
 
 export const DocH2 = tasty({

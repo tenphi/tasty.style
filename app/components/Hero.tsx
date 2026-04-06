@@ -1,5 +1,3 @@
-'use client';
-
 import { tasty, OUTER_STYLES } from '@tenphi/tasty';
 import { IconArrowRight } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';

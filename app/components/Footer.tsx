@@ -1,5 +1,3 @@
-'use client';
-
 import { tasty } from '@tenphi/tasty';
 import Space from '@/app/ui/Space';
 import Text from '@/app/ui/Text';

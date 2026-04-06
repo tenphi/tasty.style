@@ -42,12 +42,18 @@ function readSyncedVersions() {
   );
   const versions = {};
   for (const name of SYNCED_DEPS) {
-    const v = pkg.dependencies?.[name] ?? pkg.devDependencies?.[name];
+    let v = pkg.dependencies?.[name] ?? pkg.devDependencies?.[name];
     if (!v) {
       throw new Error(
         `${name} not found in project package.json — ` +
           'the playground snapshot must stay in sync',
       );
+    }
+    // Resolve file: specifiers to absolute paths so they work from the
+    // temp directory where npm install runs.
+    if (v.startsWith('file:')) {
+      const relPath = v.slice('file:'.length);
+      v = 'file:' + resolve(projectRoot, relPath);
     }
     versions[name] = v;
   }
@@ -297,6 +303,71 @@ function swapNativeForWasm(nodeModulesDir, nativePkg, wasmPkg) {
   cpDirSync(wasmDir, nativeDir);
 }
 
+const FILE_LINKED_STRIP_DIRS = new Set([
+  '.git',
+  '.github',
+  '.changeset',
+  '.cursor',
+  'node_modules',
+  'src',
+  'docs',
+  'scripts',
+  'assets',
+  'coverage',
+  '__tests__',
+  'test',
+  'tests',
+  'benchmarks',
+]);
+
+const FILE_LINKED_STRIP_FILES = new Set([
+  'pnpm-lock.yaml',
+  'package-lock.json',
+  'yarn.lock',
+  'tsconfig.json',
+  'tsdown.config.ts',
+  'vitest.config.ts',
+  'eslint.config.js',
+  'eslint.config.mjs',
+  '.eslintrc.js',
+  '.prettierrc',
+  '.editorconfig',
+  '.gitignore',
+  'AGENTS.md',
+  'SECURITY.md',
+  'tasty.config.ts',
+]);
+
+/**
+ * Strip non-runtime files from packages installed via `file:` specifiers.
+ * npm copies the entire source tree; we only need `dist/`, `package.json`,
+ * and type declarations.
+ */
+function stripFileLinkedPackages(nodeModulesDir, packageJson) {
+  const allDeps = {
+    ...packageJson.dependencies,
+    ...packageJson.devDependencies,
+  };
+
+  for (const [name, specifier] of Object.entries(allDeps)) {
+    if (!specifier.startsWith('file:')) continue;
+
+    const pkgDir = join(nodeModulesDir, ...name.split('/'));
+    if (!existsSync(pkgDir)) continue;
+
+    let removed = 0;
+    for (const entry of readdirSync(pkgDir)) {
+      if (FILE_LINKED_STRIP_DIRS.has(entry) || FILE_LINKED_STRIP_FILES.has(entry)) {
+        rmSync(join(pkgDir, entry), { recursive: true, force: true });
+        removed++;
+      }
+    }
+    if (removed > 0) {
+      console.log(`  Stripped ${removed} entries from ${name}`);
+    }
+  }
+}
+
 async function main() {
   const packageJson = buildPackageJson();
 
@@ -330,6 +401,12 @@ async function main() {
 
     console.log('Installing dependencies…');
     execSync('npm install', { cwd: tmpDir, stdio: 'inherit' });
+
+    // When dependencies use `file:` specifiers, npm copies the entire source
+    // tree. Strip non-runtime content so the snapshot stays small enough to
+    // fit in memory.
+    console.log('Stripping file-linked packages…');
+    stripFileLinkedPackages(join(tmpDir, 'node_modules'), packageJson);
 
     console.log('Swapping native packages for WASM…');
     swapNativeForWasm(join(tmpDir, 'node_modules'), 'esbuild', 'esbuild-wasm');

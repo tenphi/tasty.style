@@ -1,5 +1,3 @@
-'use client';
-
 import type { ComponentProps } from 'react';
 import { tasty, BASE_STYLES, OUTER_STYLES, BLOCK_STYLES } from '@tenphi/tasty';
 import { IconChevronDown } from '@tabler/icons-react';

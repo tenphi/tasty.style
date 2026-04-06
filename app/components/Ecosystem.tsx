@@ -1,5 +1,3 @@
-'use client';
-
 import type { ReactNode } from 'react';
 import { IconPalette, IconShieldCheck, IconCode } from '@tabler/icons-react';
 import type { TintName } from '@/app/theme';
