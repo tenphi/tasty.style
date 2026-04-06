@@ -25,13 +25,19 @@ const Aside = tasty({
 });
 
 const TocTitle = tasty({
-  as: 'span',
+  as: 'a',
   styles: {
     preset: 't4m',
-    color: '#text-soft',
+    color: {
+      '': '#text-soft',
+      ':hover': '#text',
+    },
     padding: '0 0 1x',
     textTransform: 'uppercase',
     letterSpacing: '0.06em',
+    textDecoration: 'none',
+    cursor: 'pointer',
+    transition: 'theme',
   },
 });
 
@@ -97,7 +103,15 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <Aside>
-      <TocTitle>On this page</TocTitle>
+      <TocTitle
+        href="#"
+        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      >
+        On this page
+      </TocTitle>
       {headings.map((heading) => (
         <TocLink
           key={heading.id}
