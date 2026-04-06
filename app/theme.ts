@@ -7,8 +7,6 @@ glaze.configure({
 const blue = glaze(210, 75);
 
 blue.colors({
-  black: { lightness: 0, saturation: 0, mode: 'static', inherit: false },
-  white: { lightness: 100, saturation: 0, mode: 'static', inherit: false },
   surface: { lightness: 100, saturation: 0.1 },
   'surface-2': {
     base: 'surface',

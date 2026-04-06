@@ -30,8 +30,6 @@ primary.colors({
     contrast: ['AA', 'AAA'],
     saturation: 0.9,
   },
-  white: { lightness: 100, saturation: 0, mode: 'static' },
-  black: { lightness: 0, saturation: 0, mode: 'static' },
   shadow: { type: 'shadow', bg: 'surface', fg: 'border', intensity: 40 },
   'accent-shadow': {
     type: 'shadow',
