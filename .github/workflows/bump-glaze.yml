@@ -39,3 +39,8 @@ jobs:
           git add package.json pnpm-lock.yaml
           git commit -m "chore: bump @tenphi/glaze to ${{ github.event.client_payload.version }}"
           git push
+
+      - name: Trigger deploy
+        run: gh workflow run deploy.yml
+        env:
+          GH_TOKEN: ${{ github.token }}
