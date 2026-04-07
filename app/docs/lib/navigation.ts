@@ -36,7 +36,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: 'Rendering',
     items: [
-      { title: 'Runtime API', slug: 'runtime' },
+      { title: 'React API', slug: 'react-api' },
       { title: 'Zero Runtime', slug: 'tasty-static' },
       { title: 'Server-Side Rendering', slug: 'ssr' },
     ],

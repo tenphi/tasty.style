@@ -63,7 +63,7 @@ const COLUMNS = [
       { label: 'Getting Started', href: '/docs/getting-started' },
       { label: 'Comparison', href: '/docs/comparison' },
       { label: 'Adoption Guide', href: '/docs/adoption' },
-      { label: 'Runtime API', href: '/docs/runtime' },
+      { label: 'React API', href: '/docs/react-api' },
       { label: 'Server-Side Rendering', href: '/docs/ssr' },
       { label: 'Zero Runtime', href: '/docs/tasty-static' },
       { label: 'Methodology', href: '/docs/methodology' },
