@@ -8,12 +8,14 @@ const Link = tasty({
       '': '#accent-text',
       ':hover': '#icon',
     },
-    textDecoration: {
-      '': 'none',
-      ':hover': 'underline',
+    textDecoration: 'underline',
+    textDecorationColor: {
+      '': '#accent-text.40',
+      ':hover': '#accent-text',
     },
+    textUnderlineOffset: '2px',
     cursor: 'pointer',
-    transition: 'color',
+    transition: 'color, text-decoration-color',
   },
   styleProps: [...BASE_STYLES, ...OUTER_STYLES, ...BLOCK_STYLES],
 });
