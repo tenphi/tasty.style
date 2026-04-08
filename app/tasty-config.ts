@@ -1,15 +1,12 @@
-import type { ConfigTokens, TastyConfig } from '@tenphi/tasty';
 import { configure } from '@tenphi/tasty';
 
 import { states } from './states';
+import { colorTokens } from './theme';
 
-const serverConfig: Partial<TastyConfig> = {};
-
-if (typeof window === 'undefined') {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { colorTokens } = require('./theme') as { colorTokens: ConfigTokens };
-
-  serverConfig.tokens = {
+configure({
+  colorSpace: 'rgb',
+  states,
+  tokens: {
     ...colorTokens,
     $gap: '8px',
     $radius: '10px',
@@ -26,9 +23,8 @@ if (typeof window === 'undefined') {
     '$default-letter-spacing': '0.02em',
     '$default-font-weight': '400',
     '$default-font-style': 'normal',
-  };
-
-  serverConfig.presets = {
+  },
+  presets: {
     d1: {
       fontSize: '64px',
       lineHeight: '1.1',
@@ -149,9 +145,8 @@ if (typeof window === 'undefined') {
       fontWeight: '600',
       textTransform: 'uppercase',
     },
-  };
-
-  serverConfig.globalStyles = {
+  },
+  globalStyles: {
     '*, *::before, *::after': {
       boxSizing: 'border-box',
     },
@@ -197,11 +192,5 @@ if (typeof window === 'undefined') {
     '.sh-f.sh-f.sh-f': { color: '#syntax-function' },
     '.sh-v.sh-v.sh-v': { color: '#syntax-value' },
     '.sh-o.sh-o.sh-o': { color: '#syntax-operator' },
-  };
-}
-
-configure({
-  colorSpace: 'rgb',
-  states,
-  ...serverConfig,
+  },
 });

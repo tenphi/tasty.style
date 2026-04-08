@@ -25,7 +25,7 @@ Repository: [https://github.com/tenphi/tasty.style](https://github.com/tenphi/ta
 ## Stack
 
 - **Framework**: Next.js 16 (App Router, static export)
-- **Styling**: `@tenphi/tasty` (runtime + zero-runtime via Babel plugin)
+- **Styling**: `@tenphi/tasty` (runtime + SSR)
 - **Color system**: `@tenphi/glaze` (OKHSL color themes)
 - **Playground**: WebContainers (in-browser Node.js) + CodeMirror
 - **Search**: Pagefind (post-build indexing)
@@ -41,9 +41,7 @@ app/
   page.tsx            Landing page
   theme.ts            Glaze color theme definitions
   states.ts           Custom state aliases
-  global-styles.ts    Global tastyStatic() styles
   tasty-config.ts     Runtime configure() (states only)
-  tasty-zero.config.ts  Full config for zero-runtime Babel plugin (typography, tokens)
   tasty-registry.tsx  SSR style registry wrapper
   fonts.ts            Font definitions (Onest, JetBrains Mono)
 
@@ -71,7 +69,6 @@ The file is also regenerated automatically by `predev` and `prebuild` hooks.
 | File                                        | Purpose                                                                           |
 | ------------------------------------------- | --------------------------------------------------------------------------------- |
 | `tasty.config.ts` (root)                    | ESLint plugin validation config (tokens, states, presets lists)                   |
-| `app/tasty-zero.config.ts`                  | Full Tasty config for zero-runtime extraction (typography presets, design tokens) |
 | `app/tasty-config.ts`                       | Runtime `configure()` call (states only, loaded client-side)                      |
 | `app/playground/examples/default-config.ts` | Default config injected into playground examples                                  |
 | `app/playground/examples/tasty.config.ts`   | ESLint validation config for playground example files                             |
