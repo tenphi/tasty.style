@@ -77,7 +77,6 @@ configure({
       preset: 't2',
       margin: 0,
       padding: '2x',
-      fontFamily: '$font-sans',
     },
   },
   states: {
