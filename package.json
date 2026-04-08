@@ -24,7 +24,6 @@
     "hygiene:fix": "eslint . --fix && prettier --write ."
   },
   "dependencies": {
-    "@babel/helper-plugin-utils": "^7.28.6",
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-javascript": "^6.2.5",
@@ -35,9 +34,8 @@
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/glaze": "0.9.3",
-    "@tenphi/tasty": "1.5.4",
+    "@tenphi/tasty": "0.0.0-snapshot.90d5a03",
     "@webcontainer/api": "^1.6.1",
-    "babel-loader": "^10.1.1",
     "codemirror": "^6.0.2",
     "coi-serviceworker": "^0.1.7",
     "fflate": "^0.8.2",

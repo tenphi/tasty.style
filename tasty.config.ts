@@ -20,7 +20,6 @@ export default {
     '$default-font-weight',
     '$default-font-style',
     '$c1-font-weight',
-    '$t2-line-height',
   ],
 
   states: [
@@ -48,6 +47,7 @@ export default {
     't4',
     't4m',
     'c1',
+    'tag',
     'label',
   ],
 };

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 
 import './tasty-config';
-import './global-styles';
 import TastyStyleRegistry from './tasty-registry';
 import { onest, jetbrainsMono } from './fonts';
 

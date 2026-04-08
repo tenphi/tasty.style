@@ -1,7 +1,201 @@
+import type { ConfigTokens, TastyConfig } from '@tenphi/tasty';
 import { configure } from '@tenphi/tasty';
 
 import { states } from './states';
 
+const serverConfig: Partial<TastyConfig> = {};
+
+if (typeof window === 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { colorTokens } = require('./theme') as { colorTokens: ConfigTokens };
+
+  serverConfig.tokens = {
+    ...colorTokens,
+    $gap: '8px',
+    $radius: '10px',
+    '$button-radius': '6px',
+    '$card-radius': '20px',
+    '$border-width': '1px',
+    '$outline-width': '2px',
+    '$bold-font-weight': 600,
+    $transition: '80ms',
+    '$content-width': '1200px',
+    '$header-height': '64px',
+    '$default-font-size': '16px',
+    '$default-line-height': 1.5,
+    '$default-letter-spacing': '0.02em',
+    '$default-font-weight': '400',
+    '$default-font-style': 'normal',
+  };
+
+  serverConfig.presets = {
+    d1: {
+      fontSize: '64px',
+      lineHeight: '1.1',
+      letterSpacing: '-0.02em',
+      fontWeight: '700',
+    },
+    h1: {
+      fontSize: '42px',
+      lineHeight: '1.15',
+      letterSpacing: '-0.02em',
+      fontWeight: '700',
+    },
+    h2: {
+      fontSize: '32px',
+      lineHeight: '1.2',
+      letterSpacing: '-0.01em',
+      fontWeight: '700',
+    },
+    h3: {
+      fontSize: '24px',
+      lineHeight: '1.3',
+      letterSpacing: '0',
+      fontWeight: '600',
+    },
+    h4: {
+      fontSize: '20px',
+      lineHeight: '1.4',
+      letterSpacing: '0',
+      fontWeight: '600',
+    },
+    h5: {
+      fontSize: '16px',
+      lineHeight: '1.4',
+      letterSpacing: '0',
+      fontWeight: '600',
+    },
+    t1: {
+      fontSize: '20px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '400',
+      boldFontWeight: '600',
+    },
+    t1m: {
+      fontSize: '20px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '500',
+      boldFontWeight: '700',
+    },
+    t2: {
+      fontSize: '16px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '400',
+      boldFontWeight: '600',
+    },
+    t2m: {
+      fontSize: '16px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '500',
+      boldFontWeight: '700',
+    },
+    t3: {
+      fontSize: '14px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '400',
+      boldFontWeight: '600',
+    },
+    t3m: {
+      fontSize: '14px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '500',
+      boldFontWeight: '700',
+    },
+    t4: {
+      fontSize: '12px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '400',
+      boldFontWeight: '700',
+    },
+    t4m: {
+      fontSize: '12px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: '500',
+      boldFontWeight: '800',
+    },
+    c1: {
+      fontSize: '15px',
+      lineHeight: '1.4',
+      letterSpacing: '0',
+      fontWeight: { '': '500', '@dark-root': '400' },
+      boldFontWeight: '600',
+    },
+    tag: {
+      fontSize: '10px',
+      lineHeight: '1.4',
+      letterSpacing: '0.04em',
+      fontWeight: '600',
+    },
+    label: {
+      fontSize: '12px',
+      lineHeight: '1.5',
+      letterSpacing: '0.05em',
+      fontWeight: '600',
+      textTransform: 'uppercase',
+    },
+  };
+
+  serverConfig.globalStyles = {
+    '*, *::before, *::after': {
+      boxSizing: 'border-box',
+    },
+    html: {
+      scrollPaddingTop: '($header-height, 64px)',
+    },
+    body: {
+      '-webkit-text-size-adjust': '100%',
+      textSizeAdjust: '100%',
+      margin: 0,
+      padding: 0,
+      fill: '#surface',
+      color: '#text',
+      font: true,
+      preset: 't2',
+    },
+    'code, pre, kbd': {
+      fontFamily: '$font-mono',
+    },
+    b: {
+      fontWeight: '$bold-font-weight',
+    },
+    '.cm-editor': {
+      fontFamily: '$font-mono',
+      fontSize: '14px',
+      fontWeight: '$c1-font-weight',
+      height: '100%',
+    },
+    '.cm-panels': {
+      fill: '#surface-2',
+      color: '#text',
+      font: 'monospace',
+      preset: 't4',
+    },
+    '.sh-c.sh-c.sh-c': {
+      color: '#syntax-comment',
+      fontStyle: 'italic',
+    },
+    '.sh-p.sh-p.sh-p': { color: '#syntax-punctuation' },
+    '.sh-k.sh-k.sh-k': { color: '#syntax-keyword' },
+    '.sh-s.sh-s.sh-s': { color: '#syntax-string' },
+    '.sh-t.sh-t.sh-t': { color: '#syntax-token' },
+    '.sh-r.sh-r.sh-r': { color: '#syntax-property' },
+    '.sh-n.sh-n.sh-n': { color: '#syntax-number' },
+    '.sh-f.sh-f.sh-f': { color: '#syntax-function' },
+    '.sh-v.sh-v.sh-v': { color: '#syntax-value' },
+    '.sh-o.sh-o.sh-o': { color: '#syntax-operator' },
+  };
+}
+
 configure({
+  colorSpace: 'rgb',
   states,
+  ...serverConfig,
 });

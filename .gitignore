@@ -4,8 +4,9 @@ out
 dist
 *.tsbuildinfo
 next-env.d.ts
-public/tasty.css
 public/assets
 public/coi-serviceworker.js
 public/playground-snapshot.bin
 public/playground-snapshot.meta.json
+public/tasty.css
+
