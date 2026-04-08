@@ -47,6 +47,7 @@ export default {
     't4',
     't4m',
     'c1',
+    'code',
     'tag',
     'label',
   ],

@@ -134,6 +134,14 @@ if (typeof window === 'undefined') {
       letterSpacing: '0.04em',
       fontWeight: '600',
     },
+    code: {
+      fontSize: '14px',
+      lineHeight: '1.5',
+      letterSpacing: '0',
+      fontWeight: { '': '500', '@dark-root': '400' },
+      boldFontWeight: '600',
+      fontFamily: 'monospace',
+    },
     label: {
       fontSize: '12px',
       lineHeight: '1.5',
@@ -161,15 +169,13 @@ if (typeof window === 'undefined') {
       preset: 't2',
     },
     'code, pre, kbd': {
-      fontFamily: '$font-mono',
+      preset: 'code',
     },
     b: {
       fontWeight: '$bold-font-weight',
     },
     '.cm-editor': {
-      fontFamily: '$font-mono',
-      fontSize: '14px',
-      fontWeight: '$c1-font-weight',
+      preset: 'code',
       height: '100%',
     },
     '.cm-panels': {
