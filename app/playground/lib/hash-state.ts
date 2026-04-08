@@ -8,12 +8,11 @@ import {
   DEFAULT_EXAMPLE,
   findExample,
 } from './examples';
-import { DEFAULT_CONFIG, DEFAULT_GLOBAL } from './project-files';
+import { DEFAULT_CONFIG } from './project-files';
 
 export interface PlaygroundState {
   slug: string;
   code: string;
-  global: string;
   config: string;
   isModified: boolean;
 }
@@ -21,7 +20,6 @@ export interface PlaygroundState {
 interface CompactPayload {
   e: string;
   c?: string;
-  g?: string;
   k?: string;
 }
 
@@ -29,21 +27,16 @@ export function getDefaultState(): PlaygroundState {
   return {
     slug: DEFAULT_EXAMPLE.slug,
     code: DEFAULT_EXAMPLE.code,
-    global: DEFAULT_GLOBAL,
     config: DEFAULT_CONFIG,
     isModified: false,
   };
 }
 
 export function isStateModified(
-  state: { code: string; global: string; config: string },
+  state: { code: string; config: string },
   example: PlaygroundExample,
 ): boolean {
-  return (
-    state.code !== example.code ||
-    state.global !== DEFAULT_GLOBAL ||
-    state.config !== DEFAULT_CONFIG
-  );
+  return state.code !== example.code || state.config !== DEFAULT_CONFIG;
 }
 
 export function encodeHash(state: PlaygroundState): string {
@@ -58,7 +51,6 @@ export function encodeHash(state: PlaygroundState): string {
   const payload: CompactPayload = { e: example.slug };
 
   if (state.code !== example.code) payload.c = state.code;
-  if (state.global !== DEFAULT_GLOBAL) payload.g = state.global;
   if (state.config !== DEFAULT_CONFIG) payload.k = state.config;
 
   return compressToEncodedURIComponent(JSON.stringify(payload));
@@ -75,7 +67,6 @@ export function decodeHash(hash: string): PlaygroundState {
     return {
       slug: matchedExample.slug,
       code: matchedExample.code,
-      global: DEFAULT_GLOBAL,
       config: DEFAULT_CONFIG,
       isModified: false,
     };
@@ -92,7 +83,6 @@ export function decodeHash(hash: string): PlaygroundState {
     const state: PlaygroundState = {
       slug: baseExample.slug,
       code: payload.c ?? baseExample.code,
-      global: payload.g ?? DEFAULT_GLOBAL,
       config: payload.k ?? DEFAULT_CONFIG,
       isModified: false,
     };

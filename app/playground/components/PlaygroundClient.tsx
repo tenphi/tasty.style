@@ -38,7 +38,6 @@ import {
   CopiedToast,
 } from './primitives';
 import {
-  DEFAULT_GLOBAL,
   DEFAULT_CONFIG,
   getSourceFiles,
   fetchPlaygroundSnapshot,
@@ -341,7 +340,6 @@ function getInitialState(): PlaygroundState {
     return {
       slug: EXAMPLES[0].slug,
       code: EXAMPLES[0].code,
-      global: DEFAULT_GLOBAL,
       config: DEFAULT_CONFIG,
       isModified: false,
     };
@@ -383,7 +381,6 @@ export default function PlaygroundClient() {
   const [showOutput, setShowOutput] = useState(true);
 
   const codeRef = useRef(initialState.current.code);
-  const globalRef = useRef(initialState.current.global);
   const configRef = useRef(initialState.current.config);
 
   const editorRef = useRef<CodeEditorHandle>(null);
@@ -437,12 +434,10 @@ export default function PlaygroundClient() {
     const state: PlaygroundState = {
       slug: currentSlug,
       code: codeRef.current,
-      global: globalRef.current,
       config: configRef.current,
       isModified: isStateModified(
         {
           code: codeRef.current,
-          global: globalRef.current,
           config: configRef.current,
         },
         example,
@@ -516,9 +511,7 @@ export default function PlaygroundClient() {
 
         setPhase('mounting');
         await wc.mount(snapshotData);
-        await wc.mount(
-          getSourceFiles(codeRef.current, configRef.current, globalRef.current),
-        );
+        await wc.mount(getSourceFiles(codeRef.current, configRef.current));
 
         if (teardown) return;
 
@@ -620,16 +613,14 @@ export default function PlaygroundClient() {
       const state = decodeHash(window.location.hash);
 
       codeRef.current = state.code;
-      globalRef.current = state.global;
       configRef.current = state.config;
       setCurrentSlug(state.slug);
       setIsModified(state.isModified);
 
       editorRef.current?.setContent('code', state.code);
-      editorRef.current?.setContent('global', state.global);
       editorRef.current?.setContent('config', state.config);
 
-      writeAllFilesToWC(state.code, state.config, state.global);
+      writeAllFilesToWC(state.code, state.config);
     }
 
     window.addEventListener('hashchange', handleHashChange);
@@ -639,7 +630,7 @@ export default function PlaygroundClient() {
   }, []);
 
   const writeAllFilesToWC = useCallback(
-    async (code: string, config: string, global: string) => {
+    async (code: string, config: string) => {
       const wc = wcRef.current;
 
       if (!wc) return;
@@ -648,7 +639,6 @@ export default function PlaygroundClient() {
         await Promise.all([
           wc.fs.writeFile('/src/App.tsx', code),
           wc.fs.writeFile('/src/config.ts', config),
-          wc.fs.writeFile('/src/global.ts', global),
         ]);
       } catch (err) {
         console.warn('Failed to write files:', err);
@@ -663,19 +653,6 @@ export default function PlaygroundClient() {
       wcRef.current?.fs
         .writeFile('/src/App.tsx', code)
         .catch((err: unknown) => console.warn('Failed to write App.tsx:', err));
-      updateHash();
-    },
-    [updateHash],
-  );
-
-  const handleGlobalChange = useCallback(
-    (global: string) => {
-      globalRef.current = global;
-      wcRef.current?.fs
-        .writeFile('/src/global.ts', global)
-        .catch((err: unknown) =>
-          console.warn('Failed to write global.ts:', err),
-        );
       updateHash();
     },
     [updateHash],
@@ -704,16 +681,14 @@ export default function PlaygroundClient() {
       editorRef.current?.flushPending();
 
       codeRef.current = example.code;
-      globalRef.current = DEFAULT_GLOBAL;
       configRef.current = DEFAULT_CONFIG;
       setCurrentSlug(slug);
       setIsModified(false);
 
       editorRef.current?.setContent('code', example.code);
-      editorRef.current?.setContent('global', DEFAULT_GLOBAL);
       editorRef.current?.setContent('config', DEFAULT_CONFIG);
 
-      writeAllFilesToWC(example.code, DEFAULT_CONFIG, DEFAULT_GLOBAL);
+      writeAllFilesToWC(example.code, DEFAULT_CONFIG);
 
       const url = new URL(window.location.href);
 
@@ -731,15 +706,13 @@ export default function PlaygroundClient() {
     editorRef.current?.flushPending();
 
     codeRef.current = example.code;
-    globalRef.current = DEFAULT_GLOBAL;
     configRef.current = DEFAULT_CONFIG;
     setIsModified(false);
 
     editorRef.current?.setContent('code', example.code);
-    editorRef.current?.setContent('global', DEFAULT_GLOBAL);
     editorRef.current?.setContent('config', DEFAULT_CONFIG);
 
-    writeAllFilesToWC(example.code, DEFAULT_CONFIG, DEFAULT_GLOBAL);
+    writeAllFilesToWC(example.code, DEFAULT_CONFIG);
 
     const url = new URL(window.location.href);
 
@@ -756,12 +729,7 @@ export default function PlaygroundClient() {
   }, []);
 
   const handleDownload = useCallback(() => {
-    downloadProject(
-      codeRef.current,
-      configRef.current,
-      globalRef.current,
-      currentSlug,
-    );
+    downloadProject(codeRef.current, configRef.current, currentSlug);
   }, [currentSlug]);
 
   const isLoading = phase !== 'ready' && phase !== 'error';
@@ -870,10 +838,8 @@ export default function PlaygroundClient() {
           <CodeEditor
             ref={editorRef}
             initialCode={initialState.current.code}
-            initialGlobal={initialState.current.global}
             initialConfig={initialState.current.config}
             onCodeChange={handleCodeChange}
-            onGlobalChange={handleGlobalChange}
             onConfigChange={handleConfigChange}
           />
         </Panel>

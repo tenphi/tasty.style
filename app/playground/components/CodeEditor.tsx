@@ -11,7 +11,7 @@ import {
 import type { EditorView } from '@codemirror/view';
 import { TabBar, Tab, EditorWrap } from './primitives';
 
-type TabName = 'code' | 'global' | 'config';
+type TabName = 'code' | 'config';
 
 export interface CodeEditorHandle {
   setContent(tab: TabName, value: string): void;
@@ -21,52 +21,36 @@ export interface CodeEditorHandle {
 
 interface CodeEditorProps {
   initialCode: string;
-  initialGlobal: string;
   initialConfig: string;
   onCodeChange: (code: string) => void;
-  onGlobalChange: (global: string) => void;
   onConfigChange: (config: string) => void;
 }
 
 const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
   function CodeEditor(
-    {
-      initialCode,
-      initialGlobal,
-      initialConfig,
-      onCodeChange,
-      onGlobalChange,
-      onConfigChange,
-    },
+    { initialCode, initialConfig, onCodeChange, onConfigChange },
     ref,
   ) {
     const [activeTab, setActiveTab] = useState<TabName>('code');
     const codeContainerRef = useRef<HTMLDivElement>(null);
-    const globalContainerRef = useRef<HTMLDivElement>(null);
     const configContainerRef = useRef<HTMLDivElement>(null);
     const codeViewRef = useRef<EditorView | null>(null);
-    const globalViewRef = useRef<EditorView | null>(null);
     const configViewRef = useRef<EditorView | null>(null);
     const debounceRef = useRef<{
       code?: ReturnType<typeof setTimeout>;
-      global?: ReturnType<typeof setTimeout>;
       config?: ReturnType<typeof setTimeout>;
     }>({});
     const suppressRef = useRef(false);
 
     const onCodeChangeRef = useRef(onCodeChange);
-    const onGlobalChangeRef = useRef(onGlobalChange);
     const onConfigChangeRef = useRef(onConfigChange);
     onCodeChangeRef.current = onCodeChange;
-    onGlobalChangeRef.current = onGlobalChange;
     onConfigChangeRef.current = onConfigChange;
 
     const viewForTab = useCallback((tab: TabName) => {
       switch (tab) {
         case 'code':
           return codeViewRef.current;
-        case 'global':
-          return globalViewRef.current;
         case 'config':
           return configViewRef.current;
       }
@@ -98,7 +82,6 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
         },
         flushPending() {
           clearTimeout(debounceRef.current.code);
-          clearTimeout(debounceRef.current.global);
           clearTimeout(debounceRef.current.config);
         },
       }),
@@ -149,30 +132,6 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
           });
         }
 
-        if (globalContainerRef.current && !globalViewRef.current) {
-          globalViewRef.current = new EditorView({
-            state: EditorState.create({
-              doc: initialGlobal,
-              extensions: [
-                basicSetup,
-                javascript({ jsx: false, typescript: true }),
-                tastyEditorTheme,
-                suppressLezerHighlight,
-                shikiHighlight('typescript'),
-                EditorView.updateListener.of((update) => {
-                  if (update.docChanged && !suppressRef.current) {
-                    clearTimeout(debounceRef.current.global);
-                    debounceRef.current.global = setTimeout(() => {
-                      onGlobalChangeRef.current(update.state.doc.toString());
-                    }, 500);
-                  }
-                }),
-              ],
-            }),
-            parent: globalContainerRef.current,
-          });
-        }
-
         if (configContainerRef.current && !configViewRef.current) {
           configViewRef.current = new EditorView({
             state: EditorState.create({
@@ -205,13 +164,10 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
       return () => {
         destroyed = true;
         clearTimeout(timers.code);
-        clearTimeout(timers.global);
         clearTimeout(timers.config);
         codeViewRef.current?.destroy();
-        globalViewRef.current?.destroy();
         configViewRef.current?.destroy();
         codeViewRef.current = null;
-        globalViewRef.current = null;
         configViewRef.current = null;
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -231,12 +187,6 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
             Code
           </Tab>
           <Tab
-            mods={{ active: activeTab === 'global' }}
-            onClick={() => switchTab('global')}
-          >
-            Global
-          </Tab>
-          <Tab
             mods={{ active: activeTab === 'config' }}
             onClick={() => switchTab('config')}
           >
@@ -246,10 +196,6 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
         <EditorWrap
           ref={codeContainerRef}
           mods={{ hidden: activeTab !== 'code' }}
-        />
-        <EditorWrap
-          ref={globalContainerRef}
-          mods={{ hidden: activeTab !== 'global' }}
         />
         <EditorWrap
           ref={configContainerRef}

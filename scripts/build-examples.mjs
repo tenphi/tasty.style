@@ -18,10 +18,8 @@ if (files.length === 0) {
 }
 
 const CONFIG_FILE = join(EXAMPLES_DIR, 'default-config.ts');
-const GLOBAL_FILE = join(EXAMPLES_DIR, 'default-global.ts');
 const ICONS_FILE = join(EXAMPLES_DIR, 'icons.tsx');
 const defaultConfig = readFileSync(CONFIG_FILE, 'utf-8');
-const defaultGlobal = readFileSync(GLOBAL_FILE, 'utf-8');
 const iconsCode = readFileSync(ICONS_FILE, 'utf-8');
 
 function fileToSlugAndLabel(filename) {
@@ -82,8 +80,6 @@ lines.push('  return EXAMPLES.find((e) => e.slug === slug);');
 lines.push('}');
 lines.push('');
 lines.push(`export const DEFAULT_CONFIG = ${JSON.stringify(defaultConfig)};`);
-lines.push('');
-lines.push(`export const DEFAULT_GLOBAL = ${JSON.stringify(defaultGlobal)};`);
 lines.push('');
 lines.push(`export const ICONS_CODE = ${JSON.stringify(iconsCode)};`);
 lines.push('');

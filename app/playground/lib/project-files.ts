@@ -1,12 +1,7 @@
 import type { FileSystemTree } from '@webcontainer/api';
-import {
-  DEFAULT_EXAMPLE,
-  DEFAULT_CONFIG,
-  DEFAULT_GLOBAL,
-  ICONS_CODE,
-} from './examples';
+import { DEFAULT_EXAMPLE, DEFAULT_CONFIG, ICONS_CODE } from './examples';
 
-export { DEFAULT_CONFIG, DEFAULT_GLOBAL };
+export { DEFAULT_CONFIG };
 
 export const DEFAULT_CODE = DEFAULT_EXAMPLE.code;
 
@@ -91,18 +86,12 @@ export const PREVIEW_SCRIPT = `
 const MAIN_TSX = `import './config';
 import { configure, tastyDebug } from '@tenphi/tasty';
 import { App } from './App';
-import { useAppGlobalStyles } from './global';
 import { createRoot } from 'react-dom/client';
 
 configure({ forceTextInjection: true });
 
-function Root() {
-  useAppGlobalStyles();
-  return <App />;
-}
-
 const root = createRoot(document.getElementById('app')!);
-root.render(<Root />);
+root.render(<App />);
 
 (window as any).__getPlaygroundCSS = () => {
   try {
@@ -158,7 +147,6 @@ export async function fetchPlaygroundSnapshot(): Promise<ArrayBuffer> {
 export function getSourceFiles(
   code: string,
   config: string,
-  global: string,
 ): FileSystemTree {
   return {
     src: {
@@ -166,7 +154,6 @@ export function getSourceFiles(
         'main.tsx': { file: { contents: MAIN_TSX } },
         'App.tsx': { file: { contents: code } },
         'config.ts': { file: { contents: config } },
-        'global.ts': { file: { contents: global } },
         'icons.tsx': { file: { contents: ICONS_CODE } },
       },
     },

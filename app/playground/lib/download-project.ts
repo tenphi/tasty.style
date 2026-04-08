@@ -65,16 +65,10 @@ const TSCONFIG_JSON = JSON.stringify(
 
 const MAIN_TSX = `import './config';
 import { App } from './App';
-import { useAppGlobalStyles } from './global';
 import { createRoot } from 'react-dom/client';
 
-function Root() {
-  useAppGlobalStyles();
-  return <App />;
-}
-
 const root = createRoot(document.getElementById('app')!);
-root.render(<Root />);
+root.render(<App />);
 `;
 
 const README_MD = `# Tasty Playground Project
@@ -94,7 +88,6 @@ Then open the URL shown in the terminal.
 export function downloadProject(
   code: string,
   config: string,
-  global: string,
   slug: string,
 ): void {
   const dirName = `tasty-playground-${slug}`;
@@ -108,7 +101,6 @@ export function downloadProject(
     [`${dirName}/src/main.tsx`]: strToU8(MAIN_TSX),
     [`${dirName}/src/App.tsx`]: strToU8(code),
     [`${dirName}/src/config.ts`]: strToU8(config),
-    [`${dirName}/src/global.ts`]: strToU8(global),
     [`${dirName}/src/icons.tsx`]: strToU8(ICONS_CODE),
   };
 
