@@ -48,7 +48,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: 'Internals',
     items: [
-      { title: 'Style Rendering Pipeline', slug: 'PIPELINE' },
+      { title: 'Style Rendering Pipeline', slug: 'pipeline' },
       { title: 'Style Injector', slug: 'injector' },
       { title: 'Debug Utilities', slug: 'debug' },
     ],
