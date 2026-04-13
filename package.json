@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/tenphi/tasty.style.git"
   },
-  "packageManager": "pnpm@10.32.1",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build:examples": "node scripts/build-examples.mjs",
     "playground:snapshot": "node scripts/build-playground-snapshot.mjs",
@@ -34,7 +34,7 @@
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/glaze": "0.9.3",
-    "@tenphi/tasty": "2.0.0",
+    "@tenphi/tasty": "2.0.1",
     "@webcontainer/api": "^1.6.1",
     "codemirror": "^6.0.2",
     "coi-serviceworker": "^0.1.7",
