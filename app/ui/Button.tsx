@@ -36,7 +36,7 @@ const Button = tasty({
       fill: {
         '': '#surface-2',
         ':hover': '#surface-3',
-        ':active': '#surface-2',
+        ':active': '#surface-3',
       },
       color: '#text',
       border: true,

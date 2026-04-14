@@ -25,7 +25,7 @@ const Outer = tasty(Button, {
       '@dark &:active': '0%',
     },
     border: 'none',
-    fill: '#white',
+    fill: '#white.5',
     image:
       'conic-gradient(from $angle, #violet-pop-surface.$fill-opacity, #coral-pop-surface.$fill-opacity, #amber-pop-surface.$fill-opacity, #blue-pop-surface.$fill-opacity, #rose-pop-surface.$fill-opacity, #lime-pop-surface.$fill-opacity, #violet-pop-surface.$fill-opacity)',
 
@@ -52,6 +52,7 @@ const Outer = tasty(Button, {
           'inset 0 0 2x #shadow-accent-inset-2, inset 0 0 0 1bw #accent-surface-text.2',
       },
       transition: 'theme',
+      $transition: '80ms',
     },
   },
 });

@@ -140,12 +140,12 @@ blue.colors({
   'shadow-accent-inset-2': {
     type: 'shadow',
     bg: 'accent-surface',
-    intensity: 15,
+    intensity: 30,
   },
   'shadow-inset-2': {
     type: 'shadow',
     bg: 'surface-2',
-    intensity: 10,
+    intensity: 8,
   },
   overlay: { lightness: 10, opacity: 0.5 },
 });
