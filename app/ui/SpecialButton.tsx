@@ -30,7 +30,7 @@ const Outer = tasty(Button, {
       'conic-gradient(from $angle, #violet-pop-surface.$fill-opacity, #coral-pop-surface.$fill-opacity, #amber-pop-surface.$fill-opacity, #blue-pop-surface.$fill-opacity, #rose-pop-surface.$fill-opacity, #lime-pop-surface.$fill-opacity, #violet-pop-surface.$fill-opacity)',
 
     Gradient: {
-      $: '::before',
+      $: '&::before',
       content: '""',
       position: 'absolute',
       inset: 0,
@@ -41,7 +41,7 @@ const Outer = tasty(Button, {
     },
 
     Glass: {
-      $: '::after',
+      $: '&::after',
       content: '""',
       position: 'absolute',
       inset: 0,
