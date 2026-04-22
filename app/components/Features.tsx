@@ -29,9 +29,9 @@ const FEATURES: FeatureItem[] = [
   },
   {
     icon: <IconSparkles size={24} stroke={1.5} />,
-    title: 'A Governed Styling Model',
+    title: 'Predictable to Extend',
     description:
-      'Design-system teams define the contracts product teams consume: shared tokens, approved patterns, override boundaries, and a consistent way to style reusable components.',
+      'Add variants, overrides, and new states without reopening selector logic by hand. The component model stays maintainable as systems grow.',
     tint: 'coral',
   },
   {
@@ -70,6 +70,7 @@ export default function Features() {
       <Section.Title>Why Tasty</Section.Title>
       <Section.Subtitle>
         Built for reusable, stateful components that need predictable styling
+        as they evolve
       </Section.Subtitle>
       <Section.Content>
         <Grid
