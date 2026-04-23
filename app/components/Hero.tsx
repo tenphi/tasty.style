@@ -115,9 +115,10 @@ export default function Hero() {
           <HeroAccent>stateful component systems</HeroAccent>
         </HeroTitle>
         <HeroSubtitle>
-          Tasty compiles state maps into deterministic, mutually exclusive
-          selectors, handling the logic so your component system stays
-          predictable as it grows.
+          Tasty compiles declarative state maps into mutually exclusive
+          selectors, so styles resolve deterministically instead of depending on
+          source order or specificity. That makes complex styles easier to
+          define, extend, and maintain.
         </HeroSubtitle>
         <Space
           flow={{ '': 'row', '@mobile': 'column' }}
