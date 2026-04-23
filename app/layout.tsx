@@ -10,7 +10,7 @@ const SITE_NAME = 'Tasty';
 const SITE_TITLE =
   'Tasty — Deterministic styling for stateful component systems';
 const SITE_DESCRIPTION =
-  'Tasty compiles state maps into mutually exclusive selectors, so component styles stay predictable as design systems grow and components gain new states or overrides.';
+  'Tasty compiles state maps into deterministic, mutually exclusive selectors, handling the logic so your component system stays predictable as it grows.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
