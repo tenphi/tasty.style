@@ -110,6 +110,7 @@ const Backdrop = tasty({
     zIndex: 1000,
     fill: '#black.50',
     display: 'flex',
+    flow: 'column',
     placeItems: 'center',
     padding: '10vh 2x 2x',
   },
