@@ -83,56 +83,31 @@ const SIMPLE_INPUT_CODE = `const Button = tasty({
   styles: {
     fill: {
       '': '#primary',
-      ':hover': '#hover',
+      ':hover': '#primary-hover',
+      ':active': '#primary-pressed',
       '[disabled]': '#surface',
     },
-    color: {
-      '': '#on-primary',
-      '[disabled]': '#text.40',
-    },
-    cursor: {
-      '': 'pointer',
-      '[disabled]': 'not-allowed',
-    },
-    padding: '1.5x 3x',
-    radius: 'round',
-    border: 'none',
-    transition: 'theme',
   },
 });`;
 
-const SIMPLE_OUTPUT_CSS = `/* Default: not hovered and not disabled */
-.t0.t0:not(:hover):not([disabled]) {
-  background: var(--primary-color);
-}
-
-/* Hovered but not disabled */
-.t0.t0:hover:not([disabled]) {
-  background: var(--primary-hover-color);
-}
-
-/* Disabled wins by construction */
+const SIMPLE_OUTPUT_CSS = `/* [disabled] wins outright */
 .t0.t0[disabled] {
   background: var(--surface-color);
 }
 
-.t0.t0:not([disabled]) {
-  color: var(--on-primary-color);
-  cursor: pointer;
+/* :active is excluded when disabled */
+.t0.t0:active:not([disabled]) {
+  background: var(--primary-pressed-color);
 }
 
-.t0.t0[disabled] {
-  color: var(--text-color-40);
-  cursor: not-allowed;
+/* :hover is excluded when :active or disabled */
+.t0.t0:hover:not(:active):not([disabled]) {
+  background: var(--primary-hover-color);
 }
 
-/* Base styles (always applied) */
-.t0.t0 {
-  padding: 12px 24px;
-  border-radius: 9999px;
-  border: none;
-  transition: all var(--transition-duration)
-    var(--transition-timing-function);
+/* default is excluded when anything above matches */
+.t0.t0:not(:hover):not(:active):not([disabled]) {
+  background: var(--primary-color);
 }`;
 
 const ALIAS_INPUT_CODE = `// Define a reusable state alias
