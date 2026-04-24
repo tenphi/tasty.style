@@ -95,6 +95,24 @@ const USAGE: UsageItem[] = [
     icon: <IconCloud size={22} stroke={1.5} />,
     tint: 'rose',
   },
+  {
+    name: 'tasty.style',
+    tag: 'Documentation Site',
+    description:
+      'This very website — the marketing site, docs, and interactive playground for Tasty, built with Next.js and styled entirely with Tasty.',
+    href: 'https://github.com/tenphi/tasty.style',
+    icon: <IconBrandGithub size={22} stroke={1.5} />,
+    tint: 'violet',
+  },
+  {
+    name: 'tenphi.me',
+    tag: 'Personal Site',
+    description:
+      "Portfolio and blog of Tasty's author, built with Astro and styled with Tasty for layout, components, and article pages.",
+    href: 'https://github.com/tenphi/tenphi.me',
+    icon: <IconBrandGithub size={22} stroke={1.5} />,
+    tint: 'teal',
+  },
 ];
 
 export default function InTheWild() {
