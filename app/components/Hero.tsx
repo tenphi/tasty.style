@@ -1,5 +1,5 @@
 import { tasty, OUTER_STYLES } from '@tenphi/tasty';
-import { IconArrowRight } from '@tabler/icons-react';
+import { IconArrowRight, IconBrandDiscord } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
@@ -97,6 +97,8 @@ const GlowOrb = tasty({
   styleProps: ['fill', ...OUTER_STYLES],
 });
 
+const HERO_TAGS = ['CSS-in-JS', 'Runtime', 'SSR', 'React', 'Design Systems'];
+
 export default function Hero() {
   return (
     <HeroOuter>
@@ -120,6 +122,11 @@ export default function Hero() {
           source order or specificity. That makes complex styles easier to
           define, extend, and maintain.
         </HeroSubtitle>
+        <Space flow="row wrap" gap="1x" align="center" justify="center">
+          {HERO_TAGS.map((tag) => (
+            <Badge key={tag}>{tag}</Badge>
+          ))}
+        </Space>
         <Space
           flow={{ '': 'row', '@mobile': 'column' }}
           gap="2x"
@@ -132,6 +139,15 @@ export default function Hero() {
           </SpecialButton>
           <Button as="a" variant="secondary" href="#how-it-works">
             See How It Works
+          </Button>
+          <Button
+            as="a"
+            variant="secondary"
+            href="https://discord.gg/ekXayrnj"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Join Discord <IconBrandDiscord size={20} />
           </Button>
         </Space>
       </HeroInner>
