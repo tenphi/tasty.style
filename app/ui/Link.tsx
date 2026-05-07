@@ -1,8 +1,7 @@
 import NextLink from 'next/link';
 import { tasty, BASE_STYLES, OUTER_STYLES, BLOCK_STYLES } from '@tenphi/tasty';
 
-const Link = tasty({
-  as: NextLink,
+const Link = tasty(NextLink, {
   styles: {
     color: {
       '': '#accent-text',
