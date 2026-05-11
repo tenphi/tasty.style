@@ -6,7 +6,9 @@ export interface CssSections {
 
 /**
  * Split generated CSS into three categories:
- * - elements: component class rules (.t0, .t1, …)
+ * - elements: component class rules (.t0, .t1, …), newest first so a
+ *   user editing the example sees their fresh styles immediately at the
+ *   top of the panel instead of buried under HMR leftovers
  * - tokens: :root and body declarations (design tokens)
  * - utility: @property and @keyframes at-rules
  */
@@ -41,6 +43,8 @@ export function splitCSS(css: string): CssSections {
       elements.push(chunk);
     }
   }
+
+  elements.reverse();
 
   return {
     elements: elements.join('\n'),

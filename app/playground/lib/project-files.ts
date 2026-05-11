@@ -95,7 +95,6 @@ root.render(<App />);
 
 (window as any).__getPlaygroundCSS = () => {
   try {
-    tastyDebug.cleanup();
     return tastyDebug.css('all', { raw: true, prettify: true });
   } catch {
     return '';
