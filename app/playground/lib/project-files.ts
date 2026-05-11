@@ -95,6 +95,7 @@ root.render(<App />);
 
 (window as any).__getPlaygroundCSS = () => {
   try {
+    tastyDebug.cleanup();
     return tastyDebug.css('all', { raw: true, prettify: true });
   } catch {
     return '';
@@ -144,10 +145,7 @@ export async function fetchPlaygroundSnapshot(): Promise<ArrayBuffer> {
   return res.arrayBuffer();
 }
 
-export function getSourceFiles(
-  code: string,
-  config: string,
-): FileSystemTree {
+export function getSourceFiles(code: string, config: string): FileSystemTree {
   return {
     src: {
       directory: {
