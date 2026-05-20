@@ -63,7 +63,7 @@ function MdxLink({ href, children, ...props }: ComponentPropsWithoutRef<'a'>) {
 
   return (
     <Link
-      href={rewritten}
+      href={rewritten!}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
       {...props}
