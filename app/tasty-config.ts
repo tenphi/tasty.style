@@ -8,6 +8,8 @@ configure({
   states,
   tokens: {
     ...colorTokens,
+    '#scrollbar-thumb': '#border',
+    '#scrollbar-track': '#border.4',
     $gap: '8px',
     $radius: '10px',
     '$button-radius': '6px',
