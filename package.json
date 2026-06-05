@@ -33,7 +33,7 @@
     "@lezer/highlight": "^1.2.3",
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
-    "@tenphi/glaze": "0.11.1",
+    "@tenphi/glaze": "0.12.0",
     "@tenphi/tasty": "2.6.4",
     "@webcontainer/api": "^1.6.1",
     "codemirror": "^6.0.2",
