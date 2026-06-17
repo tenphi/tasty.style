@@ -349,6 +349,10 @@ export const IconHeart = icon('heart', [
   ],
 ]);
 
+export const IconBolt = icon('bolt', [
+  ['path', { d: 'M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11', key: '0' }],
+]);
+
 // --- Theme ---
 
 export const IconSun = icon('sun', [
