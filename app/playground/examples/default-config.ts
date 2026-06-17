@@ -4,29 +4,29 @@ import { glaze } from '@tenphi/glaze';
 const primary = glaze(240, 75);
 
 primary.colors({
-  surface: { lightness: 100, saturation: 0.1 },
-  text: { base: 'surface', lightness: 0, contrast: 'AAA', saturation: 0.08 },
+  surface: { tone: 100, saturation: 0.1 },
+  text: { base: 'surface', tone: 0, contrast: 'AAA', saturation: 0.08 },
   'text-soft': {
     base: 'surface',
-    lightness: 20,
+    tone: 20,
     contrast: ['AA', 'AAA'],
     saturation: 0.05,
   },
   border: {
     base: 'surface',
-    lightness: ['-10', '-20'],
+    tone: ['-10', '-20'],
     saturation: 0.35,
   },
-  'accent-surface-text': { lightness: 100, mode: 'fixed' },
+  'accent-surface-text': { tone: 100, mode: 'fixed' },
   'accent-surface': {
     base: 'accent-surface-text',
-    lightness: '-48',
+    tone: '-48',
     contrast: ['AA', 7],
     mode: 'fixed',
   },
   'accent-text': {
     base: 'surface',
-    lightness: 50,
+    tone: 50,
     contrast: ['AA', 'AAA'],
     saturation: 0.9,
   },
