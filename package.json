@@ -34,7 +34,7 @@
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/glaze": "0.0.0-snapshot.6d36f80",
-    "@tenphi/tasty": "2.6.5",
+    "@tenphi/tasty": "2.7.0",
     "@webcontainer/api": "^1.6.1",
     "codemirror": "^6.0.2",
     "coi-serviceworker": "^0.1.7",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
-    "@tenphi/eslint-plugin-tasty": "0.6.2",
+    "@tenphi/eslint-plugin-tasty": "0.7.0",
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",
