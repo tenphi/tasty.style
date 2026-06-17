@@ -36,8 +36,8 @@ importers:
         specifier: ^3.40.0
         version: 3.40.0(react@19.2.4)
       '@tenphi/glaze':
-        specifier: 0.13.0
-        version: 0.13.0
+        specifier: 0.0.0-snapshot.6d36f80
+        version: 0.0.0-snapshot.6d36f80
       '@tenphi/tasty':
         specifier: 2.6.5
         version: 2.6.5(@babel/core@7.29.0)(@babel/types@7.29.0)(jiti@2.6.1)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
@@ -677,8 +677,8 @@ packages:
     peerDependencies:
       eslint: '>=8.0.0'
 
-  '@tenphi/glaze@0.13.0':
-    resolution: {integrity: sha512-t4sIiLAquPuy2SYj9QBKVhICwoPTqkNv4ysMRplbyxwQtvYPzEtEmQ3ZEOtJm7KG7sKSo1RTzrsWC3SllkbkSA==}
+  '@tenphi/glaze@0.0.0-snapshot.6d36f80':
+    resolution: {integrity: sha512-lK6BkViI3bc71OeMiUpIba/hrl70TGMcenzi7owRq9nsDZWZ8Cg+H3Knc+ejx5unTBGQfNp1LzMz+e5111WYpg==}
     engines: {node: '>=20'}
 
   '@tenphi/tasty@2.6.5':
@@ -2673,7 +2673,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tenphi/glaze@0.13.0': {}
+  '@tenphi/glaze@0.0.0-snapshot.6d36f80': {}
 
   '@tenphi/tasty@2.6.5(@babel/core@7.29.0)(@babel/types@7.29.0)(jiti@2.6.1)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
     dependencies:

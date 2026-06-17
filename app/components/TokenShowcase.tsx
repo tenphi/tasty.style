@@ -67,14 +67,14 @@ const SEMANTIC_TOKENS_CODE = `const violet = glaze(272, 75);
 
 violet.colors({
   surface: {
-    lightness: 98, saturation: 0.2,
+    tone: 98, saturation: 0.2,
   },
   text: {
-    base: 'surface', lightness: '-62',
+    base: 'surface', tone: '-62',
     contrast: 'AAA', saturation: 0.08,
   },
   'accent-surface': {
-    lightness: 52, mode: 'fixed',
+    tone: 52, mode: 'fixed',
   },
   'shadow-md': {
     type: 'shadow', bg: 'surface',
