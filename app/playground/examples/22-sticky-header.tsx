@@ -31,7 +31,7 @@ const Header = tasty({
     margin: '-2x -2x 0 -2x',
     padding: '1.5x 2x',
     inset: {
-      '': 'top 0',
+      _: 'top 0',
       '@scrolled-down': 'top -8x',
     },
     fill: '#surface.72',
