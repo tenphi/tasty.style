@@ -1,5 +1,5 @@
 import { tasty, OUTER_STYLES } from '@tenphi/tasty';
-import { IconArrowRight, IconBrandDiscord } from '@tabler/icons-react';
+import { IconArrowRight, IconBrandTelegram } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
@@ -143,11 +143,11 @@ export default function Hero() {
           <Button
             as="a"
             variant="secondary"
-            href="https://discord.gg/ekXayrnj"
+            href="https://t.me/tasty_css"
             target="_blank"
             rel="noreferrer"
           >
-            Join Discord <IconBrandDiscord size={20} />
+            Join Telegram <IconBrandTelegram size={20} />
           </Button>
         </Space>
       </HeroInner>
