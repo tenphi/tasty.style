@@ -189,7 +189,8 @@ export default function HowItWorks() {
       <Section id="how-it-works">
         <Section.Title>How It Actually Works</Section.Title>
         <Section.Subtitle>
-          Every state map compiles into mutually exclusive selectors per property
+          Every state map compiles into mutually exclusive selectors per
+          property
         </Section.Subtitle>
         <Section.Content>
           <Tabs tabs={tabs} defaultTab="interactive-states" />

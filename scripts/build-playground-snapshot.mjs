@@ -87,6 +87,7 @@ const INDEX_HTML = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
   <title>Tasty Playground</title>
 </head>
 <body>
@@ -357,7 +358,10 @@ function stripFileLinkedPackages(nodeModulesDir, packageJson) {
 
     let removed = 0;
     for (const entry of readdirSync(pkgDir)) {
-      if (FILE_LINKED_STRIP_DIRS.has(entry) || FILE_LINKED_STRIP_FILES.has(entry)) {
+      if (
+        FILE_LINKED_STRIP_DIRS.has(entry) ||
+        FILE_LINKED_STRIP_FILES.has(entry)
+      ) {
         rmSync(join(pkgDir, entry), { recursive: true, force: true });
         removed++;
       }

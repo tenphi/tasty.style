@@ -9,10 +9,11 @@
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build:examples": "node scripts/build-examples.mjs",
+    "build:previews": "node scripts/build-playground-previews.mjs",
     "playground:snapshot": "node scripts/build-playground-snapshot.mjs",
-    "predev": "pnpm build:examples && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
+    "predev": "pnpm build:examples && pnpm build:previews && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
     "dev": "next dev",
-    "prebuild": "pnpm build:examples && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
+    "prebuild": "pnpm build:examples && pnpm build:previews && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
     "build": "next build",
     "postbuild": "pagefind --site out",
     "start": "npx serve@latest out",
@@ -59,6 +60,7 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@webcontainer/snapshot": "^0.1.0",
+    "esbuild": "^0.28.1",
     "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -73,5 +75,10 @@
     "edge >= 120",
     "firefox >= 121",
     "safari >= 17.2"
-  ]
+  ],
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }

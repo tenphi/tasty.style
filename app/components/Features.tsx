@@ -69,8 +69,8 @@ export default function Features() {
     <Section id="features">
       <Section.Title>Why Tasty</Section.Title>
       <Section.Subtitle>
-        Built for reusable, stateful components that need predictable styling
-        as they evolve
+        Built for reusable, stateful components that need predictable styling as
+        they evolve
       </Section.Subtitle>
       <Section.Content>
         <Grid

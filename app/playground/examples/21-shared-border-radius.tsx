@@ -26,7 +26,7 @@ const ButtonGroupElement = tasty({
   styles: {
     display: 'inline-flex',
     flow: 'row',
-    // the longhand modifier is required to force the style handler to output 
+    // the longhand modifier is required to force the style handler to output
     // longhand CSS styles that can be further inherited
     radius: '$group-radius longhand',
   },

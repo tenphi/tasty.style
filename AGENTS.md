@@ -8,7 +8,6 @@ Repository: [https://github.com/tenphi/tasty.style](https://github.com/tenphi/ta
 
 ## Quick Reference
 
-
 | Command               | Purpose                                        |
 | --------------------- | ---------------------------------------------- |
 | `pnpm dev`            | Start dev server (runs `build:examples` first) |
@@ -20,7 +19,6 @@ Repository: [https://github.com/tenphi/tasty.style](https://github.com/tenphi/ta
 | `pnpm format:check`   | Check formatting                               |
 | `pnpm hygiene`        | Run lint + format check                        |
 | `pnpm hygiene:fix`    | Auto-fix lint + format                         |
-
 
 ## Stack
 
@@ -65,12 +63,9 @@ The file is also regenerated automatically by `predev` and `prebuild` hooks.
 
 ## Configuration Files
 
-
-| File                                        | Purpose                                                                           |
-| ------------------------------------------- | --------------------------------------------------------------------------------- |
-| `tasty.config.ts` (root)                    | ESLint plugin validation config (tokens, states, presets lists)                   |
-| `app/tasty-config.ts`                       | Runtime `configure()` call (states only, loaded client-side)                      |
-| `app/playground/examples/default-config.ts` | Default config injected into playground examples                                  |
-| `app/playground/examples/tasty.config.ts`   | ESLint validation config for playground example files                             |
-
-
+| File                                        | Purpose                                                         |
+| ------------------------------------------- | --------------------------------------------------------------- |
+| `tasty.config.ts` (root)                    | ESLint plugin validation config (tokens, states, presets lists) |
+| `app/tasty-config.ts`                       | Runtime `configure()` call (states only, loaded client-side)    |
+| `app/playground/examples/default-config.ts` | Default config injected into playground examples                |
+| `app/playground/examples/tasty.config.ts`   | ESLint validation config for playground example files           |

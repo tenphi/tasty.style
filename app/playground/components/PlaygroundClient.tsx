@@ -55,6 +55,7 @@ import {
   findExample,
   type PlaygroundState,
 } from '../lib/hash-state';
+import { PREVIEWS } from '../lib/previews';
 
 type BootPhase =
   | 'coi-check'
@@ -254,6 +255,38 @@ const ErrorText = tasty({
   },
 });
 
+const WarmingBadge = tasty({
+  styles: {
+    position: 'absolute',
+    right: '1x',
+    bottom: '1x',
+    display: 'inline-flex',
+    flow: 'row',
+    placeItems: 'center',
+    gap: '0.5x',
+    fill: '#surface-2',
+    fillOpacity: 0.9,
+    color: '#text',
+    radius: '1r',
+    padding: '0.5x 1x',
+    fontSize: '12px',
+    zIndex: 11,
+    border: '1px solid #border',
+    pointerEvents: 'none',
+  },
+});
+
+const WarmingSpinner = tasty({
+  styles: {
+    width: '12px',
+    height: '12px',
+    border: '2px solid #border',
+    borderTopColor: '#accent-text',
+    radius: 'round',
+    animation: 'spin 0.8s linear infinite',
+  },
+});
+
 const ResizeHandle = tasty({
   styles: {
     position: 'absolute',
@@ -366,7 +399,10 @@ export default function PlaygroundClient() {
 
   const [phase, setPhase] = useState<BootPhase>('coi-check');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewMode, setPreviewMode] = useState<
+    'hydrated' | 'warming' | 'live'
+  >('hydrated');
+  const [previewSrc, setPreviewSrc] = useState('');
   const [cssSections, setCssSections] = useState<CssSections>({
     elements: '',
     tokens: '',
@@ -374,6 +410,8 @@ export default function PlaygroundClient() {
   });
   const [htmlOutput, setHtmlOutput] = useState('');
   const [mobilePanel, setMobilePanel] = useState<MobilePanel>('preview');
+
+  const initDoneRef = useRef(false);
 
   const [currentSlug, setCurrentSlug] = useState(initialState.current.slug);
   const [isModified, setIsModified] = useState(initialState.current.isModified);
@@ -387,6 +425,12 @@ export default function PlaygroundClient() {
   const wcRef = useRef<WebContainer | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const bootStartedRef = useRef(false);
+  const teardownRef = useRef(false);
+  const previewModeRef = useRef(previewMode);
+  useEffect(() => {
+    previewModeRef.current = previewMode;
+  }, [previewMode]);
   const [leftWidth, setLeftWidth] = useLocalStorage('playground:leftWidth', 50);
   const [isHDragging, setIsHDragging] = useState(false);
   const [topHeight, setTopHeight] = useLocalStorage('playground:topHeight', 70);
@@ -448,8 +492,143 @@ export default function PlaygroundClient() {
     updateHashDebounced(state);
   }, [currentSlug]);
 
+  const writeAllFilesToWC = useCallback(
+    async (code: string, config: string) => {
+      const wc = wcRef.current;
+
+      if (!wc) return;
+
+      try {
+        await Promise.all([
+          wc.fs.writeFile('/src/App.tsx', code),
+          wc.fs.writeFile('/src/config.ts', config),
+        ]);
+      } catch (err) {
+        console.warn('Failed to write files:', err);
+      }
+    },
+    [],
+  );
+
+  const canHydrateSlug = useCallback(
+    (slug: string, isModified: boolean) =>
+      !isModified &&
+      !!findExample(slug) &&
+      !!PREVIEWS[slug] &&
+      !PREVIEWS[slug].liveOnly,
+    [],
+  );
+
+  const showHydrated = useCallback((slug: string) => {
+    const data = PREVIEWS[slug];
+    setPreviewSrc(`/playground/preview/${slug}.html`);
+    setPreviewMode('hydrated');
+    setPhase('ready');
+    if (data) {
+      setCssSections(data.cssSections);
+      setHtmlOutput(data.htmlOutput);
+    }
+  }, []);
+
+  const bootWebContainer = useCallback(async () => {
+    if (bootStartedRef.current) return;
+    bootStartedRef.current = true;
+
+    const win = window as Window &
+      typeof globalThis & {
+        chrome?: unknown;
+        netscape?: unknown;
+      };
+    const supportsCredentialless =
+      typeof win.chrome !== 'undefined' || typeof win.netscape !== 'undefined';
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const coepMode = supportsCredentialless ? 'credentialless' : 'require-corp';
+
+    try {
+      setPhase('booting');
+      const { WebContainer } = await import('@webcontainer/api');
+
+      if (teardownRef.current) return;
+
+      const [wc, snapshotData] = await Promise.all([
+        WebContainer.boot({
+          coep: coepMode as 'credentialless' | 'require-corp',
+          forwardPreviewErrors: true,
+        }),
+        fetchPlaygroundSnapshot(),
+      ]);
+
+      if (teardownRef.current) return;
+
+      wcRef.current = wc;
+
+      await wc.setPreviewScript(PREVIEW_SCRIPT);
+
+      setPhase('mounting');
+      await wc.mount(snapshotData);
+      await wc.mount(getSourceFiles(codeRef.current, configRef.current));
+
+      if (teardownRef.current) return;
+
+      const setup = await wc.spawn('node', ['-e', SETUP_BINS_SCRIPT]);
+      await setup.exit;
+
+      if (teardownRef.current) return;
+
+      setPhase('starting');
+      const devServer = await wc.spawn('npm', ['run', 'dev']);
+
+      devServer.output.pipeTo(
+        new WritableStream({
+          write(chunk) {
+            // eslint-disable-next-line no-console
+            console.log('[vite]', chunk);
+          },
+        }),
+      );
+
+      devServer.exit.then((code: number) => {
+        if (code !== 0 && !teardownRef.current) {
+          console.error('[vite] process exited with code', code);
+          setPhase('error');
+          setErrorMsg(
+            isSafari
+              ? 'Safari requires DevTools to be open during initial loading. Open DevTools (\u2325\u2318I), then reload the page. You can close them once the playground is ready.'
+              : `Dev server crashed (exit code ${code}). Try reloading the page.`,
+          );
+        }
+      });
+
+      wc.on('server-ready', (_port: number, url: string) => {
+        // Capture any edits made while the dev server was warming up so the
+        // live preview reflects the very latest code/config, not the snapshot.
+        void writeAllFilesToWC(codeRef.current, configRef.current);
+        setPreviewSrc(url);
+        setPreviewMode('live');
+        setPhase('ready');
+      });
+
+      wc.on('error', (err: { message: string }) => {
+        console.error('[webcontainer]', err.message);
+      });
+    } catch (err) {
+      if (teardownRef.current) return;
+      setPhase('error');
+      setErrorMsg(
+        err instanceof Error ? err.message : 'Unknown error during boot.',
+      );
+    }
+  }, [writeAllFilesToWC]);
+
+  const transitionToLive = useCallback(() => {
+    if (bootStartedRef.current) return;
+    setPreviewMode('warming');
+    void bootWebContainer();
+  }, [bootWebContainer]);
+
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || initDoneRef.current) return;
+    initDoneRef.current = true;
 
     const win = window as Window &
       typeof globalThis & {
@@ -460,7 +639,6 @@ export default function PlaygroundClient() {
 
     const supportsCredentialless =
       typeof win.chrome !== 'undefined' || typeof win.netscape !== 'undefined';
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     if (!window.crossOriginIsolated) {
       setPhase('coi-registering');
@@ -482,91 +660,36 @@ export default function PlaygroundClient() {
       return;
     }
 
-    let teardown = false;
+    // Cross-origin isolation is active — decide hydrated vs live.
+    const initial = initialState.current;
 
-    async function boot() {
-      try {
-        setPhase('booting');
-        const { WebContainer } = await import('@webcontainer/api');
+    if (canHydrateSlug(initial.slug, initial.isModified)) {
+      showHydrated(initial.slug);
+    } else {
+      setPreviewMode('live');
+      void bootWebContainer();
+    }
+  }, [bootWebContainer, canHydrateSlug, showHydrated]);
 
-        if (teardown) return;
+  useEffect(() => {
+    teardownRef.current = false;
 
-        const coepMode = supportsCredentialless
-          ? 'credentialless'
-          : 'require-corp';
-
-        const [wc, snapshotData] = await Promise.all([
-          WebContainer.boot({
-            coep: coepMode as 'credentialless' | 'require-corp',
-            forwardPreviewErrors: true,
-          }),
-          fetchPlaygroundSnapshot(),
-        ]);
-
-        if (teardown) return;
-
-        wcRef.current = wc;
-
-        await wc.setPreviewScript(PREVIEW_SCRIPT);
-
-        setPhase('mounting');
-        await wc.mount(snapshotData);
-        await wc.mount(getSourceFiles(codeRef.current, configRef.current));
-
-        if (teardown) return;
-
-        const setup = await wc.spawn('node', ['-e', SETUP_BINS_SCRIPT]);
-        await setup.exit;
-
-        if (teardown) return;
-
-        setPhase('starting');
-        const devServer = await wc.spawn('npm', ['run', 'dev']);
-
-        devServer.output.pipeTo(
-          new WritableStream({
-            write(chunk) {
-              // eslint-disable-next-line no-console
-              console.log('[vite]', chunk);
-            },
-          }),
-        );
-
-        devServer.exit.then((code: number) => {
-          if (code !== 0 && !teardown) {
-            console.error('[vite] process exited with code', code);
-            setPhase('error');
-            setErrorMsg(
-              isSafari
-                ? 'Safari requires DevTools to be open during initial loading. Open DevTools (\u2325\u2318I), then reload the page. You can close them once the playground is ready.'
-                : `Dev server crashed (exit code ${code}). Try reloading the page.`,
-            );
-          }
-        });
-
-        wc.on('server-ready', (_port: number, url: string) => {
-          setPreviewUrl(url);
-          setPhase('ready');
-        });
-
-        wc.on('error', (err: { message: string }) => {
-          console.error('[webcontainer]', err.message);
-        });
-      } catch (err) {
-        if (teardown) return;
-        setPhase('error');
-        setErrorMsg(
-          err instanceof Error ? err.message : 'Unknown error during boot.',
-        );
-      }
+    // Fast Refresh recovery: if we were unmounted while warming or live, the
+    // WebContainer was torn down. Restart it now to restore the session.
+    if (
+      previewModeRef.current === 'warming' ||
+      previewModeRef.current === 'live'
+    ) {
+      bootStartedRef.current = false;
+      void bootWebContainer();
     }
 
-    boot();
-
     return () => {
-      teardown = true;
+      teardownRef.current = true;
       wcRef.current?.teardown();
+      wcRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -587,6 +710,10 @@ export default function PlaygroundClient() {
 
     function handleMessage(event: MessageEvent) {
       if (event.data?.type === 'tasty-playground-update') {
+        // Only mirror the live WebContainer preview's postback into the output
+        // panels. While hydrated/warming, the panels are sourced from the
+        // prebuilt preview data (and the dev server hasn't taken over yet).
+        if (previewModeRef.current !== 'live') return;
         setCssSections(splitCSS(event.data.css || ''));
         setHtmlOutput(prettifyHTML(event.data.html || ''));
       } else if (event.data?.type === 'tasty-playground-request-root-states') {
@@ -620,55 +747,63 @@ export default function PlaygroundClient() {
       editorRef.current?.setContent('code', state.code);
       editorRef.current?.setContent('config', state.config);
 
-      writeAllFilesToWC(state.code, state.config);
+      if (
+        canHydrateSlug(state.slug, state.isModified) &&
+        !bootStartedRef.current
+      ) {
+        showHydrated(state.slug);
+      } else if (bootStartedRef.current) {
+        // WebContainer already running — push the new files to it (covers
+        // dirty->dirty, pristine->dirty, and dirty->pristine transitions).
+        void writeAllFilesToWC(state.code, state.config);
+      } else {
+        // Dirty (or live-only) snapshot and nothing booted yet — boot now.
+        setPreviewMode('live');
+        void bootWebContainer();
+      }
     }
 
     window.addEventListener('hashchange', handleHashChange);
 
     return () => window.removeEventListener('hashchange', handleHashChange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const writeAllFilesToWC = useCallback(
-    async (code: string, config: string) => {
-      const wc = wcRef.current;
-
-      if (!wc) return;
-
-      try {
-        await Promise.all([
-          wc.fs.writeFile('/src/App.tsx', code),
-          wc.fs.writeFile('/src/config.ts', config),
-        ]);
-      } catch (err) {
-        console.warn('Failed to write files:', err);
-      }
-    },
-    [],
-  );
+  }, [bootWebContainer, canHydrateSlug, showHydrated, writeAllFilesToWC]);
 
   const handleCodeChange = useCallback(
     (code: string) => {
       codeRef.current = code;
-      wcRef.current?.fs
-        .writeFile('/src/App.tsx', code)
-        .catch((err: unknown) => console.warn('Failed to write App.tsx:', err));
+      const mode = previewModeRef.current;
+      if (mode === 'hydrated') {
+        transitionToLive();
+      } else if (mode === 'live') {
+        wcRef.current?.fs
+          .writeFile('/src/App.tsx', code)
+          .catch((err: unknown) =>
+            console.warn('Failed to write App.tsx:', err),
+          );
+      }
+      // warming: the boot path mounts codeRef.current and re-writes it on
+      // server-ready, so edits made during warmup are captured automatically.
       updateHash();
     },
-    [updateHash],
+    [transitionToLive, updateHash],
   );
 
   const handleConfigChange = useCallback(
     (config: string) => {
       configRef.current = config;
-      wcRef.current?.fs
-        .writeFile('/src/config.ts', config)
-        .catch((err: unknown) =>
-          console.warn('Failed to write config.ts:', err),
-        );
+      const mode = previewModeRef.current;
+      if (mode === 'hydrated') {
+        transitionToLive();
+      } else if (mode === 'live') {
+        wcRef.current?.fs
+          .writeFile('/src/config.ts', config)
+          .catch((err: unknown) =>
+            console.warn('Failed to write config.ts:', err),
+          );
+      }
       updateHash();
     },
-    [updateHash],
+    [transitionToLive, updateHash],
   );
 
   const handleExampleChange = useCallback(
@@ -688,14 +823,21 @@ export default function PlaygroundClient() {
       editorRef.current?.setContent('code', example.code);
       editorRef.current?.setContent('config', DEFAULT_CONFIG);
 
-      writeAllFilesToWC(example.code, DEFAULT_CONFIG);
+      if (canHydrateSlug(slug, false) && !bootStartedRef.current) {
+        showHydrated(slug);
+      } else if (bootStartedRef.current) {
+        void writeAllFilesToWC(example.code, DEFAULT_CONFIG);
+      } else {
+        setPreviewMode('live');
+        void bootWebContainer();
+      }
 
       const url = new URL(window.location.href);
 
       url.hash = slug;
       window.history.replaceState(null, '', url.toString());
     },
-    [writeAllFilesToWC],
+    [bootWebContainer, canHydrateSlug, showHydrated, writeAllFilesToWC],
   );
 
   const handleReset = useCallback(() => {
@@ -712,13 +854,21 @@ export default function PlaygroundClient() {
     editorRef.current?.setContent('code', example.code);
     editorRef.current?.setContent('config', DEFAULT_CONFIG);
 
-    writeAllFilesToWC(example.code, DEFAULT_CONFIG);
+    if (!bootStartedRef.current) {
+      // Never booted (pristine the whole time) — swap back to the hydrated
+      // static preview. No WebContainer to tear down.
+      showHydrated(currentSlug);
+    } else {
+      // WebContainer is live — push the reset files; the dev server keeps
+      // running (HMR will refresh the preview).
+      void writeAllFilesToWC(example.code, DEFAULT_CONFIG);
+    }
 
     const url = new URL(window.location.href);
 
     url.hash = example.slug;
     window.history.replaceState(null, '', url.toString());
-  }, [currentSlug, writeAllFilesToWC]);
+  }, [currentSlug, showHydrated, writeAllFilesToWC]);
 
   const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href).then(() => {
@@ -735,10 +885,10 @@ export default function PlaygroundClient() {
   const isLoading = phase !== 'ready' && phase !== 'error';
 
   const handleReload = useCallback(() => {
-    if (iframeRef.current && previewUrl) {
-      iframeRef.current.src = previewUrl;
+    if (iframeRef.current && previewSrc) {
+      iframeRef.current.src = previewSrc;
     }
-  }, [previewUrl]);
+  }, [previewSrc]);
 
   const handleMobilePanelChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -862,7 +1012,7 @@ export default function PlaygroundClient() {
                 </ReloadButton>
               )}
             </PanelHeaderBar>
-            {(isLoading || phase === 'error') && (
+            {(previewMode === 'live' && isLoading) || phase === 'error' ? (
               <Overlay>
                 {phase === 'error' ? (
                   <ErrorText>{errorMsg || PHASE_LABELS.error}</ErrorText>
@@ -873,10 +1023,17 @@ export default function PlaygroundClient() {
                   </>
                 )}
               </Overlay>
+            ) : null}
+            {previewMode === 'warming' && phase !== 'error' && (
+              <WarmingBadge>
+                <WarmingSpinner />
+                Activating live preview…
+              </WarmingBadge>
             )}
             <PreviewFrame
+              key={previewMode === 'live' ? 'live' : 'static'}
               ref={iframeRef}
-              src={previewUrl || 'about:blank'}
+              src={previewSrc || 'about:blank'}
               title="Playground preview"
               allow="cross-origin-isolated"
             />
