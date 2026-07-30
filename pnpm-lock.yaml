@@ -39,8 +39,8 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
       '@tenphi/tasty':
-        specifier: 2.11.0
-        version: 2.11.0(@babel/core@7.29.0)(@babel/types@7.29.0)(jiti@2.6.1)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        specifier: 2.11.1
+        version: 2.11.1(@babel/core@7.29.0)(@babel/types@7.29.0)(jiti@2.6.1)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       '@webcontainer/api':
         specifier: ^1.6.1
         version: 1.6.1
@@ -840,8 +840,8 @@ packages:
     resolution: {integrity: sha512-keLU6Ag5U9h3d/3DHwr0feJLOJ0S0X9V+HjTmOxCdFaNXzW9kQv0mv1e/qc10rSoGhM27KJBJubcXJxSULKcRg==}
     engines: {node: '>=20'}
 
-  '@tenphi/tasty@2.11.0':
-    resolution: {integrity: sha512-jzxmuRWA7FpvOyFuFSY8LtuhSgombt0HMY2mY9986wBPhCmJMcWab84g8cx8XTfne2f+PN6FmWM/0aUjWFryMA==}
+  '@tenphi/tasty@2.11.1':
+    resolution: {integrity: sha512-MP7rYOoNW2RFUzQ06evQ6GCqMtIbmhttoC8s/eJDkpthnatF5Rm1Cadw4/pmrBFbMa5ufwxDh4Sh9YwSFVtGqg==}
     engines: {node: '>=20'}
     peerDependencies:
       '@babel/core': ^7.24.0
@@ -2917,7 +2917,7 @@ snapshots:
 
   '@tenphi/glaze@1.2.0': {}
 
-  '@tenphi/tasty@2.11.0(@babel/core@7.29.0)(@babel/types@7.29.0)(jiti@2.6.1)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
+  '@tenphi/tasty@2.11.1(@babel/core@7.29.0)(@babel/types@7.29.0)(jiti@2.6.1)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
     dependencies:
       csstype: 3.2.3
     optionalDependencies:
