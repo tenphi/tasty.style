@@ -12,12 +12,11 @@ const TabButton = tasty({
     padding: '1x 2.5x',
     preset: 't3',
     cursor: 'pointer',
-    border: true,
     radius: 'round',
     transition: 'theme',
     whiteSpace: 'nowrap',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       active: '#accent-surface',
     },
     color: {
@@ -25,9 +24,9 @@ const TabButton = tasty({
       ':hover & !active': '#text',
       active: '#accent-surface-text',
     },
-    borderColor: {
-      '': '#border',
-      active: '#accent-surface',
+    border: {
+      '': true,
+      active: '1bw solid #accent-surface',
     },
   },
 });
@@ -57,8 +56,7 @@ const TabsElement = tasty({
     PanelContainer: {
       $: '>',
       display: 'grid',
-      width: '100%',
-      minWidth: 0,
+      width: '0 100% initial',
     },
     Panel: {
       $: '>PanelContainer>',
@@ -66,8 +64,7 @@ const TabsElement = tasty({
       gridRow: 1,
       display: 'flex',
       flow: 'column',
-      width: '100%',
-      minWidth: 0,
+      width: '0 100% initial',
       visibility: {
         '': 'hidden',
         '@own(active)': 'visible',

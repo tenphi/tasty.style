@@ -56,6 +56,7 @@ configure({
       lineHeight: '1.4',
       letterSpacing: '0',
       fontWeight: '600',
+      boldFontWeight: '700',
     },
     h5: {
       fontSize: '16px',
@@ -146,6 +147,16 @@ configure({
       letterSpacing: '0.05em',
       fontWeight: '600',
       textTransform: 'uppercase',
+    },
+    // Quieter `label` for section headings and inactive tabs. `strong`
+    // promotes it to the same weight as `label`.
+    'label-soft': {
+      fontSize: '12px',
+      lineHeight: '1.5',
+      letterSpacing: '0.05em',
+      fontWeight: '500',
+      textTransform: 'uppercase',
+      boldFontWeight: '600',
     },
   },
   globalStyles: {

@@ -26,7 +26,7 @@ const SwitcherOption = tasty({
     cursor: 'pointer',
     transition: 'theme',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       active: '#surface',
     },
     color: {

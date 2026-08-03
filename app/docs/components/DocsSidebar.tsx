@@ -10,9 +10,10 @@ import { useDocsSidebar } from './DocsSidebarContext';
 
 const Overlay = tasty({
   styles: {
-    display: {
-      '': 'block',
-      '@desktop': 'none',
+    display: 'block',
+    hide: {
+      '': false,
+      '@desktop': true,
     },
     position: 'fixed',
     inset: 0,
@@ -42,7 +43,7 @@ const Aside = tasty({
     },
     height: {
       '': '100%',
-      '@desktop': 'calc(100dvh - ($header-height, 64px))',
+      '@desktop': '(100dvh - ($header-height, 64px))',
     },
     overflow: 'hidden auto',
     overscrollBehavior: 'none',
@@ -53,13 +54,10 @@ const Aside = tasty({
       '': 'fixed',
       '@desktop': 'sticky',
     },
-    top: {
-      '': 'auto',
-      '@desktop': '($header-height, 64px)',
-    },
     inset: {
-      '': '0 0 0 auto',
-      '@desktop': 'auto',
+      // fixed drawer: pinned to the right edge, top offset comes from height
+      '': '0 right bottom',
+      '@desktop': '($header-height, 64px) top',
     },
     zIndex: {
       '': 201,
@@ -90,10 +88,9 @@ const TopBar = tasty({
     placeItems: 'center',
     placeContent: 'end',
     position: 'absolute',
-    top: 0,
-    right: 0,
+    inset: '0 top right',
     zIndex: 1,
-    fill: 'transparent',
+    fill: '#clear',
     padding: '1x 1.5x',
     hide: {
       '': false,
@@ -105,11 +102,9 @@ const TopBar = tasty({
 const GroupTitle = tasty({
   as: 'span',
   styles: {
-    preset: 't4m',
+    preset: 'label-soft',
     color: '#text-soft',
     padding: '2x 1.5x 0.5x',
-    textTransform: 'uppercase',
-    letterSpacing: '0.06em',
   },
 });
 
@@ -128,7 +123,10 @@ const navLinkStyles = {
   gap: '0.5x',
   placeItems: 'center',
   padding: '0.75x 1.5x',
-  preset: 't3',
+  preset: {
+    '': 't3',
+    active: 't3m',
+  },
   color: {
     '': '#text-soft',
     active: '#accent-text-2',
@@ -137,13 +135,9 @@ const navLinkStyles = {
   textDecoration: 'none',
   radius: '1r',
   fill: {
-    '': 'transparent',
+    '': '#clear',
     active: '#surface-2',
     ':hover & !active': '#surface-2',
-  },
-  fontWeight: {
-    '': 400,
-    active: 500,
   },
   transition: 'theme',
   cursor: 'pointer',

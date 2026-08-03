@@ -43,9 +43,8 @@ const HeaderElement = tasty({
     },
     LogoText: {
       $: '>Inner>Logo>',
-      preset: 'h4',
+      preset: 'h4 / strong',
       color: '#text',
-      fontWeight: 700,
       hide: {
         '': false,
         '@mobile': true,
@@ -111,7 +110,7 @@ const HeaderNavLink = tasty({
     padding: '1x 1.5x',
     radius: true,
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover': '#surface-2',
     },
     transition: 'theme',

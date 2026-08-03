@@ -17,7 +17,7 @@ const Chip = tasty({
     border: 'none',
     outline: { '': 'none', ':focus-visible': '2ow #accent-text / 2px' },
     opacity: { '': 1, isDisabled: 0.5 },
-    fill: { '': 'transparent', isPressed: '#accent-text.15' },
+    fill: { '': '#clear', isPressed: '#accent-text.15' },
   },
   variants: {
     solid: {
@@ -26,12 +26,12 @@ const Chip = tasty({
       opacity: { '': 1, ':hover': 0.85 },
     },
     outline: {
-      fill: { '': 'transparent', ':hover': '#accent-text.06' },
+      fill: { '': '#clear', ':hover': '#accent-text.06' },
       color: '#accent-text',
       border: '1bw solid #accent-text.30',
     },
     ghost: {
-      fill: { '': 'transparent', ':hover': '#accent-text.06' },
+      fill: { '': '#clear', ':hover': '#accent-text.06' },
       color: '#accent-text',
     },
     gradient: {

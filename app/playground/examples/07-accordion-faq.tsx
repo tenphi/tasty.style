@@ -45,7 +45,7 @@ const Item = tasty({
       ':first-child': '1r top',
       ':last-child': '1r bottom',
     },
-    fill: { '': 'transparent', ':has(> Answer)': '#accent-text.03' },
+    fill: { '': '#clear', ':has(> Answer)': '#accent-text.03' },
 
     Question: {
       $: '>',
@@ -57,7 +57,7 @@ const Item = tasty({
       cursor: 'pointer',
       preset: 't2',
       border: 'none',
-      fill: 'transparent',
+      fill: '#clear',
       width: '100%',
       textAlign: 'left',
       transition: 'theme',

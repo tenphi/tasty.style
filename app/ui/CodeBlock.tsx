@@ -12,7 +12,7 @@ const CodeBlockElement = tasty({
     font: 'monospace',
     border: true,
     scrollbar: 'thin',
-    maxWidth: '100%',
+    width: 'max 100%',
     margin: 0,
     placeSelf: 'stretch',
     flexGrow: 1,

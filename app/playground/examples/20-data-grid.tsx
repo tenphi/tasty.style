@@ -78,7 +78,7 @@ const Row = tasty({
       transition: 'theme',
       textOverflow: 'ellipsis',
       fill: {
-        '': 'transparent',
+        '': '#clear',
         '@own(:hover)': '#accent-text.03',
         isSelected: '#accent-text.06',
       },

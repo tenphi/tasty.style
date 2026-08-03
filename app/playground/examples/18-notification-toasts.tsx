@@ -54,7 +54,7 @@ const ToastItem = tasty({
       color: '#text-soft',
       padding: '0.5x',
       radius: '0.5r',
-      fill: { '': 'transparent', '@own(:hover)': '#accent-text.06' },
+      fill: { '': '#clear', '@own(:hover)': '#accent-text.06' },
       transition: 'theme',
       border: 'none',
     },

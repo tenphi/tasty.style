@@ -19,7 +19,9 @@ export const Article = tasty({
   as: 'article',
   styles: {
     display: 'block',
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '0%',
     width: '0 initial 800px',
     padding: {
       '': '4x 6x 8x',

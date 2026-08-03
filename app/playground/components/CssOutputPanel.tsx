@@ -25,8 +25,9 @@ const PanelLabel = tasty(HeaderLabel, {
     color: '#text-soft',
     preset: 'label',
     border: '1bw #border right',
+    flexGrow: 0,
     flexShrink: 0,
-    flex: '0 0 auto',
+    flexBasis: 'auto',
   },
 });
 

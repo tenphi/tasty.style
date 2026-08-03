@@ -8,33 +8,32 @@ import type { Heading } from '../lib/docs';
 const Aside = tasty({
   as: 'aside',
   styles: {
-    display: {
-      '': 'none',
-      '@desktop': 'flex',
+    display: 'flex',
+    hide: {
+      '': true,
+      '@desktop': false,
     },
     flow: 'column',
     width: 'fixed 260px',
-    height: 'calc(100dvh - ($header-height, 64px))',
+    height: '(100dvh - ($header-height, 64px))',
     overflow: 'hidden auto',
     padding: '3x 2x',
     fill: '#surface',
     scrollbar: 'thin',
     position: 'sticky',
-    top: '($header-height, 64px)',
+    inset: '($header-height, 64px) top',
   },
 });
 
 const TocTitle = tasty({
   as: 'a',
   styles: {
-    preset: 't4m',
+    preset: 'label-soft',
     color: {
       '': '#text-soft',
       ':hover': '#text',
     },
     padding: '0 0 1x',
-    textTransform: 'uppercase',
-    letterSpacing: '0.06em',
     textDecoration: 'none',
     cursor: 'pointer',
     transition: 'theme',

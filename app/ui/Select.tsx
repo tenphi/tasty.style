@@ -43,8 +43,7 @@ const ChevronIcon = tasty({
   as: 'span',
   styles: {
     position: 'absolute',
-    right: '1x',
-    top: '50%',
+    inset: '1x right, 50% top',
     transform: 'translateY(-50%)',
     display: 'inline-flex',
     placeItems: 'center',

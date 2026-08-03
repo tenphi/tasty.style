@@ -16,8 +16,8 @@ const GradientCard = tasty({
     $transition: '.3s',
     transition: 'shadow',
     shadow: {
-      '': '0 2x 16x $glow-color',
-      ':hover': '0 3x 24x $glow-color',
+      '': '0 2x 16x #glow',
+      ':hover': '0 3x 24x #glow',
     },
     '@keyframes': {
       rotate: {

@@ -60,8 +60,7 @@ export const DocBlockquote = tasty({
 export const DocHr = tasty({
   as: 'hr',
   styles: {
-    border: 'none',
-    borderTop: '1bw solid #border',
+    border: '1bw solid #border top',
     margin: '4x 0',
   },
 });
@@ -72,7 +71,7 @@ export const DocUl = tasty({
     preset: 't2',
     color: '#text',
     margin: '0 0 2x',
-    padding: '0 0 0 3x',
+    padding: '3x left',
     '$t2-line-height': '1.7',
   },
 });
@@ -83,7 +82,7 @@ export const DocOl = tasty({
     preset: 't2',
     color: '#text',
     margin: '0 0 2x',
-    padding: '0 0 0 3x',
+    padding: '3x left',
     '$t2-line-height': '1.7',
   },
 });
@@ -124,7 +123,7 @@ export const DocTbody = tasty({
 export const DocTr = tasty({
   as: 'tr',
   styles: {
-    borderBottom: '1bw solid #border',
+    border: '1bw solid #border bottom',
   },
 });
 
@@ -133,7 +132,7 @@ export const DocTh = tasty({
   styles: {
     padding: '1x 1.5x',
     textAlign: 'left',
-    fontWeight: 600,
+    preset: 'strong',
     color: '#text',
     whiteSpace: 'nowrap',
   },
@@ -160,7 +159,7 @@ export const DocImg = tasty({
 export const DocStrong = tasty({
   as: 'strong',
   styles: {
-    fontWeight: '$bold-font-weight',
+    preset: 'strong',
   },
 });
 

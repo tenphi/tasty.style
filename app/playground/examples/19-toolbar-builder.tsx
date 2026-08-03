@@ -50,7 +50,7 @@ const ToolButton = tasty({
     transition: 'theme',
     border: 'none',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover': '#accent-text.06',
       isActive: '#accent-text.10',
     },

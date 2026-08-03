@@ -43,7 +43,7 @@ const Button = tasty({
     },
     ghost: {
       fill: {
-        '': 'transparent',
+        '': '#clear',
         ':hover': '#surface-2',
         ':active': '#surface-3',
       },

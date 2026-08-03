@@ -38,9 +38,10 @@ const ThemeSwatch = tasty({
     height: '5x',
     radius: 'round',
     cursor: 'pointer',
-    fill: '$swatch-color',
+    '#swatch': '#primary-accent-surface',
+    fill: '#swatch',
     border: {
-      '': '2bw solid transparent',
+      '': '2bw solid #clear',
       isActive: '2bw solid #accent-text',
     },
     shadow: { '': 'none', isActive: '0 0 0 2bw #shadow' },
@@ -140,7 +141,7 @@ const PreviewCard = tasty({
     color: { '': '#card-text', 'type=accent': '#card-accent-surface-text' },
     border: {
       '': '1bw solid #card-border',
-      'type=accent': '1bw solid transparent',
+      'type=accent': '1bw solid #clear',
       '@high-contrast': '1bw solid #card-text',
     },
     shadow: {
@@ -181,7 +182,7 @@ export const App = () => {
           <ThemeSwatch
             key={t.name}
             isActive={theme === t.name}
-            tokens={{ '$swatch-color': `#${t.name}-accent-surface` }}
+            tokens={{ '#swatch': `#${t.name}-accent-surface` }}
             onClick={() => setTheme(t.name)}
             title={t.label}
           />

@@ -13,7 +13,7 @@ const HeroOuter = tasty({
     overflow: 'hidden',
     width: '100%',
     image:
-      'radial-gradient(ellipse 80% 60% at 50% 0%, #violet-surface-3, transparent), radial-gradient(ellipse 60% 50% at 80% 20%, #coral-surface-3.40, transparent), radial-gradient(ellipse 60% 50% at 20% 30%, #blue-surface-3.40, transparent), linear-gradient(180deg, #surface, #surface-2)',
+      'radial-gradient(ellipse 80% 60% at 50% 0%, #violet-surface-3, #clear), radial-gradient(ellipse 60% 50% at 80% 20%, #coral-surface-3.40, #clear), radial-gradient(ellipse 60% 50% at 20% 30%, #blue-surface-3.40, #clear), linear-gradient(180deg, #surface, #surface-2)',
   },
 });
 
@@ -68,7 +68,7 @@ const HeroAccent = tasty({
     image:
       'linear-gradient(to right, #violet-pop-text, #coral-pop-text, #amber-pop-text, #blue-pop-text, #rose-pop-text, #lime-pop-text)',
     backgroundClip: 'text',
-    color: 'transparent',
+    color: '#clear',
   },
 });
 

@@ -61,7 +61,7 @@ const ActionButton = tasty({
 const SecondaryButton = tasty(ActionButton, {
   styles: {
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover': '#border',
     },
     color: '#text-soft',

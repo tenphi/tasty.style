@@ -17,12 +17,17 @@
     "build": "next build",
     "postbuild": "pagefind --site out",
     "start": "npx serve@latest out",
+    "ensure:previews": "node scripts/ensure-previews.mjs",
+    "prelint": "pnpm ensure:previews",
     "lint": "eslint .",
+    "prelint:fix": "pnpm ensure:previews",
     "lint:fix": "eslint . --fix",
+    "pretypecheck": "pnpm ensure:previews",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "hygiene": "eslint . && prettier --check .",
-    "hygiene:fix": "eslint . --fix && prettier --write ."
+    "hygiene": "pnpm lint && pnpm format:check",
+    "hygiene:fix": "pnpm lint:fix && pnpm format"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",
@@ -54,7 +59,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
-    "@tenphi/eslint-plugin-tasty": "0.7.0",
+    "@tenphi/eslint-plugin-tasty": "0.11.3",
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",

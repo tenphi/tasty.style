@@ -144,8 +144,10 @@ const PlaygroundGrid = tasty({
       outputHidden: '1fr',
       'outputHidden & @mobile': '1fr 1fr',
     },
-    flex: '1 1 0',
-    minHeight: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+    height: 'min 0',
     overflow: 'hidden',
     position: 'relative',
   },
@@ -153,10 +155,11 @@ const PlaygroundGrid = tasty({
 
 const OutputPanelsWrapper = tasty({
   styles: {
-    display: {
-      '': 'contents',
-      hidden: 'none',
-      'hidden & @mobile': 'contents',
+    display: 'contents',
+    hide: {
+      '': false,
+      hidden: true,
+      'hidden & @mobile': false,
     },
   },
 });
@@ -164,16 +167,17 @@ const OutputPanelsWrapper = tasty({
 const OutputToggleButton = tasty({
   as: 'button',
   styles: {
-    display: {
-      '': 'inline-flex',
-      '@mobile': 'none',
+    display: 'inline-flex',
+    hide: {
+      '': false,
+      '@mobile': true,
     },
     placeItems: 'center',
     placeContent: 'center',
     gap: '0.5x',
     padding: '0.5x 1.5x',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover | pressed': '#surface-3',
     },
     color: {
@@ -197,7 +201,7 @@ const ReloadButton = tasty({
     placeItems: 'center',
     placeContent: 'center',
     padding: '0.5x',
-    fill: 'transparent',
+    fill: '#clear',
     color: {
       '': '#text-soft',
       ':hover': '#text',
@@ -226,8 +230,8 @@ const Overlay = tasty({
 
 const Spinner = tasty({
   styles: {
-    width: '32px',
-    height: '32px',
+    width: '4x',
+    height: '4x',
     border: '3px solid #border',
     borderTopColor: '#accent-text',
     radius: 'round',
@@ -258,8 +262,7 @@ const ErrorText = tasty({
 const WarmingBadge = tasty({
   styles: {
     position: 'absolute',
-    right: '1x',
-    bottom: '1x',
+    inset: '1x right bottom',
     display: 'inline-flex',
     flow: 'row',
     placeItems: 'center',
@@ -269,9 +272,9 @@ const WarmingBadge = tasty({
     color: '#text',
     radius: '1r',
     padding: '0.5x 1x',
-    fontSize: '12px',
+    preset: 't4',
     zIndex: 11,
-    border: '1px solid #border',
+    border: '1bw solid #border',
     pointerEvents: 'none',
   },
 });
@@ -290,16 +293,16 @@ const WarmingSpinner = tasty({
 const ResizeHandle = tasty({
   styles: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
+    inset: '0 top bottom',
     width: '9px',
-    margin: '0 0 0 -4px',
+    margin: '-4px left',
     cursor: 'col-resize',
     touchAction: 'none',
     zIndex: 20,
-    display: {
-      '': 'flex',
-      '@mobile': 'none',
+    display: 'flex',
+    hide: {
+      '': false,
+      '@mobile': true,
     },
     placeItems: 'center',
     placeContent: 'center',
@@ -334,16 +337,16 @@ const DragOverlay = tasty({
 const VerticalResizeHandle = tasty({
   styles: {
     position: 'absolute',
-    left: 0,
-    right: 0,
+    inset: '0 left right',
     height: '9px',
-    margin: '-4px 0 0 0',
+    margin: '-4px top',
     cursor: 'row-resize',
     touchAction: 'none',
     zIndex: 20,
-    display: {
-      '': 'flex',
-      '@mobile': 'none',
+    display: 'flex',
+    hide: {
+      '': false,
+      '@mobile': true,
     },
     placeItems: 'center',
     placeContent: 'center',

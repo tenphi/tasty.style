@@ -75,7 +75,7 @@ const NavItem = tasty({
     cursor: 'pointer',
     transition: 'theme',
     textDecoration: 'none',
-    fill: { '': 'transparent', ':hover': '#accent-text.06' },
+    fill: { '': '#clear', ':hover': '#accent-text.06' },
     color: { '': '#text-soft', ':hover': '#accent-text' },
 
     Label: {

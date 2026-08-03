@@ -20,7 +20,7 @@ const CTAWrapper = tasty({
     },
     gap: '4x',
     image:
-      'radial-gradient(ellipse 70% 50% at 50% 100%, #violet-surface-3.60, transparent), linear-gradient(180deg, #surface-2, #surface)',
+      'radial-gradient(ellipse 70% 50% at 50% 100%, #violet-surface-3.60, #clear), linear-gradient(180deg, #surface-2, #surface)',
   },
 });
 

@@ -72,7 +72,7 @@ const SearchIconTrigger = tasty({
     radius: 'round',
     border: 'none',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover': '#surface-2',
     },
     color: '#text-soft',
@@ -96,10 +96,10 @@ const Kbd = tasty({
     radius: '0.5r',
     fill: '#surface',
     border: true,
-    preset: 't4',
+    // also overrides the browser's monospace default for <kbd>: the preset
+    // resolves font-family to the sans stack.
+    preset: 't4 / tight',
     color: '#text-soft',
-    fontFamily: 'inherit',
-    lineHeight: 1,
   },
 });
 
@@ -121,7 +121,7 @@ const DialogPanel = tasty({
     display: 'flex',
     flow: 'column',
     width: 'initial 100% 560px',
-    maxHeight: '70vh',
+    height: 'max 70vh',
     radius: '1.5r',
     fill: '#surface',
     border: true,
@@ -137,7 +137,7 @@ const SearchInputWrap = tasty({
     placeItems: 'center',
     gap: '1.5x',
     padding: '2x 2.5x',
-    borderBottom: '1bw solid #border',
+    border: '1bw solid #border bottom',
   },
 });
 
@@ -148,7 +148,7 @@ const SearchInput = tasty({
     flexGrow: 1,
     border: 'none',
     outline: 'none',
-    fill: 'transparent',
+    fill: '#clear',
     color: '#text',
     preset: 't2',
     Placeholder: {
@@ -178,7 +178,7 @@ const ResultItem = tasty({
     textDecoration: 'none',
     cursor: 'pointer',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       selected: '#accent-surface.08',
     },
     transition: 'theme',

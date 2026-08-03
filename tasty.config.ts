@@ -50,5 +50,6 @@ export default {
     'code',
     'tag',
     'label',
+    'label-soft',
   ],
 };

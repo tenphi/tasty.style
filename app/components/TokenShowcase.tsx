@@ -14,7 +14,7 @@ const GlazeLink = tasty({
       '': 'underline',
       ':hover': 'none',
     },
-    fontWeight: 600,
+    preset: 'strong',
     transition: 'theme',
   },
 });
@@ -39,7 +39,7 @@ const TokenPanel = tasty({
   styles: {
     display: 'flex',
     flow: 'column',
-    minWidth: 0,
+    width: 'min 0',
   },
 });
 

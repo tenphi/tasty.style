@@ -35,7 +35,7 @@ const FooterEl = tasty({
       placeItems: 'center',
       placeContent: 'space-between',
       gap: '2x',
-      padding: '3x 0 0 0',
+      padding: '3x top',
       border: 'top',
     },
   },
@@ -50,7 +50,7 @@ const Logo = tasty({
   styles: {
     position: 'relative',
     inset: '-3px top',
-    width: '24px',
+    width: '3x',
     height: 'auto',
   },
 });

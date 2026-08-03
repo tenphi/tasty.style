@@ -9,22 +9,31 @@ export const PANEL_HEADER_HEIGHT = '34px';
 
 export const Panel = tasty({
   styles: {
-    display: {
-      '': 'flex',
-      'mobileHidden & @mobile': 'none',
+    display: 'flex',
+    hide: {
+      '': false,
+      'mobileHidden & @mobile': true,
     },
     flow: 'column',
     overflow: 'hidden',
     position: 'relative',
     border: '1bw #border right bottom',
     fill: '#surface',
-    flex: {
-      '': 'none',
-      '@mobile': '1 1 0',
+    flexGrow: {
+      '': 0,
+      '@mobile': 1,
     },
-    minHeight: {
+    flexShrink: {
+      '': 0,
+      '@mobile': 1,
+    },
+    flexBasis: {
       '': 'auto',
       '@mobile': 0,
+    },
+    height: {
+      '': 'min auto',
+      '@mobile': 'min 0',
     },
   },
 });
@@ -50,12 +59,15 @@ export const PanelHeaderBar = tasty({
 export const HeaderLabel = tasty({
   as: 'span',
   styles: {
-    display: {
-      '': 'inline-flex',
-      '@mobile': 'none',
+    display: 'inline-flex',
+    hide: {
+      '': false,
+      '@mobile': true,
     },
     placeItems: 'center',
-    flex: '1 1 auto',
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 'auto',
   },
 });
 
@@ -77,24 +89,23 @@ export const Tab = tasty({
     placeItems: 'center',
     padding: '0 2x',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       active: '#surface-3',
     },
     color: {
       '': '#text-soft',
       active: '#text',
     },
-    border: 'none',
     cursor: 'pointer',
-    preset: 'label',
-    fontWeight: {
-      '': 500,
-      active: 600,
+    preset: {
+      '': 'label-soft',
+      active: 'label-soft / strong',
     },
     font: 'monospace',
-    borderBottom: {
-      '': '2px solid transparent',
-      active: '2px solid #accent-surface',
+    // sides other than `bottom` resolve to 0 — no separate `border: 'none'`
+    border: {
+      '': '2px solid #clear bottom',
+      active: '2px solid #accent-surface bottom',
     },
     transition: 'theme',
   },
@@ -102,12 +113,15 @@ export const Tab = tasty({
 
 export const EditorWrap = tasty({
   styles: {
-    display: {
-      '': 'block',
-      hidden: 'none',
+    display: 'block',
+    hide: {
+      '': false,
+      hidden: true,
     },
-    flex: '1 1 0',
-    minHeight: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+    height: 'min 0',
     overflow: 'hidden',
   },
 });
@@ -115,9 +129,10 @@ export const EditorWrap = tasty({
 const MobilePanelSelectWrap = tasty({
   styles: {
     position: 'relative',
-    display: {
-      '': 'none',
-      '@mobile': 'inline-flex',
+    display: 'inline-flex',
+    hide: {
+      '': true,
+      '@mobile': false,
     },
     placeItems: 'center',
     flexShrink: 0,
@@ -132,7 +147,7 @@ const MobilePanelSelectEl = tasty(SelectElement, {
     radius: 0,
     border: 'none',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover': '#surface-3',
     },
     color: '#text-soft',
@@ -143,8 +158,7 @@ const SelectChevron = tasty({
   as: 'span',
   styles: {
     position: 'absolute',
-    right: '1x',
-    top: '50%',
+    inset: '1x right, 50% top',
     transform: 'translateY(-50%)',
     display: 'inline-flex',
     placeItems: 'center',
@@ -196,7 +210,9 @@ export const Toolbar = tasty({
 
 export const ToolbarSpacer = tasty({
   styles: {
-    flex: '1 1 auto',
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 'auto',
   },
 });
 
@@ -209,7 +225,7 @@ export const ToolbarButton = tasty({
     gap: '0.5x',
     padding: '0.5x 1.5x',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover': '#surface-3',
     },
     color: {
@@ -242,11 +258,10 @@ const ExampleSelectEl = tasty(SelectElement, {
     radius: '0.5r',
     border: 'none',
     fill: {
-      '': 'transparent',
+      '': '#clear',
       ':hover': '#surface-3',
     },
     color: '#text',
-    fontWeight: 600,
     cursor: 'pointer',
   },
 });
@@ -312,7 +327,9 @@ export const CopiedToast = tasty({
 export const PreviewFrame = tasty({
   as: 'iframe',
   styles: {
-    flex: '1 1 0',
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
     width: '100%',
     border: 'none',
     fill: '#white',
@@ -327,6 +344,6 @@ export const OutputSection = tasty({
     },
     flow: 'column',
     overflow: 'hidden',
-    minHeight: 0,
+    height: 'min 0',
   },
 });
