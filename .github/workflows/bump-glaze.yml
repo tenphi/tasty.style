@@ -8,8 +8,50 @@ permissions:
   contents: write
   actions: write
 
+env:
+  PACKAGE: '@tenphi/glaze'
+
 jobs:
+  guard:
+    name: Check for major version bump
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      major-bump: ${{ steps.compare.outputs.major-bump }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Major releases carry breaking changes, so the automatic bump only
+      # follows the currently installed major line. Crossing a major is a
+      # manual migration.
+      - name: Compare majors
+        id: compare
+        env:
+          NEW_VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          if [ -z "$NEW_VERSION" ]; then
+            echo "::error::client_payload.version is missing from the dispatch payload."
+            exit 1
+          fi
+          CURRENT_VERSION=$(node -p "const p = require('./package.json'); p.dependencies?.['$PACKAGE'] ?? p.devDependencies?.['$PACKAGE'] ?? ''")
+          if [ -z "$CURRENT_VERSION" ]; then
+            echo "::error::$PACKAGE is not listed in package.json."
+            exit 1
+          fi
+          major() { echo "$1" | sed -E 's/^[^0-9]*//; s/[.-].*//'; }
+          CURRENT_MAJOR=$(major "$CURRENT_VERSION")
+          NEW_MAJOR=$(major "$NEW_VERSION")
+          echo "installed: $CURRENT_VERSION (major $CURRENT_MAJOR), released: $NEW_VERSION (major $NEW_MAJOR)"
+          if [ "$NEW_MAJOR" = "$CURRENT_MAJOR" ]; then
+            echo 'major-bump=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'major-bump=true' >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping automatic bump: $PACKAGE ${CURRENT_MAJOR}.x -> ${NEW_MAJOR}.x is a major version change and must be migrated manually."
+          fi
+
   bump:
+    needs: guard
+    if: needs.guard.outputs.major-bump != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
