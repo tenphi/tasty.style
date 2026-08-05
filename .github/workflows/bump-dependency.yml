@@ -19,8 +19,57 @@ on:
         type: string
 
 jobs:
+  # Kept separate from `bump` so an up-to-date run needs no pnpm store: setting
+  # `cache: pnpm` here would fail in the post-job cache save when no install ran.
+  resolve:
+    name: Resolve ${{ inputs.package }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      changed: ${{ steps.resolve.outputs.changed }}
+      section: ${{ steps.resolve.outputs.section }}
+      spec: ${{ steps.resolve.outputs.spec }}
+      target: ${{ steps.resolve.outputs.target }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Resolves to the newest stable release on the installed major line, and
+      # warns (rather than silently passing) when a major migration is pending.
+      - name: Resolve target version
+        id: resolve
+        run: node scripts/ci/resolve-dependency-bump.mjs '${{ inputs.package }}'
+
+      - name: Summary
+        run: |
+          {
+            echo "### ${{ inputs.package }}"
+            echo
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| Pinned | \`${{ steps.resolve.outputs.installed }}\` |"
+            echo "| Newest on this major | \`${{ steps.resolve.outputs.target }}\` |"
+            echo "| Registry \`latest\` | \`${{ steps.resolve.outputs.latest }}\` |"
+            if [ '${{ steps.resolve.outputs.changed }}' = 'true' ]; then
+              echo "| Result | bumping to \`${{ steps.resolve.outputs.target }}\` |"
+            else
+              echo "| Result | already up to date |"
+            fi
+            if [ '${{ steps.resolve.outputs.major_pending }}' = 'true' ]; then
+              echo
+              echo "> [!WARNING]"
+              echo "> \`${{ steps.resolve.outputs.latest }}\` is a new major and needs a manual migration."
+              echo "> Automatic bumps stay on the installed major line until then."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
   bump:
-    name: Sync ${{ inputs.package }}
+    name: Bump ${{ inputs.package }}
+    needs: resolve
+    if: needs.resolve.outputs.changed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -36,31 +85,21 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      # Resolves to the newest stable release on the installed major line, and
-      # warns (rather than silently passing) when a major migration is pending.
-      - name: Resolve target version
-        id: resolve
-        run: node scripts/ci/resolve-dependency-bump.mjs '${{ inputs.package }}'
-
       - name: Apply bump
-        if: steps.resolve.outputs.changed == 'true'
         run: |
-          npm pkg set '${{ steps.resolve.outputs.section }}[${{ inputs.package }}]=${{ steps.resolve.outputs.spec }}'
+          npm pkg set '${{ needs.resolve.outputs.section }}[${{ inputs.package }}]=${{ needs.resolve.outputs.spec }}'
           pnpm install --no-frozen-lockfile
 
       - name: Clone tasty repo (docs source)
-        if: steps.resolve.outputs.changed == 'true'
         run: git clone --depth 1 https://github.com/tenphi/tasty.git ../tasty
 
       # Also regenerates app/playground/lib/examples.ts, whose SYNCED_DEPS must
       # follow package.json so the downloadable playground project pins what the
       # site actually runs.
       - name: Verify build
-        if: steps.resolve.outputs.changed == 'true'
         run: pnpm build
 
       - name: Commit and push
-        if: steps.resolve.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -69,7 +108,7 @@ jobs:
             echo "::notice::Resolver reported a bump but no tracked file changed; nothing to push."
             exit 0
           fi
-          git commit -m 'chore: bump ${{ inputs.package }} to ${{ steps.resolve.outputs.target }}'
+          git commit -m 'chore: bump ${{ inputs.package }} to ${{ needs.resolve.outputs.target }}'
           # A concurrent bump of the sibling package may have landed while this
           # build ran, so rebase before pushing instead of failing the run.
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
@@ -78,30 +117,6 @@ jobs:
       # Pushes made with GITHUB_TOKEN do not start workflow runs, so the deploy
       # has to be dispatched explicitly.
       - name: Trigger deploy
-        if: steps.resolve.outputs.changed == 'true'
         run: gh workflow run deploy.yml
         env:
           GH_TOKEN: ${{ github.token }}
-
-      - name: Summary
-        run: |
-          {
-            echo "### ${{ inputs.package }}"
-            echo
-            echo "| | |"
-            echo "| --- | --- |"
-            echo "| Pinned before | \`${{ steps.resolve.outputs.installed }}\` |"
-            echo "| Pinned after | \`${{ steps.resolve.outputs.target }}\` |"
-            echo "| Registry \`latest\` | \`${{ steps.resolve.outputs.latest }}\` |"
-            if [ '${{ steps.resolve.outputs.changed }}' = 'true' ]; then
-              echo "| Result | bumped and deployed |"
-            else
-              echo "| Result | already up to date |"
-            fi
-            if [ '${{ steps.resolve.outputs.major_pending }}' = 'true' ]; then
-              echo
-              echo "> [!WARNING]"
-              echo "> \`${{ steps.resolve.outputs.latest }}\` is a new major and needs a manual migration."
-              echo "> Automatic bumps stay on the installed major line until then."
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
