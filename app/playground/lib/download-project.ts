@@ -1,5 +1,5 @@
 import { zipSync, strToU8 } from 'fflate';
-import { ICONS_CODE } from './examples';
+import { ICONS_CODE, SYNCED_DEPS } from './examples';
 
 const PACKAGE_JSON = JSON.stringify(
   {
@@ -10,8 +10,9 @@ const PACKAGE_JSON = JSON.stringify(
     dependencies: {
       react: '^19.1.0',
       'react-dom': '^19.1.0',
-      '@tenphi/tasty': '0.15.3',
-      '@tenphi/glaze': '0.9.1',
+      // Generated from the site's package.json by scripts/build-examples.mjs,
+      // so a downloaded project matches the versions the playground ran.
+      ...SYNCED_DEPS,
     },
     devDependencies: {
       '@vitejs/plugin-react': '^4.5.2',

@@ -23,6 +23,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { title: 'Methodology', slug: 'methodology' },
       { title: 'Comparison', slug: 'comparison' },
       { title: 'Adoption Guide', slug: 'adoption' },
+      { title: 'Migration Guide (v2 → v3)', slug: 'migration-v3' },
     ],
   },
   {
@@ -30,7 +31,9 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { title: 'Style DSL', slug: 'dsl' },
       { title: 'Style Properties', slug: 'styles' },
+      { title: 'Style Rules for AI Agents', slug: 'ai-agents' },
       { title: 'Configuration', slug: 'configuration' },
+      { title: 'Plugins & Extension Points', slug: 'plugins' },
     ],
   },
   {

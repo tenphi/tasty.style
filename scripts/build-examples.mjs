@@ -22,6 +22,28 @@ const ICONS_FILE = join(EXAMPLES_DIR, 'icons.tsx');
 const defaultConfig = readFileSync(CONFIG_FILE, 'utf-8');
 const iconsCode = readFileSync(ICONS_FILE, 'utf-8');
 
+// The downloadable playground project must depend on the same versions the
+// site (and the WebContainer snapshot) run, so they are read from the project
+// package.json rather than hardcoded. See build-playground-snapshot.mjs, which
+// syncs the same list into the snapshot's package.json.
+const SYNCED_DEPS = ['@tenphi/tasty', '@tenphi/glaze'];
+
+function readSyncedVersions() {
+  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf-8'));
+  const versions = {};
+  for (const name of SYNCED_DEPS) {
+    const version = pkg.dependencies?.[name] ?? pkg.devDependencies?.[name];
+    if (!version) {
+      throw new Error(
+        `${name} not found in project package.json — ` +
+          'the downloadable playground project must stay in sync',
+      );
+    }
+    versions[name] = version;
+  }
+  return versions;
+}
+
 function fileToSlugAndLabel(filename) {
   const raw = basename(filename, '.tsx');
   const slug = raw.replace(/^\d+-/, '');
@@ -82,6 +104,12 @@ lines.push('');
 lines.push(`export const DEFAULT_CONFIG = ${JSON.stringify(defaultConfig)};`);
 lines.push('');
 lines.push(`export const ICONS_CODE = ${JSON.stringify(iconsCode)};`);
+lines.push('');
+lines.push(
+  `export const SYNCED_DEPS: Record<string, string> = ${JSON.stringify(
+    readSyncedVersions(),
+  )};`,
+);
 lines.push('');
 
 writeFileSync(OUTPUT_FILE, lines.join('\n'), 'utf-8');

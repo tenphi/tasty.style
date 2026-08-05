@@ -21,7 +21,7 @@ const StyledList = tasty({
     gap: 0,
     padding: '0, 3x left',
     width: 'max 400px',
-    '@counterStyle': {
+    '@counter-style': {
       thumbs: {
         system: 'cyclic',
         symbols: '"👍"',
