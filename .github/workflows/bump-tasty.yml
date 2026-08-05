@@ -1,89 +1,27 @@
 name: Bump @tenphi/tasty
 
 on:
+  # Fired by the release workflow in tenphi/tasty.
   repository_dispatch:
     types: [tasty-release]
+  # Safety net: a dispatch can be skipped (major migration pending), lost, or
+  # raced by a manual commit, and the release that came with it would otherwise
+  # never be picked up.
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
   actions: write
 
-env:
-  PACKAGE: '@tenphi/tasty'
+# Shared with bump-glaze.yml so the two never race on push.
+concurrency:
+  group: bump-dependencies
+  cancel-in-progress: false
 
 jobs:
-  guard:
-    name: Check for major version bump
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    outputs:
-      major-bump: ${{ steps.compare.outputs.major-bump }}
-    steps:
-      - uses: actions/checkout@v4
-
-      # Major releases carry breaking changes, so the automatic bump only
-      # follows the currently installed major line. Crossing a major is a
-      # manual migration.
-      - name: Compare majors
-        id: compare
-        env:
-          NEW_VERSION: ${{ github.event.client_payload.version }}
-        run: |
-          if [ -z "$NEW_VERSION" ]; then
-            echo "::error::client_payload.version is missing from the dispatch payload."
-            exit 1
-          fi
-          CURRENT_VERSION=$(node -p "const p = require('./package.json'); p.dependencies?.['$PACKAGE'] ?? p.devDependencies?.['$PACKAGE'] ?? ''")
-          if [ -z "$CURRENT_VERSION" ]; then
-            echo "::error::$PACKAGE is not listed in package.json."
-            exit 1
-          fi
-          major() { echo "$1" | sed -E 's/^[^0-9]*//; s/[.-].*//'; }
-          CURRENT_MAJOR=$(major "$CURRENT_VERSION")
-          NEW_MAJOR=$(major "$NEW_VERSION")
-          echo "installed: $CURRENT_VERSION (major $CURRENT_MAJOR), released: $NEW_VERSION (major $NEW_MAJOR)"
-          if [ "$NEW_MAJOR" = "$CURRENT_MAJOR" ]; then
-            echo 'major-bump=false' >> "$GITHUB_OUTPUT"
-          else
-            echo 'major-bump=true' >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping automatic bump: $PACKAGE ${CURRENT_MAJOR}.x -> ${NEW_MAJOR}.x is a major version change and must be migrated manually."
-          fi
-
   bump:
-    needs: guard
-    if: needs.guard.outputs.major-bump != 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - run: pnpm install
-
-      - name: Bump @tenphi/tasty
-        run: pnpm add @tenphi/tasty@${{ github.event.client_payload.version }}
-
-      - name: Clone tasty repo (docs source)
-        run: git clone --depth 1 https://github.com/tenphi/tasty.git ../tasty
-
-      - name: Verify build
-        run: pnpm build
-
-      - name: Commit and push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json pnpm-lock.yaml
-          git commit -m "chore: bump @tenphi/tasty to ${{ github.event.client_payload.version }}"
-          git push
-
-      - name: Trigger deploy
-        run: gh workflow run deploy.yml
-        env:
-          GH_TOKEN: ${{ github.token }}
+    uses: ./.github/workflows/bump-dependency.yml
+    with:
+      package: '@tenphi/tasty'

@@ -1,0 +1,107 @@
+name: Bump dependency
+
+# Shared implementation behind bump-tasty.yml / bump-glaze.yml.
+#
+# The target version is resolved from the registry rather than from the release
+# dispatch payload, which makes this workflow idempotent: running it when nothing
+# changed is a no-op, so the callers can safely run it on a schedule and catch up
+# on any release whose dispatch was skipped, lost, or raced by a manual commit.
+#
+# Callers must grant `contents: write` (push the bump) and `actions: write`
+# (trigger the deploy).
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        description: Package to sync; must already be pinned in package.json.
+        required: true
+        type: string
+
+jobs:
+  bump:
+    name: Sync ${{ inputs.package }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # Full history so the rebase before pushing has something to rebase onto.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # Resolves to the newest stable release on the installed major line, and
+      # warns (rather than silently passing) when a major migration is pending.
+      - name: Resolve target version
+        id: resolve
+        run: node scripts/ci/resolve-dependency-bump.mjs '${{ inputs.package }}'
+
+      - name: Apply bump
+        if: steps.resolve.outputs.changed == 'true'
+        run: |
+          npm pkg set '${{ steps.resolve.outputs.section }}[${{ inputs.package }}]=${{ steps.resolve.outputs.spec }}'
+          pnpm install --no-frozen-lockfile
+
+      - name: Clone tasty repo (docs source)
+        if: steps.resolve.outputs.changed == 'true'
+        run: git clone --depth 1 https://github.com/tenphi/tasty.git ../tasty
+
+      # Also regenerates app/playground/lib/examples.ts, whose SYNCED_DEPS must
+      # follow package.json so the downloadable playground project pins what the
+      # site actually runs.
+      - name: Verify build
+        if: steps.resolve.outputs.changed == 'true'
+        run: pnpm build
+
+      - name: Commit and push
+        if: steps.resolve.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -- package.json pnpm-lock.yaml app/playground/lib/examples.ts
+          if git diff --cached --quiet; then
+            echo "::notice::Resolver reported a bump but no tracked file changed; nothing to push."
+            exit 0
+          fi
+          git commit -m 'chore: bump ${{ inputs.package }} to ${{ steps.resolve.outputs.target }}'
+          # A concurrent bump of the sibling package may have landed while this
+          # build ran, so rebase before pushing instead of failing the run.
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      # Pushes made with GITHUB_TOKEN do not start workflow runs, so the deploy
+      # has to be dispatched explicitly.
+      - name: Trigger deploy
+        if: steps.resolve.outputs.changed == 'true'
+        run: gh workflow run deploy.yml
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Summary
+        run: |
+          {
+            echo "### ${{ inputs.package }}"
+            echo
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| Pinned before | \`${{ steps.resolve.outputs.installed }}\` |"
+            echo "| Pinned after | \`${{ steps.resolve.outputs.target }}\` |"
+            echo "| Registry \`latest\` | \`${{ steps.resolve.outputs.latest }}\` |"
+            if [ '${{ steps.resolve.outputs.changed }}' = 'true' ]; then
+              echo "| Result | bumped and deployed |"
+            else
+              echo "| Result | already up to date |"
+            fi
+            if [ '${{ steps.resolve.outputs.major_pending }}' = 'true' ]; then
+              echo
+              echo "> [!WARNING]"
+              echo "> \`${{ steps.resolve.outputs.latest }}\` is a new major and needs a manual migration."
+              echo "> Automatic bumps stay on the installed major line until then."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
