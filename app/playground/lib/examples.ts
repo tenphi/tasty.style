@@ -160,5 +160,5 @@ export const ICONS_CODE =
 
 export const SYNCED_DEPS: Record<string, string> = {
   '@tenphi/tasty': '3.3.1',
-  '@tenphi/glaze': '1.5.0',
+  '@tenphi/glaze': '2.0.0',
 };
