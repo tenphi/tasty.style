@@ -4,7 +4,6 @@ import { states } from './states';
 import { colorTokens } from './theme';
 
 configure({
-  colorSpace: 'rgb',
   states,
   tokens: {
     ...colorTokens,
@@ -165,12 +164,14 @@ configure({
     },
     html: {
       scrollPaddingTop: '($header-height, 64px)',
+      overflowX: 'clip',
     },
     body: {
       '-webkit-text-size-adjust': '100%',
       textSizeAdjust: '100%',
       margin: 0,
       padding: 0,
+      overflowX: 'clip',
       fill: '#surface',
       color: '#text',
       font: true,

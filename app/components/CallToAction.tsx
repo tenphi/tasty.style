@@ -88,10 +88,19 @@ export default function CallToAction() {
         width={{ '': 'auto', '@mobile': '100%' }}
         align={{ '@mobile': 'center' }}
       >
-        <SpecialButton as={NextLink} href="/docs/getting-started">
+        <SpecialButton
+          as={NextLink}
+          href="/docs/getting-started"
+          data-goatcounter-click="cta-getting-started"
+        >
           Get Started
         </SpecialButton>
-        <Button as="a" variant="secondary" href="/docs">
+        <Button
+          as="a"
+          variant="secondary"
+          href="/docs"
+          data-goatcounter-click="cta-browse-docs"
+        >
           Browse Docs
         </Button>
       </Space>

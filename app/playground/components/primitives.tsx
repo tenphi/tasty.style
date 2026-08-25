@@ -181,7 +181,11 @@ interface MobilePanelSelectProps {
 export function MobilePanelSelect({ value, onChange }: MobilePanelSelectProps) {
   return (
     <MobilePanelSelectWrap>
-      <MobilePanelSelectEl value={value} onChange={onChange}>
+      <MobilePanelSelectEl
+        value={value}
+        onChange={onChange}
+        aria-label="Select playground panel"
+      >
         {MOBILE_PANEL_OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}
@@ -279,7 +283,11 @@ export function ExampleSelect({
 }: ExampleSelectProps) {
   return (
     <ExampleSelectWrap>
-      <ExampleSelectEl value={value} onChange={onChange}>
+      <ExampleSelectEl
+        value={value}
+        onChange={onChange}
+        aria-label="Select playground example"
+      >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

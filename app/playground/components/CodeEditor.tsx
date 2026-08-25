@@ -118,6 +118,9 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
                 tastyEditorTheme,
                 suppressLezerHighlight,
                 shikiHighlight('tsx'),
+                EditorView.contentAttributes.of({
+                  'aria-label': 'Tasty component code',
+                }),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
                     clearTimeout(debounceRef.current.code);
@@ -142,6 +145,9 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
                 tastyEditorTheme,
                 suppressLezerHighlight,
                 shikiHighlight('typescript'),
+                EditorView.contentAttributes.of({
+                  'aria-label': 'Tasty configuration code',
+                }),
                 EditorView.updateListener.of((update) => {
                   if (update.docChanged && !suppressRef.current) {
                     clearTimeout(debounceRef.current.config);
@@ -179,14 +185,22 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
 
     return (
       <>
-        <TabBar>
+        <TabBar role="tablist" aria-label="Playground source files">
           <Tab
+            id="playground-code-tab"
+            role="tab"
+            aria-controls="playground-code-panel"
+            aria-selected={activeTab === 'code'}
             mods={{ active: activeTab === 'code' }}
             onClick={() => switchTab('code')}
           >
             Code
           </Tab>
           <Tab
+            id="playground-config-tab"
+            role="tab"
+            aria-controls="playground-config-panel"
+            aria-selected={activeTab === 'config'}
             mods={{ active: activeTab === 'config' }}
             onClick={() => switchTab('config')}
           >
@@ -194,10 +208,16 @@ const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
           </Tab>
         </TabBar>
         <EditorWrap
+          id="playground-code-panel"
+          role="tabpanel"
+          aria-labelledby="playground-code-tab"
           ref={codeContainerRef}
           mods={{ hidden: activeTab !== 'code' }}
         />
         <EditorWrap
+          id="playground-config-panel"
+          role="tabpanel"
+          aria-labelledby="playground-config-tab"
           ref={configContainerRef}
           mods={{ hidden: activeTab !== 'config' }}
         />

@@ -93,7 +93,9 @@ for (const ex of examples) {
 }
 lines.push('];');
 lines.push('');
-lines.push('export const DEFAULT_EXAMPLE = EXAMPLES[0];');
+lines.push(
+  "export const DEFAULT_EXAMPLE = EXAMPLES.find((example) => example.slug === 'button') ?? EXAMPLES[0];",
+);
 lines.push('');
 lines.push(
   'export function findExample(slug: string): PlaygroundExample | undefined {',

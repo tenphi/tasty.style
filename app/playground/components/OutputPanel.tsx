@@ -59,6 +59,9 @@ export default function OutputPanel({
             langExtension,
             ...tastyCodeMirrorTheme,
             EditorState.readOnly.of(true),
+            EditorView.contentAttributes.of({
+              'aria-label': label,
+            }),
           ],
         }),
         parent: containerRef.current,
@@ -72,7 +75,7 @@ export default function OutputPanel({
       viewRef.current?.destroy();
       viewRef.current = null;
     };
-  }, [language]);
+  }, [label, language]);
 
   useEffect(() => {
     const view = viewRef.current;

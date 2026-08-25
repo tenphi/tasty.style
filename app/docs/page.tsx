@@ -22,7 +22,7 @@ export default function DocsPage() {
     <>
       <Article data-pagefind-body>
         <PageTitle>{INTRODUCTION.title}</PageTitle>
-        <MarkdownRenderer source={source} />
+        <MarkdownRenderer source={source} sourceRoot="root" />
       </Article>
       <TableOfContents headings={headings} />
     </>

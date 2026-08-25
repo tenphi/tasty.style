@@ -171,6 +171,7 @@ const DocCodeBlockElement = tasty({
     color: '#syntax-text',
     radius: '1cr',
     overflow: 'auto',
+    width: 'max 100%',
     preset: 't3',
     font: 'monospace',
     border: true,

@@ -88,6 +88,9 @@ export default function CssOutputPanel({
                 css(),
                 ...tastyCodeMirrorTheme,
                 EditorState.readOnly.of(true),
+                EditorView.contentAttributes.of({
+                  'aria-label': `Generated CSS: ${TAB_LABELS[tab]}`,
+                }),
               ],
             }),
             parent: container,
@@ -128,12 +131,16 @@ export default function CssOutputPanel({
 
   return (
     <>
-      <TabBar>
+      <TabBar role="tablist" aria-label="Generated CSS sections">
         <MobilePanelSelect value={mobilePanel} onChange={onMobilePanelChange} />
         <PanelLabel>Generated CSS</PanelLabel>
         {ALL_TABS.map((tab) => (
           <Tab
             key={tab}
+            id={`generated-css-${tab}-tab`}
+            role="tab"
+            aria-controls={`generated-css-${tab}-panel`}
+            aria-selected={activeTab === tab}
             mods={{ active: activeTab === tab }}
             onClick={() => switchTab(tab)}
           >
@@ -144,6 +151,9 @@ export default function CssOutputPanel({
       {ALL_TABS.map((tab) => (
         <EditorWrap
           key={tab}
+          id={`generated-css-${tab}-panel`}
+          role="tabpanel"
+          aria-labelledby={`generated-css-${tab}-tab`}
           ref={(el: HTMLDivElement | null) => {
             containerRefs.current[tab] = el;
           }}

@@ -8,19 +8,37 @@ const Button = tasty({
     padding: '1x 2x',
     radius: true,
     border: true,
-    fill: '#accent-surface',
+    fill: {
+      '': '#accent-surface',
+      ':hover': '#accent-surface-2',
+      ':active': '#accent-surface-3',
+      '[disabled]': '#surface-3',
+    },
     color: '#accent-surface-text',
     preset: 't2',
-    cursor: 'pointer',
     transition: 'theme',
     opacity: {
       '': 1,
-      ':hover': 0.9,
-      ':active': 0.8,
+      '[disabled]': 0.55,
     },
+    cursor: { '': 'pointer', '[disabled]': 'not-allowed' },
   },
 });
 
-export const App = () => {
-  return <Button>Click Me</Button>;
-};
+const Layout = tasty({
+  styles: {
+    display: 'flex',
+    flow: 'row wrap',
+    gap: '2x',
+    placeItems: 'center',
+    placeContent: 'center',
+    padding: '4x',
+  },
+});
+
+export const App = () => (
+  <Layout>
+    <Button>Hover or press me</Button>
+    <Button disabled>Hover while disabled</Button>
+  </Layout>
+);

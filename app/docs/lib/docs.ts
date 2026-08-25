@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import GithubSlugger from 'github-slugger';
+import { rewriteDocsImageSrc } from './links';
 
 export interface Heading {
   depth: number;
@@ -8,7 +9,9 @@ export interface Heading {
   id: string;
 }
 
-const TASTY_ROOT = path.resolve(process.cwd(), '..', 'tasty');
+const TASTY_ROOT = process.env.TASTY_DOCS_ROOT
+  ? path.resolve(process.env.TASTY_DOCS_ROOT)
+  : path.resolve(process.cwd(), '..', 'tasty');
 const DOCS_DIR = path.join(TASTY_ROOT, 'docs');
 
 function resolveFilePath(slug: string): string {
@@ -21,6 +24,14 @@ function resolveFilePath(slug: string): string {
 
 function preprocessForMdx(markdown: string): string {
   let result = markdown;
+
+  // Raw HTML images bypass the MDX `img` component, so normalize their source
+  // before compilation. Package documentation assets are copied to /assets.
+  result = result.replace(
+    /(<img\s[^>]*?src=)(["'])([^"']+)\2/gi,
+    (_match: string, prefix: string, quote: string, src: string) =>
+      `${prefix}${quote}${rewriteDocsImageSrc(src)}${quote}`,
+  );
 
   // Close void HTML elements for MDX compatibility (<img ...> -> <img ... />)
   result = result.replace(/<(img|br|hr|input)(\s[^>]*?)?\s*>/gi, '<$1$2 />');

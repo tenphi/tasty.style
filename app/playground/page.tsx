@@ -26,5 +26,24 @@ const PlaygroundClient = dynamic(
 );
 
 export default function PlaygroundPage() {
-  return <PlaygroundClient />;
+  return (
+    <main id="button">
+      <h1
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: 0,
+          margin: '-1px',
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          border: 0,
+        }}
+      >
+        Tasty Playground
+      </h1>
+      <PlaygroundClient />
+    </main>
+  );
 }

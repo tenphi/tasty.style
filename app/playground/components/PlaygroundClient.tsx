@@ -56,6 +56,7 @@ import {
   type PlaygroundState,
 } from '../lib/hash-state';
 import { PREVIEWS } from '../lib/previews';
+import { trackEvent } from '@/app/lib/analytics';
 
 type BootPhase =
   | 'coi-check'
@@ -440,6 +441,12 @@ export default function PlaygroundClient() {
   const [isVDragging, setIsVDragging] = useState(false);
 
   const copiedTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const pendingFirstPreviewRef = useRef(false);
+  const firstPreviewTrackedRef = useRef(false);
+
+  useEffect(() => {
+    trackEvent('playground-example-load', initialState.current.slug);
+  }, []);
 
   const { moveProps: hMoveProps } = useMove({
     onMoveStart() {
@@ -719,6 +726,11 @@ export default function PlaygroundClient() {
         if (previewModeRef.current !== 'live') return;
         setCssSections(splitCSS(event.data.css || ''));
         setHtmlOutput(prettifyHTML(event.data.html || ''));
+        if (pendingFirstPreviewRef.current && !firstPreviewTrackedRef.current) {
+          pendingFirstPreviewRef.current = false;
+          firstPreviewTrackedRef.current = true;
+          trackEvent('playground-first-preview-success', currentSlug);
+        }
       } else if (event.data?.type === 'tasty-playground-request-root-states') {
         syncRootStates();
       }
@@ -736,7 +748,7 @@ export default function PlaygroundClient() {
       window.removeEventListener('message', handleMessage);
       rootObserver.disconnect();
     };
-  }, []);
+  }, [currentSlug]);
 
   useEffect(() => {
     function handleHashChange() {
@@ -773,6 +785,8 @@ export default function PlaygroundClient() {
 
   const handleCodeChange = useCallback(
     (code: string) => {
+      if (!firstPreviewTrackedRef.current)
+        pendingFirstPreviewRef.current = true;
       codeRef.current = code;
       const mode = previewModeRef.current;
       if (mode === 'hydrated') {
@@ -793,6 +807,8 @@ export default function PlaygroundClient() {
 
   const handleConfigChange = useCallback(
     (config: string) => {
+      if (!firstPreviewTrackedRef.current)
+        pendingFirstPreviewRef.current = true;
       configRef.current = config;
       const mode = previewModeRef.current;
       if (mode === 'hydrated') {
@@ -815,6 +831,8 @@ export default function PlaygroundClient() {
       const example = findExample(slug);
 
       if (!example) return;
+
+      trackEvent('playground-example-load', slug);
 
       editorRef.current?.flushPending();
 
@@ -874,14 +892,16 @@ export default function PlaygroundClient() {
   }, [currentSlug, showHydrated, writeAllFilesToWC]);
 
   const handleCopyLink = useCallback(() => {
+    trackEvent('playground-share', currentSlug);
     navigator.clipboard.writeText(window.location.href).then(() => {
       setShowCopied(true);
       clearTimeout(copiedTimerRef.current);
       copiedTimerRef.current = setTimeout(() => setShowCopied(false), 1500);
     });
-  }, []);
+  }, [currentSlug]);
 
   const handleDownload = useCallback(() => {
+    trackEvent('playground-download', currentSlug);
     downloadProject(codeRef.current, configRef.current, currentSlug);
   }, [currentSlug]);
 

@@ -175,6 +175,7 @@ export default function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub repository"
+            data-goatcounter-click="outbound-github"
           >
             <IconBrandGithub size={20} />
           </Button>
@@ -202,6 +203,7 @@ export default function Header() {
               as={NextLink}
               href="/docs/getting-started"
               size="small"
+              data-goatcounter-click="header-getting-started"
             >
               Get Started
             </SpecialButton>

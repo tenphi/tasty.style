@@ -2,6 +2,7 @@
   "name": "tasty-nextjs-example",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/tenphi/tasty.style.git"
@@ -11,9 +12,9 @@
     "build:examples": "node scripts/build-examples.mjs",
     "build:previews": "node scripts/build-playground-previews.mjs",
     "playground:snapshot": "node scripts/build-playground-snapshot.mjs",
-    "predev": "pnpm build:examples && pnpm build:previews && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
+    "predev": "pnpm build:examples && pnpm build:previews && node scripts/sync-tasty-assets.mjs && cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js && pnpm playground:snapshot",
     "dev": "next dev",
-    "prebuild": "pnpm build:examples && pnpm build:previews && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
+    "prebuild": "pnpm build:examples && pnpm build:previews && node scripts/sync-tasty-assets.mjs && cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js && pnpm playground:snapshot",
     "build": "next build",
     "postbuild": "pagefind --site out",
     "start": "npx serve@latest out",
@@ -24,10 +25,15 @@
     "lint:fix": "eslint . --fix",
     "pretypecheck": "pnpm ensure:previews",
     "typecheck": "tsc --noEmit",
+    "test:unit": "node --experimental-strip-types --test app/docs/lib/links.test.ts",
+    "check:links": "node scripts/check-links.mjs",
+    "test:browser": "node scripts/smoke-site.mjs",
+    "test": "pnpm test:unit && pnpm check:links && pnpm test:browser",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "hygiene": "pnpm lint && pnpm format:check",
-    "hygiene:fix": "pnpm lint:fix && pnpm format"
+    "hygiene:fix": "pnpm lint:fix && pnpm format",
+    "verify": "pnpm hygiene && pnpm typecheck && pnpm build && pnpm test"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

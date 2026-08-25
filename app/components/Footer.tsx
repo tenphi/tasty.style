@@ -98,6 +98,10 @@ const COLUMNS = [
         label: 'Issues',
         href: 'https://github.com/tenphi/tasty/issues',
       },
+      {
+        label: 'Telegram',
+        href: 'https://t.me/tasty_css',
+      },
     ],
   },
 ];
@@ -120,6 +124,11 @@ export default function Footer() {
                   href={link.href}
                   target={isExternal ? '_blank' : undefined}
                   rel={isExternal ? 'noopener noreferrer' : undefined}
+                  data-goatcounter-click={
+                    isExternal
+                      ? `outbound-${link.label.toLowerCase().replaceAll(' ', '-')}`
+                      : undefined
+                  }
                 >
                   {link.label}
                 </Link>

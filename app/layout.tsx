@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import pkg from '../package.json';
 
 import './tasty-config';
 import TastyStyleRegistry from './tasty-registry';
@@ -51,10 +52,25 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: SITE_NAME,
-  url: SITE_URL,
-  description: SITE_DESCRIPTION,
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: SITE_NAME,
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Web',
+      softwareVersion: pkg.dependencies['@tenphi/tasty'],
+      description: SITE_DESCRIPTION,
+      url: SITE_URL,
+      codeRepository: 'https://github.com/tenphi/tasty',
+      license: 'https://github.com/tenphi/tasty/blob/main/LICENSE',
+    },
+  ],
 };
 
 export default function RootLayout({

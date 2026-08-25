@@ -1,12 +1,12 @@
 # Tasty Website & Showcase
 
-Official website and interactive showcase for [`@tenphi/tasty`](https://github.com/tenphi/tasty) — a CSS-in-JS styling engine for React with a declarative, state-aware DSL and design system integration.
+Official website and interactive playground for [`@tenphi/tasty`](https://github.com/tenphi/tasty) — deterministic styling for stateful React component systems.
 
 This project serves as both the public-facing landing page for Tasty and a production-grade demonstration of its capabilities: SSR with streaming, OKHSL color theming via [`@tenphi/glaze`](https://github.com/tenphi/glaze), responsive state maps, sub-element styling, and more.
 
 ## Tech Stack
 
-- **[Next.js 15](https://nextjs.org/)** — App Router, React Server Components
+- **[Next.js 16](https://nextjs.org/)** — App Router, React Server Components, static export
 - **[React 19](https://react.dev/)** — concurrent features, streaming SSR
 - **[@tenphi/tasty](https://github.com/tenphi/tasty)** — styling engine (runtime + SSR)
 - **[@tenphi/glaze](https://github.com/tenphi/glaze)** — OKHSL color theme generator with WCAG contrast solving
@@ -30,8 +30,8 @@ This project serves as both the public-facing landing page for Tasty and a produ
 **Prerequisites:** Node.js >= 20, pnpm 10
 
 ```bash
-git clone https://github.com/tenphi/tasty-nextjs-example.git
-cd tasty-nextjs-example
+git clone https://github.com/tenphi/tasty.style.git
+cd tasty.style
 pnpm install
 pnpm dev
 ```
@@ -40,17 +40,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Scripts
 
-| Command             | Description              |
-| ------------------- | ------------------------ |
-| `pnpm dev`          | Start Next.js dev server |
-| `pnpm build`        | Production build         |
-| `pnpm start`        | Start production server  |
-| `pnpm lint`         | Run ESLint               |
-| `pnpm lint:fix`     | Run ESLint with auto-fix |
-| `pnpm format`       | Format with Prettier     |
-| `pnpm format:check` | Check formatting         |
-| `pnpm hygiene`      | Lint + format check      |
-| `pnpm hygiene:fix`  | Auto-fix lint + format   |
+| Command               | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| `pnpm dev`            | Generate playground artifacts and start Next.js   |
+| `pnpm build`          | Production build, static export, and search index |
+| `pnpm build:examples` | Regenerate the bundled playground examples        |
+| `pnpm build:previews` | Regenerate static playground previews             |
+| `pnpm typecheck`      | Type-check without emitting                       |
+| `pnpm lint`           | Run ESLint                                        |
+| `pnpm format:check`   | Check formatting                                  |
+| `pnpm test:unit`      | Run docs-link unit tests                          |
+| `pnpm check:links`    | Crawl the generated site for broken links         |
+| `pnpm test:browser`   | Run semantic and responsive browser smoke tests   |
+| `pnpm verify`         | Run the complete pull-request quality suite       |
 
 ## Project Structure
 
@@ -78,11 +80,20 @@ app/
     Button.tsx, Card.tsx, Badge.tsx, Tabs.tsx, Grid.tsx,
     Text.tsx, Link.tsx, Space.tsx, CodeBlock.tsx, Switcher.tsx, ...
   lib/
+    analytics.ts           # Privacy-respecting conversion event helper
     shiki.ts              # Shiki highlighter setup
     shiki-theme.ts        # Custom theme using Tasty color tokens
     tasty.tmLanguage.json # TextMate grammar for Tasty DSL
+  docs/                    # Package docs renderer, navigation, and search
+  playground/              # Editor, generated CSS, static previews, WebContainer
 public/
   tasty.svg               # Logo
+scripts/
+  build-examples.mjs      # Bundle source examples for the playground
+  build-playground-*.mjs  # Generate previews and the WebContainer snapshot
+  sync-tasty-assets.mjs   # Copy package documentation assets into the export
+  check-links.mjs         # Validate generated routes and fragments
+  smoke-site.mjs          # Browser semantics, accessibility, and overflow checks
 next.config.ts            # Next.js config
 ```
 
@@ -90,7 +101,7 @@ next.config.ts            # Next.js config
 
 The project uses a two-layer integration:
 
-1. **SSR** — `TastyStyleRegistry` wraps the app in `layout.tsx`. It uses `TastyRegistry` from `@tenphi/tasty/ssr/next` to collect styles generated during server rendering and inline them into the HTML response, ensuring no flash of unstyled content.
+1. **SSR** — `TastyStyleRegistry` wraps the app in `layout.tsx`. It uses `TastyRegistry` from `@tenphi/tasty/ssr/next` to collect styles generated in its SSR graph and insert them into the streamed HTML.
 
 2. **Runtime** — `tasty-config.ts` calls `configure()` to register custom state aliases that map to media queries, root attribute selectors, and combined conditions. Components use `tasty()` to create styled elements with state-aware style objects.
 
@@ -101,4 +112,4 @@ Runtime: configure()   ──► custom states, tokens, plugins (client-side)
 
 ## License
 
-MIT
+[MIT](LICENSE)

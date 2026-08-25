@@ -1,5 +1,5 @@
 import { tasty, OUTER_STYLES } from '@tenphi/tasty';
-import { IconArrowRight, IconBrandTelegram } from '@tabler/icons-react';
+import { IconArrowRight } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
@@ -26,10 +26,10 @@ const HeroInner = tasty({
     align: 'center',
     textAlign: 'center',
     padding: {
-      '': '14x 4x',
-      '@mobile': '8x 2x',
+      '': '5x 4x',
+      '@mobile': '5x 2x',
     },
-    gap: '3x',
+    gap: '2x',
     width: 'max ($content-width, 1200px)',
     margin: 'auto left right',
   },
@@ -39,8 +39,8 @@ const HeroLogo = tasty({
   as: 'img',
   styles: {
     width: {
-      '': '120px',
-      '@mobile': '72px',
+      '': '96px',
+      '@mobile': '8x',
     },
     height: 'auto',
     filter: 'drop-shadow(0 4px 12px #shadow-logo)',
@@ -97,7 +97,41 @@ const GlowOrb = tasty({
   styleProps: ['fill', ...OUTER_STYLES],
 });
 
-const HERO_TAGS = ['CSS-in-JS', 'Runtime', 'SSR', 'React', 'Design Systems'];
+const ConflictDemo = tasty({
+  styles: {
+    display: 'flex',
+    flow: 'row wrap',
+    placeItems: 'center',
+    placeContent: 'center',
+    gap: '1x',
+    padding: '1.5x 2x',
+    radius: 'round',
+    border: true,
+    fill: '#surface.7',
+    color: '#text-soft',
+    preset: 't3',
+  },
+});
+
+const ConflictState = tasty({
+  as: 'span',
+  styles: {
+    display: 'inline-flex',
+    padding: '0.5x 1x',
+    radius: 'round',
+    fill: '#surface-3',
+    color: '#text',
+    preset: 't3m',
+  },
+});
+
+const Proof = tasty({
+  as: 'span',
+  styles: {
+    color: '#text-soft',
+    preset: 't3m',
+  },
+});
 
 export default function Hero() {
   return (
@@ -113,19 +147,26 @@ export default function Hero() {
         <HeroLogo src="/tasty.svg" alt="Tasty logo" />
         <Badge>tasty v{pkg.dependencies['@tenphi/tasty']}</Badge>
         <HeroTitle>
-          Deterministic styling for{' '}
-          <HeroAccent>stateful component systems</HeroAccent>
+          Stop CSS <HeroAccent>states</HeroAccent> from fighting each other
         </HeroTitle>
         <HeroSubtitle>
-          Tasty compiles declarative state maps into mutually exclusive
-          selectors, so styles resolve deterministically instead of depending on
-          source order or specificity. That makes complex styles easier to
-          define, extend, and maintain.
+          Tasty turns hover, active, disabled, responsive, and custom states
+          into mutually exclusive selectors. One branch wins by construction,
+          even as components are extended.
         </HeroSubtitle>
-        <Space flow="row wrap" gap="1x" align="center" justify="center">
-          {HERO_TAGS.map((tag) => (
-            <Badge key={tag}>{tag}</Badge>
-          ))}
+        <ConflictDemo aria-label="When hover and disabled overlap, disabled wins">
+          <ConflictState>:hover</ConflictState>
+          <span>+</span>
+          <ConflictState>[disabled]</ConflictState>
+          <IconArrowRight aria-hidden size={18} />
+          <strong>disabled wins</strong>
+        </ConflictDemo>
+        <Space flow="row wrap" gap="2x" align="center" justify="center">
+          <Proof>100+ production components</Proof>
+          <Proof aria-hidden>•</Proof>
+          <Proof>5+ years in Cube Cloud</Proof>
+          <Proof aria-hidden>•</Proof>
+          <Proof>Runtime, SSR, and static paths</Proof>
         </Space>
         <Space
           flow={{ '': 'row', '@mobile': 'column' }}
@@ -134,20 +175,20 @@ export default function Hero() {
           width={{ '': 'auto', '@mobile': '100%' }}
           align={{ '@mobile': 'center' }}
         >
-          <SpecialButton as="a" href="/docs/getting-started">
-            Get Started <IconArrowRight size={20} />
+          <SpecialButton
+            as="a"
+            href="/playground#button"
+            data-goatcounter-click="hero-state-conflict-playground"
+          >
+            Edit this example <IconArrowRight size={20} />
           </SpecialButton>
-          <Button as="a" variant="secondary" href="#how-it-works">
-            See How It Works
-          </Button>
           <Button
             as="a"
             variant="secondary"
-            href="https://t.me/tasty_css"
-            target="_blank"
-            rel="noreferrer"
+            href="/docs/comparison"
+            data-goatcounter-click="hero-evaluate-fit"
           >
-            Join Telegram <IconBrandTelegram size={20} />
+            Evaluate fit
           </Button>
         </Space>
       </HeroInner>

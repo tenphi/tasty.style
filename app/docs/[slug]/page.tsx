@@ -53,7 +53,10 @@ export default async function DocPage({
     <>
       <Article data-pagefind-body>
         <PageTitle>{navItem.title}</PageTitle>
-        <MarkdownRenderer source={source} />
+        <MarkdownRenderer
+          source={source}
+          sourceRoot={slug === 'introduction' ? 'root' : 'docs'}
+        />
       </Article>
       <TableOfContents headings={headings} />
     </>

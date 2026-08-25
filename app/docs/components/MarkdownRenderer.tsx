@@ -8,6 +8,11 @@ import { highlightCode } from '@/app/lib/shiki';
 import { SYNTAX_COLOR_CLASSES } from '@/app/lib/shiki-theme';
 import InlineCode from '@/app/ui/InlineCode';
 import Link from '@/app/ui/Link';
+import {
+  rewriteDocsHref,
+  rewriteDocsImageSrc,
+  type MarkdownSourceRoot,
+} from '../lib/links';
 import { DocCodeBlock } from './MarkdownElements';
 import {
   DocH2,
@@ -35,37 +40,30 @@ function remarkRewriteImgSrc() {
       node.value = node.value.replace(
         /(<img\s[^>]*?)src="(?!\/|https?:\/\/)([^"]*?)"/g,
         (_match: string, prefix: string, src: string) =>
-          `${prefix}src="/${src}"`,
+          `${prefix}src="${rewriteDocsImageSrc(src)}"`,
       );
     });
   };
 }
 
-function rewriteHref(href: string | undefined): string | undefined {
-  if (!href) return href;
-
-  if (href.startsWith('http://') || href.startsWith('https://')) return href;
-  if (href.startsWith('#')) return href;
-
-  // docs/foo.md -> /docs/foo
-  const cleaned = href
-    .replace(/^\.\//, '')
-    .replace(/^docs\//, '')
-    .replace(/\.md(?=$|#)/, '');
-
-  return `/docs/${cleaned}`;
-}
-
-function MdxLink({ href, children, ...props }: ComponentPropsWithoutRef<'a'>) {
-  const rewritten = rewriteHref(href);
+function MdxLink({
+  href,
+  children,
+  sourceRoot,
+  ...props
+}: ComponentPropsWithoutRef<'a'> & { sourceRoot: MarkdownSourceRoot }) {
+  const rewritten = rewriteDocsHref(href, sourceRoot);
   const isExternal =
     rewritten?.startsWith('http://') || rewritten?.startsWith('https://');
+  const analyticsEvent =
+    rewritten === '/docs/getting-started' ? 'docs-getting-started' : undefined;
 
   return (
     <Link
       href={rewritten!}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
+      data-goatcounter-click={analyticsEvent}
       {...props}
     >
       {children}
@@ -122,15 +120,8 @@ function MdxPre({ children }: ComponentPropsWithoutRef<'pre'>) {
 
 function MdxImg(props: ComponentPropsWithoutRef<'img'>) {
   const { src: srcProp, ...rest } = props;
-  let src = srcProp;
-
-  if (
-    typeof src === 'string' &&
-    !src.startsWith('/') &&
-    !src.startsWith('http')
-  ) {
-    src = `/${src}`;
-  }
+  const src =
+    typeof srcProp === 'string' ? rewriteDocsImageSrc(srcProp) : srcProp;
 
   return <DocImg src={src} {...rest} />;
 }
@@ -139,31 +130,39 @@ function MdxCode({ children, ...props }: ComponentPropsWithoutRef<'code'>) {
   return <InlineCode {...props}>{children}</InlineCode>;
 }
 
-const components = {
-  h1: () => null,
-  h2: DocH2,
-  h3: DocH3,
-  h4: DocH4,
-  p: DocParagraph,
-  a: MdxLink,
-  pre: MdxPre,
-  code: MdxCode,
-  blockquote: DocBlockquote,
-  hr: DocHr,
-  ul: DocUl,
-  ol: DocOl,
-  li: DocLi,
-  table: DocTable,
-  thead: DocThead,
-  tbody: DocTbody,
-  tr: DocTr,
-  th: DocTh,
-  td: DocTd,
-  img: MdxImg,
-  strong: DocStrong,
-};
+export default function MarkdownRenderer({
+  source,
+  sourceRoot,
+}: {
+  source: string;
+  sourceRoot: MarkdownSourceRoot;
+}) {
+  const components = {
+    h1: () => null,
+    h2: DocH2,
+    h3: DocH3,
+    h4: DocH4,
+    p: DocParagraph,
+    a: (props: ComponentPropsWithoutRef<'a'>) => (
+      <MdxLink {...props} sourceRoot={sourceRoot} />
+    ),
+    pre: MdxPre,
+    code: MdxCode,
+    blockquote: DocBlockquote,
+    hr: DocHr,
+    ul: DocUl,
+    ol: DocOl,
+    li: DocLi,
+    table: DocTable,
+    thead: DocThead,
+    tbody: DocTbody,
+    tr: DocTr,
+    th: DocTh,
+    td: DocTd,
+    img: MdxImg,
+    strong: DocStrong,
+  };
 
-export default function MarkdownRenderer({ source }: { source: string }) {
   return (
     <MDXRemote
       source={source}
