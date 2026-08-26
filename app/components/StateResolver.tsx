@@ -14,28 +14,32 @@ const STATE_OPTIONS = [
     id: 'default',
     label: 'Default',
     selector: "''",
-    value: '#primary',
+    appliedSelector: '.t0.t0:not(:hover):not(:active):not([disabled])',
+    value: '#blue-accent-surface',
     variant: 'blue',
   },
   {
     id: 'hover',
     label: 'Hover',
     selector: ':hover',
-    value: '#primary-hover',
+    appliedSelector: '.t0.t0:hover:not(:active):not([disabled])',
+    value: '#violet-accent-surface',
     variant: 'violet',
   },
   {
     id: 'active',
     label: 'Active',
     selector: ':active',
-    value: '#primary-pressed',
+    appliedSelector: '.t0.t0:active:not([disabled])',
+    value: '#coral-accent-surface',
     variant: 'coral',
   },
   {
     id: 'disabled',
     label: 'Disabled',
     selector: '[disabled]',
-    value: '#surface',
+    appliedSelector: '.t0.t0[disabled]',
+    value: '#amber-accent-surface',
     variant: 'amber',
   },
 ] as const;
@@ -180,10 +184,16 @@ const Stage = tasty({
       color: '#text-2',
       margin: 0,
     },
+    Helper: {
+      preset: 't3',
+      color: '#text-soft-2',
+      margin: 0,
+    },
   },
   elements: {
     Header: 'div',
     Title: 'h3',
+    Helper: 'p',
   },
 });
 
@@ -318,6 +328,24 @@ const ResolverMark = tasty({
   },
 });
 
+const ResolverCore = tasty({
+  styles: {
+    display: 'flex',
+    flow: 'column',
+    placeItems: 'center',
+    gap: '1x',
+    Caption: {
+      preset: 'tag',
+      color: '#text-soft-2',
+      textAlign: 'center',
+      whiteSpace: 'nowrap',
+    },
+  },
+  elements: {
+    Caption: 'span',
+  },
+});
+
 const ResultPreview = tasty({
   styles: {
     display: 'grid',
@@ -397,11 +425,32 @@ const ResultDetails = tasty({
       color: '#text-2',
       textAlign: 'right',
     },
+    SelectorBlock: {
+      display: 'flex',
+      flow: 'column',
+      gap: '.5x',
+      margin: '1x 0 0',
+      padding: '1.5x',
+      radius: '1r',
+      fill: '#surface-3',
+    },
+    SelectorLabel: {
+      preset: 't3',
+      color: '#text-soft-3',
+    },
+    SelectorValue: {
+      preset: 'code',
+      color: '#text-3',
+      overflowWrap: 'anywhere',
+    },
   },
   elements: {
     Row: 'div',
     Label: 'span',
     Value: 'code',
+    SelectorBlock: 'div',
+    SelectorLabel: 'span',
+    SelectorValue: 'code',
   },
 });
 
@@ -440,6 +489,7 @@ export default function StateResolver() {
               <Stage.Title>State map priority</Stage.Title>
               <Badge>Input</Badge>
             </Stage.Header>
+            <Stage.Helper>Priority increases from top to bottom.</Stage.Helper>
             <StateList>
               {STATE_OPTIONS.map((option) => (
                 <StateOption
@@ -458,12 +508,15 @@ export default function StateResolver() {
             </StateList>
           </Stage>
 
-          <ResolverFlow aria-hidden="true">
-            <ResolverMark>
-              <ResolverMark.Glyph>{'{t}'}</ResolverMark.Glyph>
-            </ResolverMark>
+          <ResolverFlow>
+            <ResolverCore>
+              <ResolverMark>
+                <ResolverMark.Glyph>{'{t}'}</ResolverMark.Glyph>
+              </ResolverMark>
+              <ResolverCore.Caption>Compiles priority</ResolverCore.Caption>
+            </ResolverCore>
             <ResolverFlow.Arrow>
-              <IconArrowRight size={32} />
+              <IconArrowRight size={32} aria-hidden="true" />
             </ResolverFlow.Arrow>
           </ResolverFlow>
 
@@ -488,13 +541,26 @@ export default function StateResolver() {
                   {selectedOption.value}
                 </ResultDetails.Value>
               </ResultDetails.Row>
+              <ResultDetails.Row>
+                <ResultDetails.Label>Matching rules</ResultDetails.Label>
+                <ResultDetails.Value>1 of 4</ResultDetails.Value>
+              </ResultDetails.Row>
+              <ResultDetails.SelectorBlock>
+                <ResultDetails.SelectorLabel>
+                  Applied selector
+                </ResultDetails.SelectorLabel>
+                <ResultDetails.SelectorValue>
+                  {selectedOption.appliedSelector}
+                </ResultDetails.SelectorValue>
+              </ResultDetails.SelectorBlock>
             </ResultDetails>
           </Stage>
         </ResolverCanvas>
 
         <ResolverNote>
-          Choose a branch to see the declared winner. This demo uses Tasty state
-          maps and Glaze-generated color tokens.
+          Try each branch. Even when conditions overlap, one generated selector
+          matches per property. The demo itself uses Tasty state maps and Glaze
+          tokens.
         </ResolverNote>
       </ResolverPanel>
     </ResolverSection>
