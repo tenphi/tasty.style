@@ -8,6 +8,20 @@ export interface SelectorSyntaxToken {
   breakBefore: boolean;
 }
 
+export interface StateMapSyntaxLine {
+  stateId: StateId | null;
+  tokens: Omit<SelectorSyntaxToken, 'breakBefore'>[];
+}
+
+export const STATE_MAP_CODE = `{
+  "fill": {
+    "": "#blue-accent-surface",
+    ":hover": "#violet-accent-surface",
+    ":active": "#coral-accent-surface",
+    "[disabled]": "#amber-accent-surface"
+  }
+}`;
+
 export const STATE_OPTIONS = [
   {
     id: 'default',

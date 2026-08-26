@@ -31,6 +31,7 @@ export default {
     '@mobile',
     '@tablet',
     '@desktop',
+    '@resolver-shrunk',
     '@dark',
     '@high-contrast',
     '@reduce-motion',

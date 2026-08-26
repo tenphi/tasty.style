@@ -8,6 +8,7 @@ import {
   STATE_IDS,
   STATE_OPTIONS,
   type SelectorSyntaxToken,
+  type StateMapSyntaxLine,
   type StateId,
 } from './state-resolver-data';
 
@@ -41,6 +42,10 @@ const STATE_VARIANTS = {
     '#state-shadow': '#amber-shadow-sm',
   },
 };
+
+const STAGE_SLOTS = ['map', 'selectors', 'switch', 'preview'] as const;
+const CONNECTOR_SLOTS = ['first', 'break', 'last'] as const;
+const SHRUNK_LAYOUT = '@resolver-shrunk';
 
 const ResolverSection = tasty({
   as: 'section',
@@ -111,30 +116,49 @@ const ResolverHeader = tasty({
 
 const ResolverCanvas = tasty({
   styles: {
+    position: 'relative',
     display: 'grid',
     gridColumns: {
-      '': '1sf 12x 1sf',
-      '@tablet': '1sf',
+      '': '1sf 1sf 1sf 1sf',
+      [SHRUNK_LAYOUT]: '1sf 6x 1sf',
+      '@mobile': '1sf',
     },
-    placeItems: {
-      '': 'center stretch',
-      '@tablet': 'stretch',
+    gridAreas: {
+      '': 'none',
+      [SHRUNK_LAYOUT]:
+        '"map first selectors" "break break break" "switch last preview"',
+      '@mobile': '"map" "first" "selectors" "break" "switch" "last" "preview"',
     },
+    placeItems: 'stretch',
     gap: {
-      '': '3x',
-      '@tablet': '2x',
+      '': '8x',
+      [SHRUNK_LAYOUT]: 0,
     },
     width: '100%',
   },
 });
 
 const Stage = tasty({
+  modProps: {
+    slot: STAGE_SLOTS,
+  },
   styles: {
+    position: 'relative',
+    zIndex: 1,
+    gridArea: {
+      '': 'auto',
+      [SHRUNK_LAYOUT]: 'map',
+      [`slot=selectors & ${SHRUNK_LAYOUT}`]: 'selectors',
+      [`slot=switch & ${SHRUNK_LAYOUT}`]: 'switch',
+      [`slot=preview & ${SHRUNK_LAYOUT}`]: 'preview',
+    },
     display: 'flex',
     flow: 'column',
-    gap: '2x',
+    gap: '1.5x',
+    width: 'min 0',
+    height: '100%',
     padding: {
-      '': '3x',
+      '': '2.5x',
       '@mobile': '2x',
     },
     radius: '1cr',
@@ -145,7 +169,7 @@ const Stage = tasty({
       flow: 'row',
       placeContent: 'space-between',
       placeItems: 'center',
-      gap: '2x',
+      gap: '1x',
     },
     Title: {
       preset: 'h5',
@@ -153,7 +177,7 @@ const Stage = tasty({
       margin: 0,
     },
     Helper: {
-      preset: 't3',
+      preset: 't4',
       color: '#text-soft-2',
       margin: 0,
     },
@@ -165,160 +189,249 @@ const Stage = tasty({
   },
 });
 
-const StateList = tasty({
+const StateMapCode = tasty({
+  as: 'pre',
   styles: {
     display: 'flex',
     flow: 'column',
-    gap: '1x',
+    height: 'min 23x',
+    margin: 0,
+    padding: '1.25x 0',
+    radius: '1r',
+    fill: '#syntax-bg',
+    color: '#syntax-text',
+    border: '1bw solid #border',
+    overflow: 'auto',
+    font: 'monospace',
+    preset: 't4',
   },
 });
 
-const StateOption = tasty({
+const StateMapLine = tasty({
+  as: 'span',
+  modProps: {
+    isActive: Boolean,
+  },
+  styles: {
+    display: 'block',
+    height: 'min 2.25x',
+    padding: '.25x 1.25x',
+    fill: {
+      '': '#clear',
+      isActive: '#state-surface',
+    },
+    border: {
+      '': '2bw solid #clear left',
+      isActive: '2bw solid #state-marker left',
+    },
+    whiteSpace: 'pre',
+    transition: 'theme',
+  },
+  variants: STATE_VARIANTS,
+});
+
+const SelectorList = tasty({
+  styles: {
+    display: 'flex',
+    flow: 'column',
+    gap: '.75x',
+    height: 'min 23x',
+  },
+});
+
+const SelectorRow = tasty({
+  modProps: {
+    isActive: Boolean,
+  },
+  styles: {
+    display: 'flex',
+    flow: 'row',
+    placeItems: 'center',
+    gap: '1x',
+    height: 'min 4.75x',
+    padding: '1x',
+    radius: '1r',
+    fill: {
+      '': '#syntax-bg',
+      isActive: '#state-surface',
+    },
+    border: {
+      '': '1bw solid #border',
+      isActive: '1bw solid #state-border',
+    },
+    shadow: {
+      '': 'none',
+      isActive: '0 .5x 2x #state-shadow',
+    },
+    translate: {
+      '': '0 0',
+      isActive: '0 -1px',
+    },
+    transition: 'theme, shadow, translate',
+    Marker: {
+      width: '1x',
+      height: '1x',
+      radius: 'round',
+      fill: '#state-marker',
+      opacity: {
+        '': 0,
+        isActive: 1,
+      },
+      flexShrink: 0,
+      transition: 'theme, opacity',
+    },
+    Value: {
+      preset: 't4 / tight',
+      font: 'monospace',
+      color: '#syntax-text',
+      width: 'min 0',
+      overflowWrap: 'anywhere',
+      whiteSpace: 'normal',
+    },
+  },
+  elements: {
+    Marker: 'span',
+    Value: 'code',
+  },
+  variants: STATE_VARIANTS,
+});
+
+const StateSwitcher = tasty({
+  styles: {
+    display: 'grid',
+    gridColumns: {
+      '': '1sf',
+      [SHRUNK_LAYOUT]: '1sf 1sf',
+    },
+    gap: '1x',
+    margin: 'auto 0',
+  },
+});
+
+const StateSwitch = tasty({
   as: 'button',
   modProps: {
     isSelected: Boolean,
   },
   styles: {
     appearance: 'none',
-    display: 'flex',
-    flow: 'row',
+    display: 'grid',
     placeItems: 'center',
-    gap: '1.5x',
-    width: '100%',
-    padding: '1.5x 2x',
+    width: 'min 0',
+    height: 'min 5x',
+    padding: '1x',
     radius: '1r',
     fill: {
       '': '#surface',
+      ':hover': '#surface-3',
       isSelected: '#state-surface',
     },
     color: {
       '': '#text-soft-2',
+      ':hover': '#text-2',
       isSelected: '#state-accent',
     },
     border: {
       '': '1bw solid #border',
       isSelected: '1bw solid #state-border',
     },
-    opacity: {
-      '': 0.7,
-      isSelected: 1,
-    },
-    translate: {
-      '': '0 0',
-      isSelected: '0 -1px',
+    outline: {
+      '': 'none',
+      ':focus-visible': '2bw solid #state-accent',
     },
     shadow: {
       '': 'none',
       isSelected: '0 .5x 2x #state-shadow',
     },
-    outline: {
-      '': 'none',
-      ':focus-visible': '2bw solid #state-accent',
-    },
+    preset: 't4m',
     cursor: 'pointer',
-    textAlign: 'left',
-    transition: 'theme, opacity, translate, shadow',
-    Marker: {
-      width: '1.25x',
-      height: '1.25x',
-      radius: 'round',
-      fill: {
-        '': '#disabled',
-        isSelected: '#state-marker',
-      },
-      flexShrink: 0,
-    },
-    Label: {
-      preset: 't2m',
-      color: 'inherit',
-    },
-    Selector: {
-      preset: 'code',
-      color: 'inherit',
-      margin: 'auto left',
-      opacity: 0.72,
-    },
-  },
-  elements: {
-    Marker: 'span',
-    Label: 'span',
-    Selector: 'code',
+    transition: 'theme, shadow',
   },
   variants: STATE_VARIANTS,
 });
 
-const ResolverFlow = tasty({
+const ResolverConnector = tasty({
+  modProps: {
+    slot: CONNECTOR_SLOTS,
+  },
   styles: {
-    display: 'flex',
-    flow: {
-      '': 'row',
-      '@tablet': 'column',
+    gridArea: {
+      '': 'auto',
+      [SHRUNK_LAYOUT]: 'first',
+      [`slot=break & ${SHRUNK_LAYOUT}`]: 'break',
+      [`slot=last & ${SHRUNK_LAYOUT}`]: 'last',
     },
+    position: {
+      '': 'absolute',
+      [SHRUNK_LAYOUT]: 'relative',
+    },
+    inset: {
+      '': '50% top, (25% - 2x) left',
+      'slot=break': '50% top, 50% left',
+      'slot=last': '50% top, (75% + 2x) left',
+      [SHRUNK_LAYOUT]: 'auto',
+    },
+    translate: {
+      '': '-50% -50%',
+      [SHRUNK_LAYOUT]: '0 0',
+    },
+    display: 'grid',
     placeItems: 'center',
-    placeContent: 'center',
-    gap: '1x',
-    color: '#text-soft-2',
-    padding: {
-      '': 0,
-      '@tablet': '1x 0',
+    width: {
+      '': '8x',
+      [SHRUNK_LAYOUT]: 'auto',
     },
-    Arrow: {
-      display: 'flex',
+    height: {
+      '': 'min 0',
+      [`slot=break & ${SHRUNK_LAYOUT}`]: 'min 6x',
+      '@mobile': 'min 6x',
+    },
+    color: '#text-soft-2',
+    Wire: {
+      position: 'absolute',
+      width: {
+        '': '100%',
+        [`slot=break & ${SHRUNK_LAYOUT}`]: '10.5x',
+        '@mobile': '1bw',
+      },
+      height: {
+        '': '1bw',
+        [`slot=break & ${SHRUNK_LAYOUT}`]: '1bw',
+        '@mobile': '100%',
+      },
+      fill: '#border',
       transform: {
         '': 'rotate(0deg)',
-        '@tablet': 'rotate(90deg)',
+        [`slot=break & ${SHRUNK_LAYOUT}`]: 'rotate(-45deg)',
+        '@mobile': 'rotate(0deg)',
+      },
+    },
+    Arrow: {
+      zIndex: 1,
+      display: 'flex',
+      padding: '.5x',
+      radius: 'round',
+      fill: '#surface',
+      border: '1bw solid #border',
+      transform: {
+        '': 'rotate(0deg)',
+        [`slot=break & ${SHRUNK_LAYOUT}`]: 'rotate(135deg)',
+        '@mobile': 'rotate(90deg)',
       },
     },
   },
   elements: {
+    Wire: 'span',
     Arrow: 'span',
   },
 });
 
-const ResolverMark = tasty({
+const PreviewSurface = tasty({
   styles: {
     display: 'grid',
     placeItems: 'center',
-    width: '7x',
-    height: '7x',
-    radius: 'round',
-    fill: '#violet-surface-3',
-    color: '#violet-accent-text-3',
-    border: '1bw solid #violet-border',
-    shadow: '0 1x 3x #violet-shadow-md',
-    Glyph: {
-      preset: 'h4',
-      color: 'inherit',
-    },
-  },
-  elements: {
-    Glyph: 'span',
-  },
-});
-
-const ResolverCore = tasty({
-  styles: {
-    display: 'flex',
-    flow: 'column',
-    placeItems: 'center',
-    gap: '1x',
-    Caption: {
-      preset: 'tag',
-      color: '#text-soft-2',
-      textAlign: 'center',
-      whiteSpace: 'nowrap',
-    },
-  },
-  elements: {
-    Caption: 'span',
-  },
-});
-
-const ResultPreview = tasty({
-  styles: {
-    display: 'grid',
-    placeItems: 'center',
-    height: 'min 12x',
+    height: 'min 16x',
+    margin: 'auto 0',
     padding: '2x',
     radius: '1r',
     fill: '#surface-3',
@@ -327,10 +440,12 @@ const ResultPreview = tasty({
 });
 
 const ResolvedButton = tasty({
+  as: 'button',
   modProps: {
     phase: STATE_IDS,
   },
   styles: {
+    appearance: 'none',
     display: 'inline-flex',
     placeItems: 'center',
     placeContent: 'center',
@@ -338,6 +453,11 @@ const ResolvedButton = tasty({
     padding: '1.5x 3x',
     preset: 't2m',
     radius: 'round',
+    border: 0,
+    outline: {
+      '': 'none',
+      ':focus-visible': '2ow #accent-text / 2px',
+    },
     fill: {
       '': '#blue-accent-surface',
       'phase=hover': '#violet-accent-surface',
@@ -364,65 +484,11 @@ const ResolvedButton = tasty({
       'phase=active': 'inset 0 1x 2x #coral-shadow-lg',
       'phase=disabled': 'none',
     },
+    cursor: {
+      '': 'pointer',
+      'phase=disabled': 'not-allowed',
+    },
     transition: 'theme, opacity, translate, shadow',
-  },
-});
-
-const ResultDetails = tasty({
-  styles: {
-    display: 'flex',
-    flow: 'column',
-    padding: '1x 2x',
-    radius: '1r',
-    fill: '#surface',
-    border: '1bw solid #border',
-    Row: {
-      display: 'flex',
-      flow: 'row',
-      placeContent: 'space-between',
-      placeItems: 'center',
-      gap: '2x',
-      padding: '.75x 0',
-    },
-    Label: {
-      preset: 't3',
-      color: '#text-soft-2',
-    },
-    Value: {
-      preset: 'code',
-      color: '#text-2',
-      textAlign: 'right',
-    },
-    SelectorBlock: {
-      display: 'flex',
-      flow: 'column',
-      placeContent: 'center',
-      placeItems: 'stretch',
-      height: {
-        '': '9x',
-        '@mobile': 'auto',
-      },
-      margin: '1x 0',
-      padding: '1.5x',
-      radius: '1r',
-      fill: '#syntax-bg',
-      border: '1bw solid #border',
-    },
-    SelectorValue: {
-      preset: 'code',
-      color: '#syntax-text',
-      width: 'min 0',
-      overflowWrap: 'anywhere',
-      whiteSpace: 'normal',
-      textAlign: 'left',
-    },
-  },
-  elements: {
-    Row: 'div',
-    Label: 'span',
-    Value: 'code',
-    SelectorBlock: 'div',
-    SelectorValue: 'code',
   },
 });
 
@@ -436,10 +502,23 @@ const ResolverNote = tasty({
   },
 });
 
+function Connector({ slot }: { slot: (typeof CONNECTOR_SLOTS)[number] }) {
+  return (
+    <ResolverConnector slot={slot} aria-hidden="true">
+      <ResolverConnector.Wire />
+      <ResolverConnector.Arrow>
+        <IconArrowRight size={16} />
+      </ResolverConnector.Arrow>
+    </ResolverConnector>
+  );
+}
+
 export default function StateResolver({
   selectorTokens,
+  stateMapLines,
 }: {
   selectorTokens: Record<StateId, SelectorSyntaxToken[]>;
+  stateMapLines: StateMapSyntaxLine[];
 }) {
   const [selected, setSelected] = useState<StateId>('disabled');
   const selectedOption =
@@ -454,21 +533,85 @@ export default function StateResolver({
             When states overlap, only one should win.
           </ResolverHeader.Title>
           <ResolverHeader.Subtitle>
-            Declare the priority in a state map. Tasty turns that decision into
-            selectors that cannot compete.
+            Declare the priority in a state map.
+            <br />
+            Tasty&nbsp;turns&nbsp;that decision into selectors that cannot
+            compete.
           </ResolverHeader.Subtitle>
         </ResolverHeader>
 
         <ResolverCanvas>
-          <Stage>
+          <Stage slot="map">
             <Stage.Header>
-              <Stage.Title>State map priority</Stage.Title>
-              <Badge>Input</Badge>
+              <Stage.Title>1. State map</Stage.Title>
+              <Badge>JSON</Badge>
             </Stage.Header>
-            <Stage.Helper>Priority increases from top to bottom.</Stage.Helper>
-            <StateList>
+            <Stage.Helper>The fill style, exactly as declared.</Stage.Helper>
+            <StateMapCode>
+              <code>
+                {stateMapLines.map((line, lineIndex) => (
+                  <StateMapLine
+                    key={lineIndex}
+                    variant={selectedOption.variant}
+                    isActive={line.stateId === selected}
+                  >
+                    {line.tokens.map((token, tokenIndex) => (
+                      <span
+                        key={tokenIndex}
+                        className={token.className ?? undefined}
+                      >
+                        {token.content}
+                      </span>
+                    ))}
+                  </StateMapLine>
+                ))}
+              </code>
+            </StateMapCode>
+          </Stage>
+
+          <Connector slot="first" />
+
+          <Stage slot="selectors" aria-live="polite">
+            <Stage.Header>
+              <Stage.Title>2. Generated</Stage.Title>
+              <Badge>CSS</Badge>
+            </Stage.Header>
+            <Stage.Helper>Mutually exclusive selectors.</Stage.Helper>
+            <SelectorList>
               {STATE_OPTIONS.map((option) => (
-                <StateOption
+                <SelectorRow
+                  key={option.id}
+                  variant={option.variant}
+                  isActive={selected === option.id}
+                  aria-current={selected === option.id ? 'true' : undefined}
+                >
+                  <SelectorRow.Marker />
+                  <SelectorRow.Value>
+                    {selectorTokens[option.id].map((token, tokenIndex) => (
+                      <Fragment key={tokenIndex}>
+                        {token.breakBefore ? <wbr /> : null}
+                        <span className={token.className ?? undefined}>
+                          {token.content}
+                        </span>
+                      </Fragment>
+                    ))}
+                  </SelectorRow.Value>
+                </SelectorRow>
+              ))}
+            </SelectorList>
+          </Stage>
+
+          <Connector slot="break" />
+
+          <Stage slot="switch">
+            <Stage.Header>
+              <Stage.Title>3. Switch state</Stage.Title>
+              <Badge>Test</Badge>
+            </Stage.Header>
+            <Stage.Helper>Choose the state to simulate.</Stage.Helper>
+            <StateSwitcher role="group" aria-label="Preview state">
+              {STATE_OPTIONS.map((option) => (
+                <StateSwitch
                   key={option.id}
                   type="button"
                   variant={option.variant}
@@ -476,70 +619,36 @@ export default function StateResolver({
                   aria-pressed={selected === option.id}
                   onClick={() => setSelected(option.id)}
                 >
-                  <StateOption.Marker />
-                  <StateOption.Label>{option.label}</StateOption.Label>
-                  <StateOption.Selector>{option.selector}</StateOption.Selector>
-                </StateOption>
+                  {option.label}
+                </StateSwitch>
               ))}
-            </StateList>
+            </StateSwitcher>
           </Stage>
 
-          <ResolverFlow>
-            <ResolverCore>
-              <ResolverMark>
-                <ResolverMark.Glyph>{'{t}'}</ResolverMark.Glyph>
-              </ResolverMark>
-              <ResolverCore.Caption>Compiles priority</ResolverCore.Caption>
-            </ResolverCore>
-            <ResolverFlow.Arrow>
-              <IconArrowRight size={24} aria-hidden="true" />
-            </ResolverFlow.Arrow>
-          </ResolverFlow>
+          <Connector slot="last" />
 
-          <Stage aria-live="polite">
+          <Stage slot="preview" aria-live="polite">
             <Stage.Header>
-              <Stage.Title>Resolved output</Stage.Title>
-              <Badge>One winner</Badge>
+              <Stage.Title>4. Preview</Stage.Title>
+              <Badge>Live</Badge>
             </Stage.Header>
-            <ResultPreview>
-              <ResolvedButton phase={selected}>Button</ResolvedButton>
-            </ResultPreview>
-            <ResultDetails>
-              <ResultDetails.Row>
-                <ResultDetails.Label>Winning state</ResultDetails.Label>
-                <ResultDetails.Value>
-                  {selectedOption.selector}
-                </ResultDetails.Value>
-              </ResultDetails.Row>
-              <ResultDetails.Row>
-                <ResultDetails.Label>Resolved value</ResultDetails.Label>
-                <ResultDetails.Value>
-                  {selectedOption.value}
-                </ResultDetails.Value>
-              </ResultDetails.Row>
-              <ResultDetails.Row>
-                <ResultDetails.Label>Applied rules</ResultDetails.Label>
-                <ResultDetails.Value>1 of 4</ResultDetails.Value>
-              </ResultDetails.Row>
-              <ResultDetails.SelectorBlock>
-                <ResultDetails.SelectorValue>
-                  {selectorTokens[selected].map((token, index) => (
-                    <Fragment key={index}>
-                      {token.breakBefore ? <wbr /> : null}
-                      <span className={token.className ?? undefined}>
-                        {token.content}
-                      </span>
-                    </Fragment>
-                  ))}
-                </ResultDetails.SelectorValue>
-              </ResultDetails.SelectorBlock>
-            </ResultDetails>
+            <Stage.Helper>The winning branch, applied.</Stage.Helper>
+            <PreviewSurface>
+              <ResolvedButton
+                type="button"
+                phase={selected}
+                disabled={selected === 'disabled'}
+                aria-label={`Button preview in ${selectedOption.label.toLowerCase()} state`}
+              >
+                Button
+              </ResolvedButton>
+            </PreviewSurface>
           </Stage>
         </ResolverCanvas>
 
         <ResolverNote>
-          Choose a branch. Tasty compiles each property so exactly one selector
-          can match.
+          Pick a state. Its source line, generated selector, and preview stay in
+          sync.
         </ResolverNote>
       </ResolverPanel>
     </ResolverSection>
