@@ -169,7 +169,7 @@ const Stage = tasty({
       '': '3x',
       '@mobile': '2x',
     },
-    radius: '1.5r',
+    radius: '1cr',
     fill: '#surface-2',
     border: '1bw solid #border',
     Header: {
