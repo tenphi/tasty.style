@@ -186,11 +186,10 @@ export default function HowItWorks() {
 
   return (
     <SectionWrap fill="#surface-2">
-      <Section id="how-it-works">
-        <Section.Title>How It Actually Works</Section.Title>
+      <Section id="under-the-hood">
+        <Section.Title>Under the Hood</Section.Title>
         <Section.Subtitle>
-          Every state map compiles into mutually exclusive selectors per
-          property
+          See how a declared priority becomes CSS selectors that cannot overlap.
         </Section.Subtitle>
         <Section.Content>
           <Tabs tabs={tabs} defaultTab="interactive-states" />

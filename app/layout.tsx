@@ -7,10 +7,9 @@ import { onest, jetbrainsMono } from './fonts';
 
 const SITE_URL = 'https://tasty.style';
 const SITE_NAME = 'Tasty';
-const SITE_TITLE =
-  'Tasty — Deterministic styling for stateful component systems';
+const SITE_TITLE = 'Tasty — Predictable CSS-in-JS for React design systems';
 const SITE_DESCRIPTION =
-  'Tasty compiles declarative state maps into mutually exclusive selectors, so styles resolve deterministically instead of depending on source order or specificity. That makes complex styles easier to define, extend, and maintain.';
+  'Build React components whose styles don’t fight. Tasty turns declarative state maps into predictable CSS—without specificity fights or source-order surprises.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

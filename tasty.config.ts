@@ -9,6 +9,11 @@ export default {
     '#tint-fill',
     '#tint-accent',
     '#tint-accent-3',
+    '#state-surface',
+    '#state-border',
+    '#state-accent',
+    '#state-marker',
+    '#state-shadow',
 
     // -- Project custom properties --
     '$card-radius',

@@ -22,44 +22,44 @@ interface FeatureItem {
 const FEATURES: FeatureItem[] = [
   {
     icon: <IconTargetArrow size={24} stroke={1.5} />,
-    title: 'Deterministic State Resolution',
+    title: 'States that don’t fight',
     description:
-      'State maps compile into mutually exclusive selectors, so one branch wins by construction instead of through source order or specificity.',
+      'Each property’s state map compiles into mutually exclusive selectors, so one branch wins by construction—not by source order or specificity.',
     tint: 'lime',
   },
   {
     icon: <IconSparkles size={24} stroke={1.5} />,
-    title: 'Predictable to Extend',
+    title: 'Safe to extend',
     description:
-      'Add variants, overrides, and new states without reopening selector logic by hand. The component model stays maintainable as systems grow.',
+      'Add variants, overrides, and new states without re-deriving selector logic. Components stay predictable as requirements grow.',
     tint: 'coral',
   },
   {
     icon: <IconDevices size={24} stroke={1.5} />,
-    title: 'Extensible Style Semantics',
+    title: 'Your design system’s language',
     description:
-      'Define custom props, tokens, units, aliases, and parser rules for your design system, then compile them down to standard CSS output.',
+      'Define typed style props, tokens, units, aliases, and parser rules for your system, then compile them to standard CSS.',
     tint: 'amber',
   },
   {
     icon: <IconPalette size={24} stroke={1.5} />,
-    title: 'Recommended Methodology',
+    title: 'Built for component systems',
     description:
-      'The docs define a clear component model for design systems: root + sub-elements, governed public APIs, typed style props where they help, and wrapper-based extension.',
+      'Model roots and sub-elements together, expose governed public APIs, and compose styles as data instead of scattered overrides.',
     tint: 'teal',
   },
   {
     icon: <IconComponents size={24} stroke={1.5} />,
-    title: 'Broad State Coverage',
+    title: 'One model for every state',
     description:
-      'Pseudo-classes, attributes, media queries, container queries, root states, parent states, `:has()`, and `@supports` all fit into the same state-map model.',
+      'Pseudo-classes, variants, root and parent states, media and container queries, `:has()`, and `@supports` all use state maps.',
     tint: 'violet',
   },
   {
     icon: <IconBolt size={24} stroke={1.5} />,
-    title: 'Flexible Rendering Paths',
+    title: 'Runtime, server, or build time',
     description:
-      'Use the same styling model in runtime React, add SSR when the app renders on the server, or choose build-time extraction when zero-runtime delivery is the goal.',
+      'Keep the same styling model in runtime React, React Server Components and SSR, or zero-runtime build-time extraction.',
     tint: 'rose',
   },
 ];
@@ -69,8 +69,8 @@ export default function Features() {
     <Section id="features">
       <Section.Title>Why Tasty</Section.Title>
       <Section.Subtitle>
-        Built for reusable, stateful components that need predictable styling as
-        they evolve
+        Built for long-lived component libraries where states, variants, themes,
+        and overrides keep growing
       </Section.Subtitle>
       <Section.Content>
         <Grid
