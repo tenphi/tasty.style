@@ -117,7 +117,7 @@ const ResolverCanvas = tasty({
       '@tablet': '1sf',
     },
     placeItems: {
-      '': 'start stretch',
+      '': 'center stretch',
       '@tablet': 'stretch',
     },
     gap: {
@@ -396,7 +396,12 @@ const ResultDetails = tasty({
     SelectorBlock: {
       display: 'flex',
       flow: 'column',
+      placeContent: 'center',
       placeItems: 'stretch',
+      height: {
+        '': '9x',
+        '@mobile': 'auto',
+      },
       margin: '1x 0',
       padding: '1.5x',
       radius: '1r',
