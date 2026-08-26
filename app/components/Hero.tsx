@@ -125,8 +125,8 @@ export default function Hero() {
         </HeroTitle>
         <HeroSubtitle>
           Describe hover, disabled, variants, themes, and responsive behavior as
-          state maps. Tasty makes one branch win by design—without specificity
-          fights or source-order surprises.
+          state maps. Tasty&nbsp;makes one branch win by design—without
+          specificity fights or source-order surprises.
         </HeroSubtitle>
         <Space flow="row wrap" gap="1x" align="center" justify="center">
           {HERO_TAGS.map((tag) => (
