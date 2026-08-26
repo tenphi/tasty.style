@@ -69,11 +69,10 @@ export default function CallToAction() {
         inset="auto auto -200px 50%"
         translate="-50% 0"
       />
-      <CTATitle>Start with runtime, add structure as needed</CTATitle>
+      <CTATitle>Make your next component predictable</CTATitle>
       <CTASubtitle>
-        Install the runtime, build a first component, then layer in shared
-        configuration, methodology, SSR, or zero-runtime only where your system
-        needs them.
+        Start with one component. Add states, variants, tokens, and shared
+        conventions as your design system grows.
       </CTASubtitle>
       <ServerCodeBlock
         width="max-content"

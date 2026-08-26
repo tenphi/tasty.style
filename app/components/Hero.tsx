@@ -1,5 +1,5 @@
 import { tasty, OUTER_STYLES } from '@tenphi/tasty';
-import { IconArrowRight, IconBrandTelegram } from '@tabler/icons-react';
+import { IconArrowRight } from '@tabler/icons-react';
 import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
@@ -97,7 +97,12 @@ const GlowOrb = tasty({
   styleProps: ['fill', ...OUTER_STYLES],
 });
 
-const HERO_TAGS = ['CSS-in-JS', 'Runtime', 'SSR', 'React', 'Design Systems'];
+const HERO_TAGS = [
+  'Type-safe',
+  'React Server Components',
+  'Runtime or build time',
+  'Production proven',
+];
 
 export default function Hero() {
   return (
@@ -111,16 +116,17 @@ export default function Hero() {
       />
       <HeroInner>
         <HeroLogo src="/tasty.svg" alt="Tasty logo" />
-        <Badge>tasty v{pkg.dependencies['@tenphi/tasty']}</Badge>
+        <Badge>
+          CSS-in-JS for React design systems · v
+          {pkg.dependencies['@tenphi/tasty']}
+        </Badge>
         <HeroTitle>
-          Deterministic styling for{' '}
-          <HeroAccent>stateful component systems</HeroAccent>
+          Build components whose <HeroAccent>styles don’t fight.</HeroAccent>
         </HeroTitle>
         <HeroSubtitle>
-          Tasty compiles declarative state maps into mutually exclusive
-          selectors, so styles resolve deterministically instead of depending on
-          source order or specificity. That makes complex styles easier to
-          define, extend, and maintain.
+          Describe hover, disabled, variants, themes, and responsive behavior as
+          state maps. Tasty makes one branch win by design—without specificity
+          fights or source-order surprises.
         </HeroSubtitle>
         <Space flow="row wrap" gap="1x" align="center" justify="center">
           {HERO_TAGS.map((tag) => (
@@ -134,20 +140,11 @@ export default function Hero() {
           width={{ '': 'auto', '@mobile': '100%' }}
           align={{ '@mobile': 'center' }}
         >
-          <SpecialButton as="a" href="/docs/getting-started">
-            Get Started <IconArrowRight size={20} />
+          <SpecialButton as="a" href="/playground">
+            Try State Maps <IconArrowRight size={20} />
           </SpecialButton>
           <Button as="a" variant="secondary" href="#how-it-works">
             See How It Works
-          </Button>
-          <Button
-            as="a"
-            variant="secondary"
-            href="https://t.me/tasty_css"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Join Telegram <IconBrandTelegram size={20} />
           </Button>
         </Space>
       </HeroInner>
