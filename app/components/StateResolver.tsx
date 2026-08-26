@@ -1,48 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { IconArrowRight } from '@tabler/icons-react';
 import { tasty } from '@tenphi/tasty';
 import Badge from '@/app/ui/Badge';
-
-const STATE_IDS = ['default', 'hover', 'active', 'disabled'] as const;
-
-type StateId = (typeof STATE_IDS)[number];
-
-const STATE_OPTIONS = [
-  {
-    id: 'default',
-    label: 'Default',
-    selector: "''",
-    appliedSelector: '.t0.t0:not(:hover):not(:active):not([disabled])',
-    value: '#blue-accent-surface',
-    variant: 'blue',
-  },
-  {
-    id: 'hover',
-    label: 'Hover',
-    selector: ':hover',
-    appliedSelector: '.t0.t0:hover:not(:active):not([disabled])',
-    value: '#violet-accent-surface',
-    variant: 'violet',
-  },
-  {
-    id: 'active',
-    label: 'Active',
-    selector: ':active',
-    appliedSelector: '.t0.t0:active:not([disabled])',
-    value: '#coral-accent-surface',
-    variant: 'coral',
-  },
-  {
-    id: 'disabled',
-    label: 'Disabled',
-    selector: '[disabled]',
-    appliedSelector: '.t0.t0[disabled]',
-    value: '#amber-accent-surface',
-    variant: 'amber',
-  },
-] as const;
+import {
+  STATE_IDS,
+  STATE_OPTIONS,
+  type SelectorSyntaxToken,
+  type StateId,
+} from './state-resolver-data';
 
 const STATE_VARIANTS = {
   blue: {
@@ -146,14 +113,16 @@ const ResolverCanvas = tasty({
   styles: {
     display: 'grid',
     gridColumns: {
-      '': '1sf 18x 1sf',
-      '@tablet': '1sf 14x 1sf',
-      '@mobile': '1sf',
+      '': '1sf 12x 1sf',
+      '@tablet': '1sf',
     },
-    placeItems: 'stretch',
+    placeItems: {
+      '': 'start stretch',
+      '@tablet': 'stretch',
+    },
     gap: {
       '': '3x',
-      '@mobile': '2x',
+      '@tablet': '2x',
     },
     width: '100%',
   },
@@ -164,7 +133,6 @@ const Stage = tasty({
     display: 'flex',
     flow: 'column',
     gap: '2x',
-    height: 'min 100%',
     padding: {
       '': '3x',
       '@mobile': '2x',
@@ -284,7 +252,7 @@ const ResolverFlow = tasty({
     display: 'flex',
     flow: {
       '': 'row',
-      '@mobile': 'column',
+      '@tablet': 'column',
     },
     placeItems: 'center',
     placeContent: 'center',
@@ -292,13 +260,13 @@ const ResolverFlow = tasty({
     color: '#text-soft-2',
     padding: {
       '': 0,
-      '@mobile': '1x 0',
+      '@tablet': '1x 0',
     },
     Arrow: {
       display: 'flex',
       transform: {
         '': 'rotate(0deg)',
-        '@mobile': 'rotate(90deg)',
+        '@tablet': 'rotate(90deg)',
       },
     },
   },
@@ -311,8 +279,8 @@ const ResolverMark = tasty({
   styles: {
     display: 'grid',
     placeItems: 'center',
-    width: '9x',
-    height: '9x',
+    width: '7x',
+    height: '7x',
     radius: 'round',
     fill: '#violet-surface-3',
     color: '#violet-accent-text-3',
@@ -350,8 +318,8 @@ const ResultPreview = tasty({
   styles: {
     display: 'grid',
     placeItems: 'center',
-    height: 'min 16x',
-    padding: '3x',
+    height: 'min 12x',
+    padding: '2x',
     radius: '1r',
     fill: '#surface-3',
     border: '1bw solid #border',
@@ -404,8 +372,7 @@ const ResultDetails = tasty({
   styles: {
     display: 'flex',
     flow: 'column',
-    gap: '1x',
-    padding: '2x',
+    padding: '1x 2x',
     radius: '1r',
     fill: '#surface',
     border: '1bw solid #border',
@@ -415,6 +382,7 @@ const ResultDetails = tasty({
       placeContent: 'space-between',
       placeItems: 'center',
       gap: '2x',
+      padding: '.75x 0',
     },
     Label: {
       preset: 't3',
@@ -428,20 +396,20 @@ const ResultDetails = tasty({
     SelectorBlock: {
       display: 'flex',
       flow: 'column',
-      gap: '.5x',
-      margin: '1x 0 0',
+      placeItems: 'stretch',
+      margin: '1x 0',
       padding: '1.5x',
       radius: '1r',
-      fill: '#surface-3',
-    },
-    SelectorLabel: {
-      preset: 't3',
-      color: '#text-soft-3',
+      fill: '#syntax-bg',
+      border: '1bw solid #border',
     },
     SelectorValue: {
       preset: 'code',
-      color: '#text-3',
+      color: '#syntax-text',
+      width: 'min 0',
       overflowWrap: 'anywhere',
+      whiteSpace: 'normal',
+      textAlign: 'left',
     },
   },
   elements: {
@@ -449,7 +417,6 @@ const ResultDetails = tasty({
     Label: 'span',
     Value: 'code',
     SelectorBlock: 'div',
-    SelectorLabel: 'span',
     SelectorValue: 'code',
   },
 });
@@ -464,7 +431,11 @@ const ResolverNote = tasty({
   },
 });
 
-export default function StateResolver() {
+export default function StateResolver({
+  selectorTokens,
+}: {
+  selectorTokens: Record<StateId, SelectorSyntaxToken[]>;
+}) {
   const [selected, setSelected] = useState<StateId>('disabled');
   const selectedOption =
     STATE_OPTIONS.find((option) => option.id === selected) ?? STATE_OPTIONS[0];
@@ -516,7 +487,7 @@ export default function StateResolver() {
               <ResolverCore.Caption>Compiles priority</ResolverCore.Caption>
             </ResolverCore>
             <ResolverFlow.Arrow>
-              <IconArrowRight size={32} aria-hidden="true" />
+              <IconArrowRight size={24} aria-hidden="true" />
             </ResolverFlow.Arrow>
           </ResolverFlow>
 
@@ -542,15 +513,19 @@ export default function StateResolver() {
                 </ResultDetails.Value>
               </ResultDetails.Row>
               <ResultDetails.Row>
-                <ResultDetails.Label>Matching rules</ResultDetails.Label>
+                <ResultDetails.Label>Applied rules</ResultDetails.Label>
                 <ResultDetails.Value>1 of 4</ResultDetails.Value>
               </ResultDetails.Row>
               <ResultDetails.SelectorBlock>
-                <ResultDetails.SelectorLabel>
-                  Applied selector
-                </ResultDetails.SelectorLabel>
                 <ResultDetails.SelectorValue>
-                  {selectedOption.appliedSelector}
+                  {selectorTokens[selected].map((token, index) => (
+                    <Fragment key={index}>
+                      {token.breakBefore ? <wbr /> : null}
+                      <span className={token.className ?? undefined}>
+                        {token.content}
+                      </span>
+                    </Fragment>
+                  ))}
                 </ResultDetails.SelectorValue>
               </ResultDetails.SelectorBlock>
             </ResultDetails>
@@ -558,9 +533,8 @@ export default function StateResolver() {
         </ResolverCanvas>
 
         <ResolverNote>
-          Try each branch. Even when conditions overlap, one generated selector
-          matches per property. The demo itself uses Tasty state maps and Glaze
-          tokens.
+          Choose a branch. Tasty compiles each property so exactly one selector
+          can match.
         </ResolverNote>
       </ResolverPanel>
     </ResolverSection>

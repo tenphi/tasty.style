@@ -1,6 +1,6 @@
 import Header from './components/Header';
 import Hero from './components/Hero';
-import StateResolver from './components/StateResolver';
+import StateResolverSection from './components/StateResolverSection';
 import Features from './components/Features';
 import HowItWorks from './components/HowItWorks';
 import TokenShowcase from './components/TokenShowcase';
@@ -16,7 +16,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <StateResolver />
+        <StateResolverSection />
         <Features />
         <HowItWorks />
         <TokenShowcase />
