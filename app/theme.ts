@@ -137,6 +137,18 @@ blue.colors({
     fg: 'text',
     intensity: 22,
   },
+  'shadow-accent-sm': {
+    type: 'shadow',
+    bg: 'surface-3',
+    fg: 'accent-surface',
+    intensity: 5,
+  },
+  'shadow-accent-md': {
+    type: 'shadow',
+    bg: 'surface-3',
+    fg: 'accent-surface',
+    intensity: 8,
+  },
   'shadow-accent-inset-2': {
     type: 'shadow',
     bg: 'accent-surface',

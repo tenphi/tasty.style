@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { IconArrowRight } from '@tabler/icons-react';
 import { tasty } from '@tenphi/tasty';
 import Badge from '@/app/ui/Badge';
@@ -14,29 +14,21 @@ import {
 
 const STATE_VARIANTS = {
   blue: {
-    '#state-surface': '#blue-surface-3',
-    '#state-border': '#blue-border',
     '#state-accent': '#blue-accent-text-3',
     '#state-marker': '#blue-accent-surface',
     '#state-shadow': '#blue-shadow-sm',
   },
   violet: {
-    '#state-surface': '#violet-surface-3',
-    '#state-border': '#violet-border',
     '#state-accent': '#violet-accent-text-3',
     '#state-marker': '#violet-accent-surface',
     '#state-shadow': '#violet-shadow-sm',
   },
   coral: {
-    '#state-surface': '#coral-surface-3',
-    '#state-border': '#coral-border',
     '#state-accent': '#coral-accent-text-3',
     '#state-marker': '#coral-accent-surface',
     '#state-shadow': '#coral-shadow-sm',
   },
   amber: {
-    '#state-surface': '#amber-surface-3',
-    '#state-border': '#amber-border',
     '#state-accent': '#amber-accent-text-3',
     '#state-marker': '#amber-accent-surface',
     '#state-shadow': '#amber-shadow-sm',
@@ -190,44 +182,63 @@ const Stage = tasty({
 });
 
 const StateMapCode = tasty({
-  as: 'pre',
   styles: {
-    display: 'flex',
-    flow: 'column',
+    position: 'relative',
     height: 'min 23x',
-    margin: 0,
-    padding: '1.25x 0',
     radius: '1r',
     fill: '#syntax-bg',
     color: '#syntax-text',
     border: '1bw solid #border',
-    overflow: 'auto',
+    overflow: 'hidden',
     font: 'monospace',
     preset: 't4',
+    Scroller: {
+      position: 'absolute',
+      inset: 0,
+      margin: 0,
+      padding: '1.25x 0',
+      overflow: 'auto',
+      font: 'inherit',
+      color: 'inherit',
+    },
   },
+  elements: {
+    Scroller: 'pre',
+  },
+});
+
+const StateMapContent = tasty({
+  as: 'code',
+  styles: {
+    position: 'relative',
+    display: 'flex',
+    flow: 'column',
+    width: '100% max-content initial',
+  },
+});
+
+const StateMapFocus = tasty({
+  as: 'span',
+  styles: {
+    position: 'absolute',
+    zIndex: 0,
+    inset: '.5x left right',
+    radius: '.75r',
+    border: '2bw solid #state-accent',
+    pointerEvents: 'none',
+    transition: 'top, height, theme',
+  },
+  variants: STATE_VARIANTS,
 });
 
 const StateMapLine = tasty({
   as: 'span',
-  modProps: {
-    isActive: Boolean,
-  },
   styles: {
     display: 'block',
     height: 'min 2.25x',
     padding: '.25x 1.25x',
-    fill: {
-      '': '#clear',
-      isActive: '#state-surface',
-    },
-    border: {
-      '': '2bw solid #clear left',
-      isActive: '2bw solid #state-marker left',
-    },
     whiteSpace: 'pre',
-    transition: 'theme',
   },
-  variants: STATE_VARIANTS,
 });
 
 const SelectorList = tasty({
@@ -251,13 +262,10 @@ const SelectorRow = tasty({
     height: 'min 4.75x',
     padding: '1x',
     radius: '1r',
-    fill: {
-      '': '#syntax-bg',
-      isActive: '#state-surface',
-    },
+    fill: '#syntax-bg',
     border: {
       '': '1bw solid #border',
-      isActive: '1bw solid #state-border',
+      isActive: '1bw solid #state-accent',
     },
     shadow: {
       '': 'none',
@@ -324,7 +332,6 @@ const StateSwitch = tasty({
     fill: {
       '': '#surface',
       ':hover': '#surface-3',
-      isSelected: '#state-surface',
     },
     color: {
       '': '#text-soft-2',
@@ -333,7 +340,7 @@ const StateSwitch = tasty({
     },
     border: {
       '': '1bw solid #border',
-      isSelected: '1bw solid #state-border',
+      isSelected: '1bw solid #state-accent',
     },
     outline: {
       '': 'none',
@@ -479,9 +486,9 @@ const ResolvedButton = tasty({
       'phase=active': '0 1px',
     },
     shadow: {
-      '': '0 1x 3x #blue-shadow-md',
-      'phase=hover': '0 1x 3x #violet-shadow-md',
-      'phase=active': 'inset 0 1x 2x #coral-shadow-lg',
+      '': '0 1x 3x #blue-shadow-accent-sm',
+      'phase=hover': '0 1x 3x #violet-shadow-accent-sm',
+      'phase=active': 'inset 0 1x 2x #coral-shadow-accent-md',
       'phase=disabled': 'none',
     },
     cursor: {
@@ -521,8 +528,31 @@ export default function StateResolver({
   stateMapLines: StateMapSyntaxLine[];
 }) {
   const [selected, setSelected] = useState<StateId>('disabled');
+  const stateMapFocusRef = useRef<HTMLSpanElement>(null);
+  const stateMapLineRefs = useRef<Partial<Record<StateId, HTMLSpanElement>>>(
+    {},
+  );
   const selectedOption =
     STATE_OPTIONS.find((option) => option.id === selected) ?? STATE_OPTIONS[0];
+
+  useLayoutEffect(() => {
+    const focus = stateMapFocusRef.current;
+    const line = stateMapLineRefs.current[selected];
+
+    if (!focus || !line) return;
+
+    const positionFocus = () => {
+      focus.style.top = `${line.offsetTop}px`;
+      focus.style.height = `${line.offsetHeight}px`;
+    };
+
+    positionFocus();
+
+    const observer = new ResizeObserver(positionFocus);
+    observer.observe(line);
+
+    return () => observer.disconnect();
+  }, [selected]);
 
   return (
     <ResolverSection id="how-it-works" aria-labelledby="resolver-title">
@@ -548,24 +578,35 @@ export default function StateResolver({
             </Stage.Header>
             <Stage.Helper>The fill style, exactly as declared.</Stage.Helper>
             <StateMapCode>
-              <code>
-                {stateMapLines.map((line, lineIndex) => (
-                  <StateMapLine
-                    key={lineIndex}
+              <StateMapCode.Scroller>
+                <StateMapContent>
+                  <StateMapFocus
+                    ref={stateMapFocusRef}
                     variant={selectedOption.variant}
-                    isActive={line.stateId === selected}
-                  >
-                    {line.tokens.map((token, tokenIndex) => (
-                      <span
-                        key={tokenIndex}
-                        className={token.className ?? undefined}
-                      >
-                        {token.content}
-                      </span>
-                    ))}
-                  </StateMapLine>
-                ))}
-              </code>
+                    aria-hidden="true"
+                  />
+                  {stateMapLines.map((line, lineIndex) => (
+                    <StateMapLine
+                      key={lineIndex}
+                      ref={(element) => {
+                        if (line.stateId && element) {
+                          stateMapLineRefs.current[line.stateId] =
+                            element as HTMLSpanElement;
+                        }
+                      }}
+                    >
+                      {line.tokens.map((token, tokenIndex) => (
+                        <span
+                          key={tokenIndex}
+                          className={token.className ?? undefined}
+                        >
+                          {token.content}
+                        </span>
+                      ))}
+                    </StateMapLine>
+                  ))}
+                </StateMapContent>
+              </StateMapCode.Scroller>
             </StateMapCode>
           </Stage>
 
