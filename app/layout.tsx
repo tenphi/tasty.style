@@ -74,8 +74,8 @@ export default function RootLayout({
         />
         <TastyStyleRegistry>{children}</TastyStyleRegistry>
         <Script
-          data-goatcounter="https://tasty.goatcounter.com/count"
-          src="//gc.zgo.at/count.js"
+          src="https://umami.tenphi.me/script.js"
+          data-website-id="ce86ad56-979e-4eb6-aaaa-6751dad7302a"
           strategy="afterInteractive"
         />
       </body>
