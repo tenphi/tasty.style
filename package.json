@@ -40,7 +40,7 @@
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/glaze": "2.0.1",
-    "@tenphi/tasty": "3.4.0",
+    "@tenphi/tasty": "3.5.0",
     "@webcontainer/api": "^1.6.1",
     "codemirror": "^6.0.2",
     "coi-serviceworker": "^0.1.7",
