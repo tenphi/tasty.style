@@ -4,7 +4,6 @@ import { states } from './states';
 import { colorTokens } from './theme';
 
 configure({
-  colorSpace: 'rgb',
   states,
   tokens: {
     ...colorTokens,

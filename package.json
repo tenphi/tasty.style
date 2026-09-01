@@ -15,7 +15,7 @@
     "dev": "next dev",
     "prebuild": "pnpm build:examples && pnpm build:previews && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
     "build": "next build",
-    "postbuild": "pagefind --site out",
+    "postbuild": "node scripts/extract-tasty-css.mjs && pagefind --site out",
     "start": "npx serve@latest out",
     "ensure:previews": "node scripts/ensure-previews.mjs",
     "prelint": "pnpm ensure:previews",
