@@ -11,12 +11,46 @@ export interface Heading {
 const TASTY_ROOT = path.resolve(process.cwd(), '..', 'tasty');
 const DOCS_DIR = path.join(TASTY_ROOT, 'docs');
 
-function resolveFilePath(slug: string): string {
-  if (slug === 'introduction') {
-    return path.join(TASTY_ROOT, 'README.md');
-  }
+export function getDocSourcePath(slug: string): string {
+  if (slug === 'introduction') return 'README.md';
+  if (slug === 'docs-hub') return 'docs/README.md';
 
-  return path.join(DOCS_DIR, `${slug}.md`);
+  return `docs/${slug}.md`;
+}
+
+function resolveFilePath(slug: string): string {
+  return path.join(TASTY_ROOT, getDocSourcePath(slug));
+}
+
+export function assertAllDocsAreRouted(routedSlugs: string[]): void {
+  const sourceSlugs = [
+    'introduction',
+    ...fs
+      .readdirSync(DOCS_DIR)
+      .filter((name) => name.endsWith('.md'))
+      .map((name) => (name === 'README.md' ? 'docs-hub' : name.slice(0, -3))),
+  ];
+  const routed = new Set(routedSlugs);
+  const sources = new Set(sourceSlugs);
+  const missingRoutes = sourceSlugs.filter((slug) => !routed.has(slug));
+  const missingSources = routedSlugs.filter((slug) => !sources.has(slug));
+
+  if (missingRoutes.length || missingSources.length) {
+    const details = [
+      missingRoutes.length
+        ? `not routed: ${missingRoutes.join(', ')}`
+        : undefined,
+      missingSources.length
+        ? `missing source: ${missingSources.join(', ')}`
+        : undefined,
+    ]
+      .filter(Boolean)
+      .join('; ');
+
+    throw new Error(
+      `Tasty documentation navigation is out of sync (${details}).`,
+    );
+  }
 }
 
 function preprocessForMdx(markdown: string): string {

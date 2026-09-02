@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getDocContent, extractHeadings } from './lib/docs';
+import { getDocContent, getDocSourcePath, extractHeadings } from './lib/docs';
 import { INTRODUCTION } from './lib/navigation';
 import MarkdownRenderer from './components/MarkdownRenderer';
 import TableOfContents from './components/TableOfContents';
@@ -22,7 +22,10 @@ export default function DocsPage() {
     <>
       <Article data-pagefind-body>
         <PageTitle>{INTRODUCTION.title}</PageTitle>
-        <MarkdownRenderer source={source} />
+        <MarkdownRenderer
+          source={source}
+          sourcePath={getDocSourcePath(INTRODUCTION.slug)}
+        />
       </Article>
       <TableOfContents headings={headings} />
     </>

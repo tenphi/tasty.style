@@ -41,36 +41,74 @@ function remarkRewriteImgSrc() {
   };
 }
 
-function rewriteHref(href: string | undefined): string | undefined {
+const TASTY_GITHUB_ROOT = 'https://github.com/tenphi/tasty';
+
+function resolveRepositoryPath(sourcePath: string, targetPath: string): string {
+  const parts = sourcePath.split('/');
+
+  parts.pop();
+
+  for (const part of targetPath.replace(/^\.\//, '').split('/')) {
+    if (!part || part === '.') continue;
+    if (part === '..') parts.pop();
+    else parts.push(part);
+  }
+
+  return parts.join('/');
+}
+
+function rewriteHref(
+  href: string | undefined,
+  sourcePath: string,
+): string | undefined {
   if (!href) return href;
 
   if (href.startsWith('http://') || href.startsWith('https://')) return href;
+  if (href.startsWith('/')) return href;
   if (href.startsWith('#')) return href;
 
-  // docs/foo.md -> /docs/foo
-  const cleaned = href
-    .replace(/^\.\//, '')
-    .replace(/^docs\//, '')
-    .replace(/\.md(?=$|#)/, '');
+  const hashIndex = href.indexOf('#');
+  const targetPath = hashIndex === -1 ? href : href.slice(0, hashIndex);
+  const hash = hashIndex === -1 ? '' : href.slice(hashIndex);
+  const repositoryPath = resolveRepositoryPath(sourcePath, targetPath);
 
-  return `/docs/${cleaned}`;
+  if (repositoryPath === 'README.md') return `/docs${hash}`;
+  if (repositoryPath === 'docs/README.md') return `/docs/docs-hub${hash}`;
+
+  const docMatch = repositoryPath.match(/^docs\/([^/]+)\.md$/);
+
+  if (docMatch) return `/docs/${docMatch[1]}${hash}`;
+
+  const isDirectory =
+    targetPath.endsWith('/') ||
+    (!repositoryPath.split('/').pop()?.includes('.') &&
+      repositoryPath !== 'LICENSE');
+  const view = isDirectory ? 'tree' : 'blob';
+
+  return `${TASTY_GITHUB_ROOT}/${view}/main/${repositoryPath}${hash}`;
 }
 
-function MdxLink({ href, children, ...props }: ComponentPropsWithoutRef<'a'>) {
-  const rewritten = rewriteHref(href);
-  const isExternal =
-    rewritten?.startsWith('http://') || rewritten?.startsWith('https://');
+function createMdxLink(sourcePath: string) {
+  return function MdxLink({
+    href,
+    children,
+    ...props
+  }: ComponentPropsWithoutRef<'a'>) {
+    const rewritten = rewriteHref(href, sourcePath);
+    const isExternal =
+      rewritten?.startsWith('http://') || rewritten?.startsWith('https://');
 
-  return (
-    <Link
-      href={rewritten!}
-      target={isExternal ? '_blank' : undefined}
-      rel={isExternal ? 'noopener noreferrer' : undefined}
-      {...props}
-    >
-      {children}
-    </Link>
-  );
+    return (
+      <Link
+        href={rewritten!}
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
+        {...props}
+      >
+        {children}
+      </Link>
+    );
+  };
 }
 
 function MdxPre({ children }: ComponentPropsWithoutRef<'pre'>) {
@@ -139,13 +177,12 @@ function MdxCode({ children, ...props }: ComponentPropsWithoutRef<'code'>) {
   return <InlineCode {...props}>{children}</InlineCode>;
 }
 
-const components = {
+const baseComponents = {
   h1: () => null,
   h2: DocH2,
   h3: DocH3,
   h4: DocH4,
   p: DocParagraph,
-  a: MdxLink,
   pre: MdxPre,
   code: MdxCode,
   blockquote: DocBlockquote,
@@ -163,7 +200,13 @@ const components = {
   strong: DocStrong,
 };
 
-export default function MarkdownRenderer({ source }: { source: string }) {
+export default function MarkdownRenderer({
+  source,
+  sourcePath,
+}: {
+  source: string;
+  sourcePath: string;
+}) {
   return (
     <MDXRemote
       source={source}
@@ -173,7 +216,7 @@ export default function MarkdownRenderer({ source }: { source: string }) {
           rehypePlugins: [rehypeSlug],
         },
       }}
-      components={components}
+      components={{ ...baseComponents, a: createMdxLink(sourcePath) }}
     />
   );
 }

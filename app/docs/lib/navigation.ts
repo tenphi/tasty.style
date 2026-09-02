@@ -19,6 +19,7 @@ export const NAV_GROUPS: NavGroup[] = [
     title: 'Start Here',
     items: [
       INTRODUCTION,
+      { title: 'Docs Hub', slug: 'docs-hub' },
       { title: 'Getting Started', slug: 'getting-started' },
       { title: 'Methodology', slug: 'methodology' },
       { title: 'Comparison', slug: 'comparison' },
@@ -41,6 +42,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { title: 'React API', slug: 'react-api' },
       { title: 'Zero Runtime', slug: 'tasty-static' },
+      { title: 'Precompiled Component Catalogs', slug: 'precompile' },
       { title: 'Server-Side Rendering', slug: 'ssr' },
     ],
   },
@@ -54,6 +56,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { title: 'Style Rendering Pipeline', slug: 'pipeline' },
       { title: 'Style Injector', slug: 'injector' },
       { title: 'Debug Utilities', slug: 'debug' },
+      { title: 'Runtime Benchmarks', slug: 'runtime-benchmarks' },
     ],
   },
   {

@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import {
   getDocContent,
+  getDocSourcePath,
   extractDescription,
   extractHeadings,
+  assertAllDocsAreRouted,
 } from '../lib/docs';
 import { getAllSlugs, findNavItem } from '../lib/navigation';
 import MarkdownRenderer from '../components/MarkdownRenderer';
@@ -11,7 +13,11 @@ import TableOfContents from '../components/TableOfContents';
 import { Article, PageTitle } from '../components/DocsPageContent';
 
 export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  const slugs = getAllSlugs();
+
+  assertAllDocsAreRouted(slugs);
+
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -53,7 +59,7 @@ export default async function DocPage({
     <>
       <Article data-pagefind-body>
         <PageTitle>{navItem.title}</PageTitle>
-        <MarkdownRenderer source={source} />
+        <MarkdownRenderer source={source} sourcePath={getDocSourcePath(slug)} />
       </Article>
       <TableOfContents headings={headings} />
     </>
