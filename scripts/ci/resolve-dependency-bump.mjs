@@ -1,24 +1,34 @@
 // Resolves the version a pinned @tenphi/* dependency should move to.
 //
-// The bump workflows used to trust `client_payload.version` from the release
-// dispatch verbatim. That made them one-shot: a dispatch that arrived while a
-// major migration was pending (or that never arrived at all) was lost forever,
-// leaving package.json behind the registry with every run still reporting
-// success. Resolving the target from the registry instead makes the bump
-// idempotent, so a scheduled run always catches up to whatever was missed.
+// The registry remains the source of truth, making scheduled runs idempotent and
+// able to catch missed releases. A release dispatch may also supply the version
+// it just published. That version is a visibility floor rather than the target:
+// wait until npm exposes it, then still select the newest eligible release. This
+// closes the propagation race where the dispatch can arrive before npm's
+// package metadata includes the new version.
 //
-// Usage: node scripts/ci/resolve-dependency-bump.mjs <package-name>
+// Usage: node scripts/ci/resolve-dependency-bump.mjs <package-name> [expected-version]
 
 import { execFileSync } from 'node:child_process';
 import { readFileSync, appendFileSync } from 'node:fs';
+import { setTimeout as delay } from 'node:timers/promises';
 
 const SECTIONS = ['dependencies', 'devDependencies'];
 const STABLE = /^(\d+)\.(\d+)\.(\d+)$/;
+const REGISTRY_ATTEMPTS = 18;
+const REGISTRY_RETRY_MS = 10_000;
 
 const packageName = process.argv[2];
+const expectedVersion = process.argv[3]?.trim() || null;
 
 if (!packageName) {
-  fail('Usage: node scripts/ci/resolve-dependency-bump.mjs <package-name>');
+  fail(
+    'Usage: node scripts/ci/resolve-dependency-bump.mjs <package-name> [expected-version]',
+  );
+}
+
+if (expectedVersion && !STABLE.test(expectedVersion)) {
+  fail(`Expected version "${expectedVersion}" is not a stable X.Y.Z release.`);
 }
 
 function fail(message) {
@@ -59,25 +69,59 @@ const installedMajor = Number(installed.version.split('.')[0]);
 // `npm view` (rather than a direct registry fetch) so any registry or proxy
 // configured for the runner is honoured.
 function view(...args) {
-  return execFileSync('npm', ['view', packageName, ...args], {
-    encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'inherit'],
-  }).trim();
+  return execFileSync(
+    'npm',
+    ['view', packageName, ...args, '--prefer-online'],
+    {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'inherit'],
+    },
+  ).trim();
 }
 
 let published;
+const awaitExpected =
+  expectedVersion && compare(expectedVersion, installed.version) > 0;
+const attempts = awaitExpected ? REGISTRY_ATTEMPTS : 1;
 
-try {
-  const raw = JSON.parse(view('versions', '--json'));
+for (let attempt = 1; attempt <= attempts; attempt += 1) {
+  try {
+    const raw = JSON.parse(view('versions', '--json'));
 
-  published = Array.isArray(raw) ? raw : [raw];
-} catch (error) {
-  fail(`Cannot read published versions for ${packageName}: ${error.message}`);
+    published = Array.isArray(raw) ? raw : [raw];
+  } catch (error) {
+    if (attempt === attempts) {
+      fail(
+        `Cannot read published versions for ${packageName}: ${error.message}`,
+      );
+    }
+
+    console.log(
+      `Registry lookup failed (attempt ${attempt}/${attempts}); retrying in ${REGISTRY_RETRY_MS / 1000}s.`,
+    );
+    await delay(REGISTRY_RETRY_MS);
+    continue;
+  }
+
+  if (!awaitExpected || published.includes(expectedVersion)) {
+    break;
+  }
+
+  if (attempt === attempts) {
+    fail(
+      `${packageName}@${expectedVersion} was dispatched but is still not visible on the registry after ${attempts} attempts.`,
+    );
+  }
+
+  console.log(
+    `${packageName}@${expectedVersion} is not visible on the registry yet (attempt ${attempt}/${attempts}); retrying in ${REGISTRY_RETRY_MS / 1000}s.`,
+  );
+  await delay(REGISTRY_RETRY_MS);
 }
 
 // Snapshot/prerelease tags (`0.0.0-snapshot.<sha>`) are published on every PR in
 // these repos, so only clean X.Y.Z releases are eligible.
-const target = published
+const registryTarget = published
   .filter(
     (version) =>
       STABLE.test(version) && Number(version.split('.')[0]) === installedMajor,
@@ -85,11 +129,17 @@ const target = published
   .sort(compare)
   .pop();
 
-if (!target) {
+if (!registryTarget) {
   fail(
     `No stable ${installedMajor}.x release of ${packageName} found on the registry.`,
   );
 }
+
+// A stale registry response must never turn an automatic bump into a downgrade.
+const target =
+  compare(registryTarget, installed.version) >= 0
+    ? registryTarget
+    : installed.version;
 
 const latest = view('version');
 const latestMajor = Number(

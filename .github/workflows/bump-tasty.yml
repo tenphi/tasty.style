@@ -25,3 +25,4 @@ jobs:
     uses: ./.github/workflows/bump-dependency.yml
     with:
       package: '@tenphi/tasty'
+      expected_version: ${{ github.event.client_payload.version || '' }}

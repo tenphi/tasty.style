@@ -17,6 +17,11 @@ on:
         description: Package to sync; must already be pinned in package.json.
         required: true
         type: string
+      expected_version:
+        description: Release version that must be visible before resolving the registry target.
+        required: false
+        type: string
+        default: ''
 
 jobs:
   # Kept separate from `bump` so an up-to-date run needs no pnpm store: setting
@@ -41,7 +46,9 @@ jobs:
       # warns (rather than silently passing) when a major migration is pending.
       - name: Resolve target version
         id: resolve
-        run: node scripts/ci/resolve-dependency-bump.mjs '${{ inputs.package }}'
+        env:
+          BUMP_EXPECTED_VERSION: ${{ inputs.expected_version }}
+        run: node scripts/ci/resolve-dependency-bump.mjs '${{ inputs.package }}' "$BUMP_EXPECTED_VERSION"
 
       - name: Summary
         run: |
