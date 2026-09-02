@@ -42,7 +42,6 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { title: 'React API', slug: 'react-api' },
       { title: 'Zero Runtime', slug: 'tasty-static' },
-      { title: 'Precompiled Component Catalogs', slug: 'precompile' },
       { title: 'Server-Side Rendering', slug: 'ssr' },
     ],
   },

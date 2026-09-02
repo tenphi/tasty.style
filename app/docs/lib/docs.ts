@@ -34,10 +34,16 @@ export function assertAllDocsAreRouted(routedSlugs: string[]): void {
   const sources = new Set(sourceSlugs);
   const missingRoutes = sourceSlugs.filter((slug) => !routed.has(slug));
   const missingSources = routedSlugs.filter((slug) => !sources.has(slug));
+  // CI clones canonical tasty/main. A developer's adjacent checkout may be a
+  // feature branch with unreleased docs, which must not break local builds.
+  const requireCompleteNavigation = process.env.CI === 'true';
 
-  if (missingRoutes.length || missingSources.length) {
+  if (
+    (requireCompleteNavigation && missingRoutes.length) ||
+    missingSources.length
+  ) {
     const details = [
-      missingRoutes.length
+      requireCompleteNavigation && missingRoutes.length
         ? `not routed: ${missingRoutes.join(', ')}`
         : undefined,
       missingSources.length
