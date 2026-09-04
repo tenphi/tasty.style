@@ -8,14 +8,13 @@ import {
 
 const Card = tasty({
   styles: {
+    position: 'relative',
     display: 'flex',
     flow: 'column',
     gap: '2x',
-    padding: {
-      '': '3x',
-      '@mobile': '2x',
-    },
+    padding: '2x',
     radius: '1cr',
+    overflow: 'hidden',
     fill: '#tint-surface',
     border: '1bw solid #tint-border',
     textDecoration: 'none',
@@ -34,15 +33,18 @@ const Card = tasty({
       flow: 'row',
       placeContent: 'space-between',
       placeItems: 'center',
+      padding: 'right 4x',
     },
     Icon: {
       $: '>Header>',
       display: 'inline-flex',
+      position: 'absolute',
+      inset: '0 top right',
       placeItems: 'center',
       placeContent: 'center',
       width: '6x',
       height: '6x',
-      radius: '14px',
+      radius: '0 (1cr - 1bw)',
       fill: '#tint-surface-strong',
       color: '#tint-accent-strong',
     },
