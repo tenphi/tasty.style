@@ -69,6 +69,12 @@ interface UsageItem {
 
 const ARTICLES = [
   {
+    title: 'Runtime CSS-in-JS deserves a rehearing',
+    description:
+      'Runtime CSS-in-JS has real costs, but runtime-capable systems can solve real composition problems. Their cost should be judged against what they enable.',
+    href: 'https://tenphi.me/blog/runtime-css-in-js-deserves-a-rehearing/',
+  },
+  {
     title: 'Why I spent years trying to make CSS states predictable',
     description:
       'The origin story behind Tasty: how overlapping selectors in component systems led to a compiler that makes state resolution deterministic.',
