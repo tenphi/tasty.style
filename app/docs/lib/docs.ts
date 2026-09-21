@@ -62,8 +62,11 @@ export function assertAllDocsAreRouted(routedSlugs: string[]): void {
 function preprocessForMdx(markdown: string): string {
   let result = markdown;
 
-  // Close void HTML elements for MDX compatibility (<img ...> -> <img ... />)
-  result = result.replace(/<(img|br|hr|input)(\s[^>]*?)?\s*>/gi, '<$1$2 />');
+  // Close void HTML elements for MDX compatibility (<img ...> -> <img ... />),
+  // while preserving elements that are already self-closing.
+  result = result.replace(/<(img|br|hr|input)\b[^>]*>/gi, (tag) =>
+    /\/\s*>$/.test(tag) ? tag : tag.replace(/\s*>$/, ' />'),
+  );
 
   // Strip GitHub-only HTML header blocks (centered logos, badges, etc.)
   result = result.replace(
