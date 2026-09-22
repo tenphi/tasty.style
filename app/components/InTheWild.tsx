@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { tasty } from '@tenphi/tasty';
-import { IconBrandGithub, IconCloud } from '@tabler/icons-react';
+import { IconBook2, IconBrandGithub, IconCloud } from '@tabler/icons-react';
 import type { TintName } from '@/app/theme';
 import Section from '@/app/components/Section';
 import SectionWrap from '@/app/ui/SectionWrap';
@@ -119,6 +119,15 @@ const USAGE: UsageItem[] = [
     icon: <IconBrandGithub size={22} stroke={1.5} />,
     tint: 'teal',
   },
+  {
+    name: 'Cookbook',
+    tag: 'Documentation Toolkit',
+    description:
+      'Repository-native documentation that turns project Markdown or published npm packages into polished, searchable Astro sites, with a theme powered by Tasty.',
+    href: 'https://cookbook.tenphi.me',
+    icon: <IconBook2 size={22} stroke={1.5} />,
+    tint: 'blue',
+  },
 ];
 
 export default function InTheWild() {
@@ -156,8 +165,11 @@ export default function InTheWild() {
           </Grid>
 
           <SubHeader>Where It&apos;s Used</SubHeader>
-          <Grid gridColumns={{ '': '1sf 1sf', '@mobile': '1sf' }} gap="3x">
-            {USAGE.map((item) => (
+          <Grid
+            gridColumns={{ '': '1sf 1sf 1sf 1sf', '@mobile': '1sf' }}
+            gap="3x"
+          >
+            {USAGE.map((item, index) => (
               <Card
                 as="a"
                 key={item.name}
@@ -165,6 +177,10 @@ export default function InTheWild() {
                 target="_blank"
                 rel="noopener noreferrer"
                 variant={item.tint}
+                gridColumn={{
+                  '': index === USAGE.length - 1 ? '2 / span 2' : 'span 2',
+                  '@mobile': 'auto',
+                }}
               >
                 <Card.Header>
                   <Card.Title>{item.name}</Card.Title>
