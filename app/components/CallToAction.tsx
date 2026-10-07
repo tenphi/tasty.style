@@ -54,21 +54,20 @@ const GlowOrb = tasty({
     position: 'absolute',
     width: '500px',
     height: '500px',
+    fill: '#violet-accent-surface',
+    inset: 'auto auto -200px 50%',
     radius: 'ellipse',
     filter: 'blur(140px)',
     opacity: 0.12,
     pointerEvents: 'none',
+    translate: '-50% 0',
   },
 });
 
 export default function CallToAction() {
   return (
     <CTAWrapper>
-      <GlowOrb
-        fill="#violet-accent-surface"
-        inset="auto auto -200px 50%"
-        translate="-50% 0"
-      />
+      <GlowOrb />
       <CTATitle>Make your next component predictable</CTATitle>
       <CTASubtitle>
         Start with one component. Add states, variants, tokens, and shared

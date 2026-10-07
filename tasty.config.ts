@@ -7,7 +7,9 @@ export default {
     // -- Locally-defined color tokens --
     '#border',
     '#tint-fill',
+    '#tint-surface-strong',
     '#tint-accent',
+    '#tint-accent-strong',
     '#tint-accent-3',
     '#state-surface',
     '#state-border',
