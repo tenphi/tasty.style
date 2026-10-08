@@ -15,8 +15,10 @@ import { setTimeout as delay } from 'node:timers/promises';
 
 const SECTIONS = ['dependencies', 'devDependencies'];
 const STABLE = /^(\d+)\.(\d+)\.(\d+)$/;
-const REGISTRY_ATTEMPTS = 18;
-const REGISTRY_RETRY_MS = 10_000;
+// Check immediately, then once a minute for ten minutes while npm propagates
+// the release. The resolve job timeout must leave room for these waits.
+const REGISTRY_ATTEMPTS = 11;
+const REGISTRY_RETRY_MS = 60_000;
 
 const packageName = process.argv[2];
 const expectedVersion = process.argv[3]?.trim() || null;

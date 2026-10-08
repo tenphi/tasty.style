@@ -29,7 +29,8 @@ jobs:
   resolve:
     name: Resolve ${{ inputs.package }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Allow the resolver's ten-minute registry wait plus setup and npm requests.
+    timeout-minutes: 15
     outputs:
       changed: ${{ steps.resolve.outputs.changed }}
       section: ${{ steps.resolve.outputs.section }}

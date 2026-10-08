@@ -1,5 +1,5 @@
 import { Fragment, type ComponentPropsWithoutRef } from 'react';
-import type { Html, Root } from 'mdast';
+import type { Root } from 'mdast';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
@@ -29,14 +29,18 @@ import {
   DocStrong,
 } from './MarkdownElements';
 
-function remarkRewriteImgSrc() {
+function remarkDocImages() {
   return (tree: Root) => {
-    visit(tree, 'html', (node: Html) => {
-      node.value = node.value.replace(
-        /(<img\s[^>]*?)src="(?!\/|https?:\/\/)([^"]*?)"/g,
-        (_match: string, prefix: string, src: string) =>
-          `${prefix}src="/${src}"`,
-      );
+    // MDX treats raw <img> tags as JSX, bypassing the `img` component mapping.
+    // Route them through the same component as Markdown images.
+    visit(tree, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node) => {
+      if (
+        (node.type === 'mdxJsxFlowElement' ||
+          node.type === 'mdxJsxTextElement') &&
+        node.name === 'img'
+      ) {
+        node.name = 'DocImg';
+      }
     });
   };
 }
@@ -159,7 +163,8 @@ function MdxPre({ children }: ComponentPropsWithoutRef<'pre'>) {
 }
 
 function MdxImg(props: ComponentPropsWithoutRef<'img'>) {
-  const { src: srcProp, ...rest } = props;
+  // Avoid React's automatic image preload, including on prefetched docs routes.
+  const { src: srcProp, loading = 'lazy', ...rest } = props;
   let src = srcProp;
 
   if (
@@ -170,7 +175,7 @@ function MdxImg(props: ComponentPropsWithoutRef<'img'>) {
     src = `/${src}`;
   }
 
-  return <DocImg src={src} {...rest} />;
+  return <DocImg src={src} loading={loading} {...rest} />;
 }
 
 function MdxCode({ children, ...props }: ComponentPropsWithoutRef<'code'>) {
@@ -197,6 +202,7 @@ const baseComponents = {
   th: DocTh,
   td: DocTd,
   img: MdxImg,
+  DocImg: MdxImg,
   strong: DocStrong,
 };
 
@@ -212,7 +218,7 @@ export default function MarkdownRenderer({
       source={source}
       options={{
         mdxOptions: {
-          remarkPlugins: [remarkGfm, remarkRewriteImgSrc],
+          remarkPlugins: [remarkGfm, remarkDocImages],
           rehypePlugins: [rehypeSlug],
         },
       }}
