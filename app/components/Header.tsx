@@ -3,11 +3,9 @@
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { tasty } from '@tenphi/tasty';
-import { IconBrandGithub, IconMenu2 } from '@tabler/icons-react';
+import { IconBrandGithub } from '@tabler/icons-react';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
-import { useDocsSidebar } from '@/app/docs/components/DocsSidebarContext';
-import SearchDialog from '@/app/docs/components/SearchDialog';
 import ThemeSwitcher from './ThemeSwitcher';
 import ContrastSwitcher from './ContrastSwitcher';
 
@@ -122,49 +120,41 @@ const HeaderNavLink = tasty({
   },
 });
 
-const SearchWrap = tasty({
-  styles: {
-    display: 'flex',
-    placeItems: 'center',
-    flexGrow: { '': 0, '@desktop': 1 },
-    padding: { '': '0', '@desktop': '0 2x' },
-  },
-});
+// The documentation is a separate Cookbook build under /docs/, so links to it
+// load the page instead of using client-side navigation.
+const DOCS_URL = '/docs/';
 
 const NAV_LINKS = [
   { label: 'How It Works', href: '/#how-it-works' },
-  { label: 'Documentation', href: '/docs' },
+  { label: 'Documentation', href: DOCS_URL, document: true },
   { label: 'Playground', href: '/playground' },
 ];
 
 export default function Header() {
   const pathname = usePathname();
-  const sidebar = useDocsSidebar();
-  const isDocs = pathname.startsWith('/docs');
   const isPlayground = pathname.startsWith('/playground');
 
   return (
-    <HeaderElement mods={{ docs: isDocs, playground: isPlayground }}>
+    <HeaderElement mods={{ playground: isPlayground }}>
       <HeaderElement.Inner>
         <LogoLink href="/">
           <HeaderElement.LogoImg src="/tasty.svg" alt="Tasty logo" />
           <HeaderElement.LogoText>Tasty</HeaderElement.LogoText>
         </LogoLink>
-        {!isDocs && !isPlayground ? (
+        {!isPlayground ? (
           <HeaderElement.Nav>
             {NAV_LINKS.map((link) => (
-              <HeaderNavLink key={link.href} href={link.href}>
+              <HeaderNavLink
+                key={link.href}
+                as={link.document ? 'a' : undefined}
+                href={link.href}
+              >
                 {link.label}
               </HeaderNavLink>
             ))}
           </HeaderElement.Nav>
         ) : null}
         <HeaderElement.Actions>
-          {isDocs ? (
-            <SearchWrap>
-              <SearchDialog />
-            </SearchWrap>
-          ) : null}
           <ThemeSwitcher />
           <ContrastSwitcher />
           <Button
@@ -178,29 +168,14 @@ export default function Header() {
           >
             <IconBrandGithub size={20} />
           </Button>
-          {isDocs && sidebar ? (
-            <>
-              <SpecialButton as={NextLink} href="/playground" size="small">
-                Playground
-              </SpecialButton>
-              <Button
-                variant="ghost"
-                padding="1x"
-                aria-label="Open menu"
-                onClick={sidebar.toggle}
-                hide={{ '': false, '@desktop': true }}
-              >
-                <IconMenu2 size={20} />
-              </Button>
-            </>
-          ) : isPlayground ? (
-            <SpecialButton as={NextLink} href="/docs" size="small">
+          {isPlayground ? (
+            <SpecialButton as="a" href={DOCS_URL} size="small">
               Docs
             </SpecialButton>
           ) : (
             <SpecialButton
-              as={NextLink}
-              href="/docs/getting-started"
+              as="a"
+              href={`${DOCS_URL}getting-started`}
               size="small"
             >
               Get Started

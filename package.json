@@ -11,11 +11,13 @@
     "build:examples": "node scripts/build-examples.mjs",
     "build:previews": "node scripts/build-playground-previews.mjs",
     "playground:snapshot": "node scripts/build-playground-snapshot.mjs",
-    "predev": "pnpm build:examples && pnpm build:previews && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
+    "predev": "pnpm build:examples && pnpm build:previews && cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
     "dev": "next dev",
-    "prebuild": "pnpm build:examples && pnpm build:previews && cp -r ../tasty/assets public/assets 2>/dev/null || true; cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
+    "dev:docs": "astro dev --root docs",
+    "prebuild": "pnpm build:examples && pnpm build:previews && cp app/playground/coi-serviceworker-custom.js public/coi-serviceworker.js; pnpm playground:snapshot",
     "build": "next build",
-    "postbuild": "node scripts/extract-tasty-css.mjs && pagefind --site out",
+    "postbuild": "node scripts/extract-tasty-css.mjs && pnpm build:docs",
+    "build:docs": "astro build --root docs",
     "start": "npx serve@latest out",
     "ensure:previews": "node scripts/ensure-previews.mjs",
     "prelint": "pnpm ensure:previews",
@@ -30,6 +32,7 @@
     "hygiene:fix": "pnpm lint:fix && pnpm format"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.3",
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-javascript": "^6.2.5",
@@ -39,28 +42,24 @@
     "@lezer/highlight": "^1.2.3",
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
+    "@tenphi/cookbook": "0.25.1",
     "@tenphi/glaze": "2.0.1",
     "@tenphi/tasty": "3.9.11",
     "@webcontainer/api": "^1.6.1",
+    "astro": "7.3.8",
     "codemirror": "^6.0.2",
     "coi-serviceworker": "^0.1.7",
     "fflate": "^0.8.2",
-    "github-slugger": "^2.0.0",
     "lz-string": "^1.5.0",
     "next": "^16.0.0",
-    "next-mdx-remote": "^6.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "rehype-slug": "^6.0.0",
-    "remark-gfm": "^4.0.1",
-    "shiki": "^4.0.2",
-    "unist-util-visit": "^5.1.0"
+    "shiki": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
     "@tenphi/eslint-plugin-tasty": "1.6.0",
-    "@types/mdast": "^4.0.4",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
@@ -69,7 +68,6 @@
     "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "pagefind": "^1.4.0",
     "prettier": "^3.8.1",
     "puppeteer": "^24.39.0",
     "typescript": "^5.8.3",
@@ -83,7 +81,8 @@
   ],
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild"
+      "esbuild",
+      "sharp"
     ]
   }
 }

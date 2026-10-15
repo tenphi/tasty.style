@@ -4,6 +4,7 @@ out
 dist
 *.tsbuildinfo
 next-env.d.ts
+docs/.astro
 public/assets
 public/coi-serviceworker.js
 public/playground-snapshot.bin

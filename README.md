@@ -11,6 +11,7 @@ This project serves as both the public-facing landing page for Tasty and a produ
 - **[@tenphi/tasty](https://github.com/tenphi/tasty)** — styling engine (runtime + SSR)
 - **[@tenphi/glaze](https://github.com/tenphi/glaze)** — OKHSL color theme generator with WCAG contrast solving
 - **[Shiki](https://shiki.style/)** — syntax highlighting with a custom Tasty DSL grammar
+- **[Cookbook](https://cookbook.tenphi.me)** — the `/docs` site, built with Astro from the tasty repository's Markdown
 - **TypeScript**, **ESLint**, **Prettier**
 
 ## Features Demonstrated
@@ -38,12 +39,16 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+The documentation at `/docs` is a separate Cookbook build of the Markdown in the [tasty repository](https://github.com/tenphi/tasty). Clone it next to this project as `../tasty` before running `pnpm build` or `pnpm dev:docs`.
+
 ## Scripts
 
 | Command             | Description              |
 | ------------------- | ------------------------ |
 | `pnpm dev`          | Start Next.js dev server |
 | `pnpm build`        | Production build         |
+| `pnpm dev:docs`     | Start docs dev server    |
+| `pnpm build:docs`   | Build docs only          |
 | `pnpm start`        | Start production server  |
 | `pnpm lint`         | Run ESLint               |
 | `pnpm lint:fix`     | Run ESLint with auto-fix |

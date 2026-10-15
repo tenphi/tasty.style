@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Marketing site and interactive playground for `@tenphi/tasty`. Built with Next.js (App Router), statically exported. Hosted at [https://tasty.style](https://tasty.style).
+Marketing site, documentation and interactive playground for `@tenphi/tasty`. The landing page and playground are built with Next.js (App Router) and statically exported; `/docs` is a separate [Cookbook](https://cookbook.tenphi.me) build. Hosted at [https://tasty.style](https://tasty.style).
 
 Repository: [https://github.com/tenphi/tasty.style](https://github.com/tenphi/tasty.style)
 
@@ -11,7 +11,9 @@ Repository: [https://github.com/tenphi/tasty.style](https://github.com/tenphi/ta
 | Command               | Purpose                                        |
 | --------------------- | ---------------------------------------------- |
 | `pnpm dev`            | Start dev server (runs `build:examples` first) |
-| `pnpm build`          | Production build + static export               |
+| `pnpm build`          | Production build + static export, then docs    |
+| `pnpm dev:docs`       | Start the Cookbook docs dev server             |
+| `pnpm build:docs`     | Build the docs into `out/docs`                 |
 | `pnpm build:examples` | Regenerate playground examples bundle          |
 | `pnpm lint`           | Lint source files                              |
 | `pnpm lint:fix`       | Lint and auto-fix                              |
@@ -26,7 +28,7 @@ Repository: [https://github.com/tenphi/tasty.style](https://github.com/tenphi/ta
 - **Styling**: `@tenphi/tasty` (runtime + SSR)
 - **Color system**: `@tenphi/glaze` (OKHSL color themes)
 - **Playground**: WebContainers (in-browser Node.js) + CodeMirror
-- **Search**: Pagefind (post-build indexing)
+- **Docs**: Cookbook (Astro) with its own Pagefind search
 - **Lint**: ESLint 10 + typescript-eslint + prettier + `@tenphi/eslint-plugin-tasty`
 - **Format**: Prettier (single quotes, semicolons, trailing commas)
 - **Package manager**: pnpm 10
@@ -45,12 +47,21 @@ app/
 
   components/         Shared site components (header, footer, showcases)
   ui/                 Reusable UI primitives (Button, Badge, etc.)
-  docs/               Documentation pages (MDX-based)
   playground/         Interactive playground
     examples/         Source example files (.tsx) + config files
     lib/              Playground runtime (examples bundle, CodeMirror, WebContainer)
-  lib/                Site utilities (Shiki, MDX helpers)
+  lib/                Site utilities (Shiki)
+
+docs/                 Cookbook documentation site (Astro root)
+  astro.config.ts     Base `/docs/`, file output, Tasty Shiki grammar
+  docs.config.ts      Sources, sidebar, theme and analytics
 ```
+
+## Documentation
+
+`/docs` is built by Cookbook from the Markdown in the [tasty repository](https://github.com/tenphi/tasty), which must be checked out next to this one as `../tasty` (the deploy and bump workflows clone it there). `pnpm build` runs `next build` first, because it recreates `out/`, and then builds the docs into `out/docs` from `postbuild`. Pages are emitted as `guide.html` files so they keep their extensionless `/docs/guide` URLs.
+
+The sidebar in `docs/docs.config.ts` lists every page explicitly. When the tasty repository adds or renames a doc, update it there: CI builds fail on a doc the sidebar does not list, and Cookbook fails on links to a doc that no longer exists. Links from the Next.js app to `/docs` must be plain `<a>` elements, not `next/link`, because the docs are not part of the Next.js app.
 
 ## Generated Files
 

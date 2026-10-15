@@ -11,6 +11,7 @@ export default defineConfig(
   {
     ignores: [
       '.next/**',
+      'docs/.astro/**',
       'node_modules/**',
       'public/**',
       'out/**',
