@@ -4,6 +4,7 @@ import Script from 'next/script';
 import './tasty-config';
 import TastyStyleRegistry from './tasty-registry';
 import { onest, jetbrainsMono } from './fonts';
+import { APPEARANCE_SCRIPT } from './lib/appearance';
 
 const SITE_URL = 'https://tasty.style';
 const SITE_NAME = 'Tasty';
@@ -67,6 +68,10 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${onest.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        {/* Applies the appearance stored by this site or the docs before the first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: APPEARANCE_SCRIPT }} />
+      </head>
       <body>
         <script
           type="application/ld+json"
