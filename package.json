@@ -42,7 +42,7 @@
     "@lezer/highlight": "^1.2.3",
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
-    "@tenphi/cookbook": "0.25.1",
+    "@tenphi/cookbook": "0.25.2",
     "@tenphi/glaze": "2.0.1",
     "@tenphi/tasty": "3.9.11",
     "@webcontainer/api": "^1.6.1",
