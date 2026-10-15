@@ -1,4 +1,3 @@
-import NextLink from 'next/link';
 import { tasty } from '@tenphi/tasty';
 import ServerCodeBlock from '@/app/ui/ServerCodeBlock';
 import Space from '@/app/ui/Space';
@@ -86,10 +85,10 @@ export default function CallToAction() {
         width={{ '': 'auto', '@mobile': '100%' }}
         align={{ '@mobile': 'center' }}
       >
-        <SpecialButton as={NextLink} href="/docs/getting-started">
+        <SpecialButton as="a" href="/docs/getting-started">
           Get Started
         </SpecialButton>
-        <Button as="a" variant="secondary" href="/docs">
+        <Button as="a" variant="secondary" href="/docs/">
           Browse Docs
         </Button>
       </Space>

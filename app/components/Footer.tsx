@@ -59,7 +59,7 @@ const COLUMNS = [
   {
     title: 'Documentation',
     links: [
-      { label: 'Introduction', href: '/docs' },
+      { label: 'Introduction', href: '/docs/' },
       { label: 'Getting Started', href: '/docs/getting-started' },
       { label: 'Comparison', href: '/docs/comparison' },
       { label: 'Adoption Guide', href: '/docs/adoption' },
@@ -115,8 +115,11 @@ export default function Footer() {
               const isExternal = link.href.startsWith('http');
 
               return (
+                // Every column links outside the Next.js app, including the
+                // separately built /docs/ site.
                 <Link
                   key={link.label}
+                  as="a"
                   href={link.href}
                   target={isExternal ? '_blank' : undefined}
                   rel={isExternal ? 'noopener noreferrer' : undefined}

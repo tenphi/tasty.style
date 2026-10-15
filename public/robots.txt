@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://tasty.style/sitemap.xml
+Sitemap: https://tasty.style/docs/sitemap-index.xml
