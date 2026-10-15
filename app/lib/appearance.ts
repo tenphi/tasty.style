@@ -1,9 +1,8 @@
 // Appearance choices are shared with the Cookbook docs under /docs. Both run
-// on the same origin and use Cookbook's documented storage keys:
-// `cookbook-theme` holds "light" or "dark" (empty means follow the system),
-// and the JSON object in `cookbook-appearance` holds `contrast` as "normal",
-// "more" or "system". Each site maps them onto its own root attributes.
-export const THEME_KEY = 'cookbook-theme';
+// on the same origin and use Cookbook's documented storage contract: one JSON
+// object, `{ theme?: 'light' | 'dark' | 'system', contrast?: 'normal' | 'more'
+// | 'system' }`, under `cookbook-appearance`. Each site maps it onto its own
+// root attributes.
 export const APPEARANCE_KEY = 'cookbook-appearance';
 
 export type Theme = 'light' | 'dark';
@@ -23,7 +22,6 @@ export function parseContrast(value: unknown): Contrast | undefined {
   return value === 'normal' || value === 'more' ? value : undefined;
 }
 
-// Cookbook may keep other fields in this object, so writes preserve them.
 function storedAppearance(): Record<string, unknown> {
   try {
     const value: unknown = JSON.parse(
@@ -34,35 +32,26 @@ function storedAppearance(): Record<string, unknown> {
       ? (value as Record<string, unknown>)
       : {};
   } catch {
-    return {};
-  }
-}
-
-export function loadAppearance(): Appearance {
-  try {
-    return {
-      theme: parseTheme(localStorage.getItem(THEME_KEY)),
-      contrast: parseContrast(storedAppearance().contrast),
-    };
-  } catch {
     // Without storage, the system preference applies.
     return {};
   }
 }
 
-export function storeTheme(theme: Theme): void {
-  try {
-    localStorage.setItem(THEME_KEY, theme);
-  } catch {
-    // The current page still updates when the choice cannot be persisted.
-  }
+export function loadAppearance(): Appearance {
+  const stored = storedAppearance();
+
+  return {
+    theme: parseTheme(stored.theme),
+    contrast: parseContrast(stored.contrast),
+  };
 }
 
-export function storeContrast(contrast: Contrast): void {
+/** Saves the given choices, keeping the rest of the object, including fields Cookbook may add. */
+export function storeAppearance(change: Appearance): void {
   try {
     localStorage.setItem(
       APPEARANCE_KEY,
-      JSON.stringify({ ...storedAppearance(), contrast }),
+      JSON.stringify({ ...storedAppearance(), ...change }),
     );
   } catch {
     // The current page still updates when the choice cannot be persisted.
@@ -84,10 +73,9 @@ export function applyAppearance({ theme, contrast }: Appearance): void {
 export const APPEARANCE_SCRIPT = `(() => {
   const root = document.documentElement;
   try {
-    const theme = localStorage.getItem(${JSON.stringify(THEME_KEY)});
-    if (theme === 'light' || theme === 'dark') root.dataset.schema = theme;
-    const { contrast } =
+    const { theme, contrast } =
       JSON.parse(localStorage.getItem(${JSON.stringify(APPEARANCE_KEY)}) || '{}') || {};
+    if (theme === 'light' || theme === 'dark') root.dataset.schema = theme;
     if (contrast === 'normal' || contrast === 'more') root.dataset.contrast = contrast;
   } catch {}
 })();`;

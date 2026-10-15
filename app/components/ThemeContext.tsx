@@ -10,13 +10,11 @@ import {
 } from 'react';
 import {
   APPEARANCE_KEY,
-  THEME_KEY,
   applyAppearance,
   loadAppearance,
   parseContrast,
   parseTheme,
-  storeContrast,
-  storeTheme,
+  storeAppearance,
 } from '@/app/lib/appearance';
 
 interface ThemeContextValue {
@@ -49,13 +47,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
 
     function handleStorage(event: StorageEvent) {
-      if (
-        event.key === null ||
-        event.key === THEME_KEY ||
-        event.key === APPEARANCE_KEY
-      ) {
-        sync();
-      }
+      if (event.key === null || event.key === APPEARANCE_KEY) sync();
     }
 
     // A page restored from the back/forward cache missed changes made in the
@@ -85,7 +77,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     if (!next) return;
 
-    storeTheme(next);
+    storeAppearance({ theme: next });
     document.documentElement.dataset.schema = next;
     setThemeState(next);
   }, []);
@@ -95,7 +87,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     if (!next) return;
 
-    storeContrast(next);
+    storeAppearance({ contrast: next });
     document.documentElement.dataset.contrast = next;
     setContrastState(next);
   }, []);

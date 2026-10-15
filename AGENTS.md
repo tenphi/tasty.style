@@ -63,7 +63,7 @@ docs/                 Cookbook documentation site (Astro root)
 
 The sidebar in `docs/docs.config.ts` lists every page explicitly. When the tasty repository adds or renames a doc, update it there: CI builds fail on a doc the sidebar does not list, and Cookbook fails on links to a doc that no longer exists. Links from the Next.js app to `/docs` must be plain `<a>` elements, not `next/link`, because the docs are not part of the Next.js app.
 
-Theme and contrast choices are shared with the docs through Cookbook's `localStorage` keys (`cookbook-theme`, and `contrast` in `cookbook-appearance`). `app/lib/appearance.ts` reads and writes them, and a script in the root layout's `<head>` applies them before the first paint. Keep that file in step with Cookbook's documented contract.
+Theme and contrast choices are shared with the docs through Cookbook's `cookbook-appearance` object in `localStorage` (`{ theme, contrast }`). `app/lib/appearance.ts` reads and writes them, and a script in the root layout's `<head>` applies them before the first paint. Keep that file in step with Cookbook's documented contract.
 
 ## Generated Files
 
