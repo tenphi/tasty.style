@@ -4,6 +4,8 @@ import Space from '@/app/ui/Space';
 import Button from '@/app/ui/Button';
 import SpecialButton from '@/app/ui/SpecialButton';
 import Badge from '@/app/ui/Badge';
+import Text from '@/app/ui/Text';
+import CubeLogo from './CubeLogo';
 import pkg from '../../package.json';
 
 const HeroOuter = tasty({
@@ -97,6 +99,19 @@ const GlowOrb = tasty({
   styleProps: ['fill', ...OUTER_STYLES],
 });
 
+const CubeLogoLink = tasty({
+  as: 'a',
+  styles: {
+    display: 'inline-flex',
+    color: {
+      '': '#text-soft',
+      ':hover': '#text',
+    },
+    textDecoration: 'none',
+    transition: 'color',
+  },
+});
+
 const HERO_TAGS = [
   'Type-safe',
   'React Server Components',
@@ -121,7 +136,7 @@ export default function Hero() {
           {pkg.dependencies['@tenphi/tasty']}
         </Badge>
         <HeroTitle>
-          Build components whose <HeroAccent>styles don’t fight.</HeroAccent>
+          Build components whose <HeroAccent>styles don’t fight</HeroAccent>
         </HeroTitle>
         <HeroSubtitle>
           Describe hover, disabled, variants, themes, and responsive behavior as
@@ -146,6 +161,19 @@ export default function Hero() {
           <Button as="a" variant="secondary" href="#how-it-works">
             See How It Works
           </Button>
+        </Space>
+        <Space gap="1.5x" align="center" margin="top 2x">
+          <Text preset="t3m" color="#text-soft">
+            Used in production at
+          </Text>
+          <CubeLogoLink
+            href="https://cube.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Cube website"
+          >
+            <CubeLogo />
+          </CubeLogoLink>
         </Space>
       </HeroInner>
     </HeroOuter>
