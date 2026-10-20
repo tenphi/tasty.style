@@ -11,6 +11,7 @@ import Badge from '@/app/ui/Badge';
 import SectionWrap from '@/app/ui/SectionWrap';
 import Tabs from '@/app/ui/Tabs';
 import SpecialButton from '@/app/ui/SpecialButton';
+import InlineCode from '@/app/ui/InlineCode';
 
 const ColumnHeader = tasty({
   styles: {
@@ -78,38 +79,6 @@ function ExampleGrid({
   );
 }
 
-const SIMPLE_INPUT_CODE = `const Button = tasty({
-  as: 'button',
-  styles: {
-    fill: {
-      '': '#primary',
-      ':hover': '#primary-hover',
-      ':active': '#primary-pressed',
-      '[disabled]': '#surface',
-    },
-  },
-});`;
-
-const SIMPLE_OUTPUT_CSS = `/* [disabled] wins outright */
-.t0.t0[disabled] {
-  background: var(--surface-color);
-}
-
-/* :active is excluded when disabled */
-.t0.t0:active:not([disabled]) {
-  background: var(--primary-pressed-color);
-}
-
-/* :hover is excluded when :active or disabled */
-.t0.t0:hover:not(:active):not([disabled]) {
-  background: var(--primary-hover-color);
-}
-
-/* default is excluded when anything above matches */
-.t0.t0:not(:hover):not(:active):not([disabled]) {
-  background: var(--primary-color);
-}`;
-
 const ALIAS_INPUT_CODE = `// Define a reusable state alias
 configure({
   states: {
@@ -128,49 +97,73 @@ const Text = tasty({
   },
 });`;
 
-const ALIAS_OUTPUT_CSS = `/* Branch 1: Explicit dark schema */
-:root[data-schema="dark"] .t0.t0 {
+const ALIAS_OUTPUT_CSS = `/* Explicit dark schema */
+:where(:root[data-schema="dark"]) .t0.t0 {
   color: var(--text-on-dark-color);
 }
 
-/* Branch 2: No schema attribute + OS prefers dark */
+/* No schema, OS prefers dark */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-schema]) .t0.t0 {
+  :where(:root:not([data-schema])) .t0.t0 {
     color: var(--text-on-dark-color);
   }
 }
 
-/* Default: no schema + OS does not prefer dark */
+/* Default: OS light, schema not dark */
 @media (not (prefers-color-scheme: dark)) {
-  :root:not([data-schema="dark"]) .t0.t0 {
+  :where(:root:not([data-schema="dark"])) .t0.t0 {
     color: var(--text-color);
   }
 }
 
-/* Default: schema is set but not dark */
-:root:not([data-schema="dark"])[data-schema] .t0.t0 {
-  color: var(--text-color);
+/* Default: OS dark, schema set, not dark */
+@media (prefers-color-scheme: dark) {
+  :where(:root:not([data-schema="dark"])[data-schema]) .t0.t0 {
+    color: var(--text-color);
+  }
+}`;
+
+const EXTEND_INPUT_CODE = `const Button = tasty({
+  as: 'button',
+  styles: {
+    fill: {
+      '': '#primary',
+      ':hover': '#primary-hover',
+      '[disabled]': '#surface',
+    },
+  },
+});
+
+// Same disabled branch as Button
+const DangerButton = tasty(Button, {
+  styles: {
+    fill: {
+      '': '#danger',
+      ':hover': '#danger-hover',
+      '[disabled]': '@inherit',
+    },
+  },
+});`;
+
+const EXTEND_OUTPUT_CSS = `/* New colors, still exclusive */
+.t1.t1:where(:not([disabled]):not(:hover)) {
+  background-color: var(--danger-color);
+}
+
+.t1.t1:where(:not([disabled]):hover) {
+  background-color: var(--danger-hover-color);
+}
+
+/* Inherited from Button */
+.t1.t1:where([disabled]) {
+  background-color: var(--surface-color);
 }`;
 
 export default function HowItWorks() {
   const tabs = [
     {
-      id: 'interactive-states',
-      label: 'Interactive States',
-      content: (
-        <ExampleGrid
-          inputBlock={
-            <ServerCodeBlock lang="tsx">{SIMPLE_INPUT_CODE}</ServerCodeBlock>
-          }
-          outputBlock={
-            <ServerCodeBlock lang="css">{SIMPLE_OUTPUT_CSS}</ServerCodeBlock>
-          }
-        />
-      ),
-    },
-    {
-      id: 'state-aliases',
-      label: 'Complex States',
+      id: 'theme-aliases',
+      label: 'Theme Aliases',
       content: (
         <ExampleGrid
           inputBlock={
@@ -182,6 +175,20 @@ export default function HowItWorks() {
         />
       ),
     },
+    {
+      id: 'extending',
+      label: 'Extending Components',
+      content: (
+        <ExampleGrid
+          inputBlock={
+            <ServerCodeBlock lang="tsx">{EXTEND_INPUT_CODE}</ServerCodeBlock>
+          }
+          outputBlock={
+            <ServerCodeBlock lang="css">{EXTEND_OUTPUT_CSS}</ServerCodeBlock>
+          }
+        />
+      ),
+    },
   ];
 
   return (
@@ -189,14 +196,18 @@ export default function HowItWorks() {
       <Section id="under-the-hood">
         <Section.Title>Under the Hood</Section.Title>
         <Section.Subtitle>
-          See how a declared priority becomes CSS selectors that cannot overlap.
+          The same guarantee holds for harder cases: a theme alias that spans an
+          attribute and a media query, and an extension that restyles its
+          parent.
         </Section.Subtitle>
         <Section.Content>
-          <Tabs tabs={tabs} defaultTab="interactive-states" />
+          <Tabs tabs={tabs} defaultTab="theme-aliases" />
           <Space gap="2x">
             <Text preset="t1" color="#text-soft-2" textAlign="center">
-              Each branch is guarded so one rule wins by construction. No
-              specificity arithmetic. No source-order accidents.
+              Each branch is guarded so one rule wins by construction, and every
+              state sits inside <InlineCode>:where()</InlineCode>, so the
+              doubled class is the only specificity. No specificity arithmetic.
+              No source-order accidents.
             </Text>
             <Text preset="t1" color="#text-soft-2" textAlign="center">
               That is what lets components{' '}

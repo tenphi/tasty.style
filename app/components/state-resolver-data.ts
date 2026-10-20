@@ -15,10 +15,10 @@ export interface StateMapSyntaxLine {
 
 export const STATE_MAP_CODE = `{
   "fill": {
-    "": "#blue-accent-surface",
-    ":hover": "#violet-accent-surface",
-    ":active": "#coral-accent-surface",
-    "[disabled]": "#amber-accent-surface"
+    "": "#blue",
+    ":hover": "#violet",
+    ":active": "#coral",
+    "[disabled]": "#amber"
   }
 }`;
 
@@ -27,32 +27,32 @@ export const STATE_OPTIONS = [
     id: 'default',
     label: 'Default',
     selector: "''",
-    appliedSelector: '.t0.t0:not(:hover):not(:active):not([disabled])',
-    value: '#blue-accent-surface',
+    appliedSelector: '.t0.t0:where(:not([disabled]):not(:active):not(:hover))',
+    value: '#blue',
     variant: 'blue',
   },
   {
     id: 'hover',
     label: 'Hover',
     selector: ':hover',
-    appliedSelector: '.t0.t0:hover:not(:active):not([disabled])',
-    value: '#violet-accent-surface',
+    appliedSelector: '.t0.t0:where(:not([disabled]):hover:not(:active))',
+    value: '#violet',
     variant: 'violet',
   },
   {
     id: 'active',
     label: 'Active',
     selector: ':active',
-    appliedSelector: '.t0.t0:active:not([disabled])',
-    value: '#coral-accent-surface',
+    appliedSelector: '.t0.t0:where(:not([disabled]):active)',
+    value: '#coral',
     variant: 'coral',
   },
   {
     id: 'disabled',
     label: 'Disabled',
     selector: '[disabled]',
-    appliedSelector: '.t0.t0[disabled]',
-    value: '#amber-accent-surface',
+    appliedSelector: '.t0.t0:where([disabled])',
+    value: '#amber',
     variant: 'amber',
   },
 ] as const;

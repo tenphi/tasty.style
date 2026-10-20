@@ -26,7 +26,7 @@ Repository: [https://github.com/tenphi/tasty.style](https://github.com/tenphi/ta
 
 - **Framework**: Next.js 16 (App Router, static export)
 - **Styling**: `@tenphi/tasty` (runtime + SSR)
-- **Color system**: `@tenphi/glaze` (OKHSL color themes)
+- **Color system**: `@tenphi/glaze` (OKHST color themes)
 - **Playground**: WebContainers (in-browser Node.js) + CodeMirror
 - **Docs**: Cookbook (Astro) with its own Pagefind search
 - **Lint**: ESLint 10 + typescript-eslint + prettier + `@tenphi/eslint-plugin-tasty`

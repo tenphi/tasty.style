@@ -617,7 +617,9 @@ export default function StateResolver({
               <Stage.Title>2. Generated</Stage.Title>
               <Badge>CSS</Badge>
             </Stage.Header>
-            <Stage.Helper>Mutually exclusive selectors.</Stage.Helper>
+            <Stage.Helper>
+              Mutually exclusive, zero-specificity selectors.
+            </Stage.Helper>
             <SelectorList>
               {STATE_OPTIONS.map((option) => (
                 <SelectorRow
