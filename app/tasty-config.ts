@@ -175,6 +175,11 @@ configure({
       font: true,
       preset: 't2',
     },
+    // Scope the mobile scroll lock to this route, including its loading screen.
+    'html:has([data-playground]), body:has([data-playground])': {
+      overflow: { '@mobile': 'hidden' },
+      overscrollBehavior: { '@mobile': 'none' },
+    },
     'code, pre, kbd': {
       preset: 'code',
     },

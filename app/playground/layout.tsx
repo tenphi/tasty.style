@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Header from '@/app/components/Header';
 
 export const metadata: Metadata = {
@@ -10,15 +10,22 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function PlaygroundLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div data-playground="">
       <Header />
       {children}
-    </>
+    </div>
   );
 }
