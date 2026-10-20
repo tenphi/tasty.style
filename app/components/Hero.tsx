@@ -113,10 +113,10 @@ const CubeLogoLink = tasty({
 });
 
 const HERO_TAGS = [
-  'Type-safe',
+  'Typed and linted',
   'React Server Components',
-  'Runtime or build time',
-  'Production proven',
+  'Runtime, SSR, or build time',
+  'Modern CSS built in',
 ];
 
 export default function Hero() {

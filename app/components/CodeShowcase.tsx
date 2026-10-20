@@ -93,20 +93,23 @@ const Button = tasty({
     description:
       'Model compound components around a root state context so inner parts react together without duplicated modifier wiring.',
     code: `const Alert = tasty({
+  modProps: {
+    status: ['info', 'danger'] as const,
+  },
   styles: {
     padding: '3x',
     fill: {
       '': '#surface',
-      'type=danger': '#danger.10',
+      'status=danger': '#danger.10',
     },
     border: {
       '': '1bw solid #border',
-      'type=danger': '1bw solid #danger',
+      'status=danger': '1bw solid #danger',
     },
     Icon: {
       color: {
         '': '#text-secondary',
-        'type=danger': '#danger',
+        'status=danger': '#danger',
       },
     },
     Message: {
@@ -116,7 +119,7 @@ const Button = tasty({
   elements: { Icon: 'span', Message: 'div' },
 });
 
-<Alert mods={{ type: 'danger' }}>
+<Alert status="danger">
   <Alert.Icon>!</Alert.Icon>
   <Alert.Message>Something went wrong</Alert.Message>
 </Alert>`,
@@ -153,7 +156,7 @@ configure({
 
 export default function CodeShowcase() {
   return (
-    <SectionWrap fill="#surface-2">
+    <SectionWrap>
       <Section id="code-showcase">
         <Section.Title>See It In Action</Section.Title>
         <Section.Subtitle>

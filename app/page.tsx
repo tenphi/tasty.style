@@ -20,8 +20,8 @@ export default function Home() {
         <Features />
         <HowItWorks />
         <TokenShowcase />
-        <CodeShowcase />
         <Ecosystem />
+        <CodeShowcase />
         <InTheWild />
         <CallToAction />
       </main>

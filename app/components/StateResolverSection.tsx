@@ -14,7 +14,7 @@ export default function StateResolverSection() {
   const selectorTokens = Object.fromEntries(
     STATE_OPTIONS.map((option) => {
       const selectorParts = option.appliedSelector.match(
-        /(?:\.[\w-]+)+|:(?:not\([^)]*\)|[\w-]+)|\[[^\]]+\]/g,
+        /(?:\.[\w-]+)+|:where\(|:(?:not\([^)]*\)|[\w-]+)|\[[^\]]+\]|\)/g,
       ) ?? [option.appliedSelector];
 
       return [
