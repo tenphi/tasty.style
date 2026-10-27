@@ -42,7 +42,7 @@
     "@lezer/highlight": "^1.2.3",
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
-    "@tenphi/cookbook": "0.30.0",
+    "@tenphi/cookbook": "0.30.1",
     "@tenphi/glaze": "2.0.1",
     "@tenphi/tasty": "3.15.0",
     "@webcontainer/api": "^1.6.1",
@@ -59,7 +59,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
-    "@tenphi/eslint-plugin-tasty": "1.13.1",
+    "@tenphi/eslint-plugin-tasty": "1.14.0",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
