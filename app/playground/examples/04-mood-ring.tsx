@@ -42,11 +42,11 @@ const MoodRing = tasty({
       'mood=loading': 'scale(0.97)',
     },
     fill: {
-      '': '#accent-text 8%, #surface',
-      'mood=excited': '#success-accent-text 12%, #surface',
-      'mood=warning': '#warning-accent-text 12%, #surface',
-      'mood=danger': '#danger-accent-text 12%, #surface',
-      'mood=loading': '#accent-text 5%, #surface',
+      '': '#surface+#accent-text.08',
+      'mood=excited': '#surface+#success-accent-text.12',
+      'mood=warning': '#surface+#warning-accent-text.12',
+      'mood=danger': '#surface+#danger-accent-text.12',
+      'mood=loading': '#surface+#accent-text.05',
     },
     color: {
       '': '#accent-text',

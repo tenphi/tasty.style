@@ -44,7 +44,7 @@
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/cookbook": "0.31.2",
     "@tenphi/glaze": "2.0.2",
-    "@tenphi/tasty": "3.16.0",
+    "@tenphi/tasty": "3.17.0",
     "@webcontainer/api": "^1.6.1",
     "astro": "7.3.8",
     "codemirror": "^6.0.2",
@@ -59,7 +59,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.1.6",
-    "@tenphi/eslint-plugin-tasty": "1.14.0",
+    "@tenphi/eslint-plugin-tasty": "1.15.0",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
