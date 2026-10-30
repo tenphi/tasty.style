@@ -43,7 +43,7 @@
     "@react-aria/interactions": "^3.27.1",
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/cookbook": "0.31.1",
-    "@tenphi/glaze": "2.0.1",
+    "@tenphi/glaze": "2.0.2",
     "@tenphi/tasty": "3.16.0",
     "@webcontainer/api": "^1.6.1",
     "astro": "7.3.8",
