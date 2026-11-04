@@ -44,7 +44,7 @@
     "@tabler/icons-react": "^3.40.0",
     "@tenphi/cookbook": "0.31.3",
     "@tenphi/glaze": "2.0.2",
-    "@tenphi/tasty": "3.17.0",
+    "@tenphi/tasty": "3.17.1",
     "@webcontainer/api": "^1.6.1",
     "astro": "7.3.8",
     "codemirror": "^6.0.2",
