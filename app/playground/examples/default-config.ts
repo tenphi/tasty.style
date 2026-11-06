@@ -30,12 +30,12 @@ primary.colors({
     contrast: ['AA', 'AAA'],
     saturation: 0.9,
   },
-  shadow: { type: 'shadow', bg: 'surface', fg: 'border', intensity: 40 },
+  shadow: { type: 'shadow', bg: 'surface', intensity: [6, 0] },
   'accent-shadow': {
     type: 'shadow',
     bg: 'surface',
     fg: 'accent-surface',
-    intensity: 40,
+    intensity: [6, 0],
   },
 });
 
