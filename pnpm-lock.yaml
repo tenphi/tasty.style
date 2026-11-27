@@ -42,8 +42,8 @@ importers:
         specifier: 0.34.1
         version: 0.34.1(@astrojs/markdown-satteri@0.4.3)(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(@types/node@22.19.15)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(astro@7.3.8(@astrojs/markdown-remark@7.3.2)(@types/node@22.19.15)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))(esbuild@0.28.1)(eslint@10.0.3(jiti@2.7.0))(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(yaml@2.9.1)
       '@tenphi/glaze':
-        specifier: 3.2.0
-        version: 3.2.0
+        specifier: 3.2.1
+        version: 3.2.1
       '@tenphi/tasty':
         specifier: 3.19.2
         version: 3.19.2(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
@@ -1750,6 +1750,10 @@ packages:
 
   '@tenphi/glaze@3.2.0':
     resolution: {integrity: sha512-KcI9hpEeBQtf5Yy93KwQ+APrPPO3a8/HHXSVeRmuqCLhAo1SSjVBpZX5HGzDFPczAwqCbu9/fWYjxVVLY658dQ==}
+    engines: {node: '>=20'}
+
+  '@tenphi/glaze@3.2.1':
+    resolution: {integrity: sha512-8M0IVtvzKJxS3hAj1/X0DRm8LJLOI2XkCz2/r15LtS3KufpqlzxBtktXN8/G16ww3VJmdBrMrhBq2w63eDSbWw==}
     engines: {node: '>=20'}
 
   '@tenphi/renderer@0.34.1':
@@ -5571,6 +5575,8 @@ snapshots:
       typescript: 5.9.3
 
   '@tenphi/glaze@3.2.0': {}
+
+  '@tenphi/glaze@3.2.1': {}
 
   '@tenphi/renderer@0.34.1(@astrojs/markdown-satteri@0.4.3)(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(@types/node@22.19.15)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(astro@7.3.8(@astrojs/markdown-remark@7.3.2)(@types/node@22.19.15)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1))(esbuild@0.28.1)(eslint@10.0.3(jiti@2.7.0))(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)(yaml@2.9.1)':
     dependencies:
