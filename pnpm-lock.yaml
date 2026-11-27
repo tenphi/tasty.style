@@ -45,8 +45,8 @@ importers:
         specifier: 3.2.1
         version: 3.2.1
       '@tenphi/tasty':
-        specifier: 3.19.2
-        version: 3.19.2(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        specifier: 3.19.3
+        version: 3.19.3(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       '@webcontainer/api':
         specifier: ^1.6.1
         version: 1.6.1
@@ -86,7 +86,7 @@ importers:
         version: 16.1.6
       '@tenphi/eslint-plugin-tasty':
         specifier: 1.21.5
-        version: 1.21.5(@tenphi/tasty@3.19.2(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4))(eslint@10.0.3(jiti@2.7.0))(typescript@5.9.3)
+        version: 1.21.5(@tenphi/tasty@3.19.3(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4))(eslint@10.0.3(jiti@2.7.0))(typescript@5.9.3)
       '@types/node':
         specifier: ^22.15.2
         version: 22.19.15
@@ -1764,6 +1764,30 @@ packages:
 
   '@tenphi/tasty@3.19.2':
     resolution: {integrity: sha512-/ZYcAgC955SXmXvz7qkWA8KqQ7NOaclonvZzFrlKvlZbyUpXW7nqgCaaV6ejSe+tH8jdYxlkBsdtLmrxsSa92w==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@babel/core': ^7.24.0 || ^8.0.0
+      '@babel/helper-plugin-utils': ^7.24.0 || ^8.0.0
+      '@babel/types': ^7.24.0 || ^8.0.0
+      jiti: ^2.6.1
+      next: '>=14.0.0'
+      react: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/helper-plugin-utils':
+        optional: true
+      '@babel/types':
+        optional: true
+      jiti:
+        optional: true
+      next:
+        optional: true
+      react:
+        optional: true
+
+  '@tenphi/tasty@3.19.3':
+    resolution: {integrity: sha512-KVZWKAMcSj3jr4f0AYxbiTBZRpfsfjt9PhQuS6HuU0cpf8eMo5H7AkpZncSaAfcZkCrfH31fW7enuZLHHUss8g==}
     engines: {node: '>=20'}
     peerDependencies:
       '@babel/core': ^7.24.0 || ^8.0.0
@@ -5562,14 +5586,14 @@ snapshots:
       oxc-parser: 0.159.0
       typescript: 5.9.3
 
-  '@tenphi/eslint-plugin-tasty@1.21.5(@tenphi/tasty@3.19.2(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4))(eslint@10.0.3(jiti@2.7.0))(typescript@5.9.3)':
+  '@tenphi/eslint-plugin-tasty@1.21.5(@tenphi/tasty@3.19.3(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4))(eslint@10.0.3(jiti@2.7.0))(typescript@5.9.3)':
     dependencies:
       eslint: 10.0.3(jiti@2.7.0)
       jiti: 2.7.0
       postcss-selector-parser: 7.1.6
       semver: 7.8.5
     optionalDependencies:
-      '@tenphi/tasty': 3.19.2(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+      '@tenphi/tasty': 3.19.3(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       '@typescript-eslint/scope-manager': 8.57.0
       oxc-parser: 0.159.0
       typescript: 5.9.3
@@ -5625,6 +5649,17 @@ snapshots:
       - yaml
 
   '@tenphi/tasty@3.19.2(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
+    dependencies:
+      csstype: 3.2.3
+    optionalDependencies:
+      '@babel/core': 7.29.0
+      '@babel/helper-plugin-utils': 7.29.7
+      '@babel/types': 7.29.8
+      jiti: 2.7.0
+      next: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react: 19.2.4
+
+  '@tenphi/tasty@3.19.3(@babel/core@7.29.0)(@babel/helper-plugin-utils@7.29.7)(@babel/types@7.29.8)(jiti@2.7.0)(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
     dependencies:
       csstype: 3.2.3
     optionalDependencies:
